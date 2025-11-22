@@ -18,7 +18,9 @@ vi.mock("@/components/TypewriterHero", () => ({
 }));
 
 vi.mock("@/components/MagneticLoginButton", () => ({
-  default: () => <div data-testid="magnetic-login-button">Continue with LinkedIn</div>,
+  default: () => (
+    <div data-testid="magnetic-login-button">Continue with LinkedIn</div>
+  ),
 }));
 
 // Mock next/image

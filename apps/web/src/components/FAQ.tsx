@@ -24,7 +24,9 @@ export default function FAQ({ items }: FAQProps) {
             className="rounded border border-gray-900 overflow-hidden hover:shadow-lg transition-shadow duration-300"
           >
             <button
-              onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+              onClick={() =>
+                setExpandedFaq(expandedFaq === index ? null : index)
+              }
               className="w-full px-6 py-4 flex items-center justify-between text-left transition duration-200"
             >
               <span className="font-mono font-semibold text-gray-900">

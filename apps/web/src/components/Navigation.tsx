@@ -70,9 +70,9 @@ export default function Navigation({
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 border-b border-gray-300 transition-all duration-300 ${
-        isScrolled ? 'px-6 py-2 shadow-md' : 'px-6 py-4'
+        isScrolled ? "px-6 py-2 shadow-md" : "px-6 py-4"
       }`}
-      style={{ backgroundColor: '#FFFFFB' }}
+      style={{ backgroundColor: "#FFFFFB" }}
     >
       <nav className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
@@ -103,14 +103,20 @@ export default function Navigation({
               onMouseEnter={() => setActiveDropdown("discover")}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <button
-                className="px-4 py-2 font-mono text-sm transition duration-200 rounded-md flex items-center space-x-1 text-gray-700"
-              >
+              <button className="px-4 py-2 font-mono text-sm transition duration-200 rounded-md flex items-center space-x-1 text-gray-700">
                 <span
-                  className={currentPage === "home" || currentPage === "discover" ? "font-semibold" : ""}
-                  style={currentPage === "home" || currentPage === "discover" ? {
-                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                  } : {}}
+                  className={
+                    currentPage === "home" || currentPage === "discover"
+                      ? "font-semibold"
+                      : ""
+                  }
+                  style={
+                    currentPage === "home" || currentPage === "discover"
+                      ? {
+                          textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        }
+                      : {}
+                  }
                 >
                   Discover
                 </span>
@@ -123,7 +129,10 @@ export default function Navigation({
 
               {activeDropdown === "discover" && (
                 <div className="absolute top-full pt-2 left-0 w-86 z-70">
-                  <div className="border border-gray-200 rounded-sm shadow-2xl overflow-hidden" style={{ backgroundColor: '#FFFFFB' }}>
+                  <div
+                    className="border border-gray-200 rounded-sm shadow-2xl overflow-hidden"
+                    style={{ backgroundColor: "#FFFFFB" }}
+                  >
                     <div className="p-2">
                       <button
                         onClick={() => navigate("/home")}
@@ -137,10 +146,16 @@ export default function Navigation({
                       >
                         {hoveredItem === "home" && <Home className="w-4 h-4" />}
                         <span
-                          className={currentPage === "home" ? "font-semibold" : ""}
-                          style={currentPage === "home" ? {
-                            textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                          } : {}}
+                          className={
+                            currentPage === "home" ? "font-semibold" : ""
+                          }
+                          style={
+                            currentPage === "home"
+                              ? {
+                                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                }
+                              : {}
+                          }
                         >
                           Dashboard
                         </span>
@@ -159,10 +174,16 @@ export default function Navigation({
                           <Search className="w-4 h-4" />
                         )}
                         <span
-                          className={currentPage === "discover" ? "font-semibold" : ""}
-                          style={currentPage === "discover" ? {
-                            textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                          } : {}}
+                          className={
+                            currentPage === "discover" ? "font-semibold" : ""
+                          }
+                          style={
+                            currentPage === "discover"
+                              ? {
+                                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                }
+                              : {}
+                          }
                         >
                           Discover Profiles
                         </span>
@@ -179,14 +200,24 @@ export default function Navigation({
               onMouseEnter={() => setActiveDropdown("history")}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <button
-                className="px-4 py-2 font-mono text-sm transition duration-200 rounded-md flex items-center space-x-1 text-gray-700"
-              >
+              <button className="px-4 py-2 font-mono text-sm transition duration-200 rounded-md flex items-center space-x-1 text-gray-700">
                 <span
-                  className={currentPage === "my-matches" || currentPage === "skipped" || currentPage === "pending-requests" ? "font-semibold" : ""}
-                  style={currentPage === "my-matches" || currentPage === "skipped" || currentPage === "pending-requests" ? {
-                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                  } : {}}
+                  className={
+                    currentPage === "my-matches" ||
+                    currentPage === "skipped" ||
+                    currentPage === "pending-requests"
+                      ? "font-semibold"
+                      : ""
+                  }
+                  style={
+                    currentPage === "my-matches" ||
+                    currentPage === "skipped" ||
+                    currentPage === "pending-requests"
+                      ? {
+                          textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        }
+                      : {}
+                  }
                 >
                   History
                 </span>
@@ -199,7 +230,10 @@ export default function Navigation({
 
               {activeDropdown === "history" && (
                 <div className="absolute top-full pt-2 left-0 w-86 z-60">
-                  <div className="border border-gray-200 rounded-sm shadow-2xl overflow-hidden" style={{ backgroundColor: '#FFFFFB' }}>
+                  <div
+                    className="border border-gray-200 rounded-sm shadow-2xl overflow-hidden"
+                    style={{ backgroundColor: "#FFFFFB" }}
+                  >
                     <div className="p-2">
                       <button
                         onClick={() => navigate("/pending-requests")}
@@ -215,10 +249,18 @@ export default function Navigation({
                           <Clock className="w-4 h-4" />
                         )}
                         <span
-                          className={currentPage === "pending-requests" ? "font-semibold" : ""}
-                          style={currentPage === "pending-requests" ? {
-                            textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                          } : {}}
+                          className={
+                            currentPage === "pending-requests"
+                              ? "font-semibold"
+                              : ""
+                          }
+                          style={
+                            currentPage === "pending-requests"
+                              ? {
+                                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                }
+                              : {}
+                          }
                         >
                           Pending Requests
                         </span>
@@ -237,10 +279,16 @@ export default function Navigation({
                           <Sparkles className="w-4 h-4" />
                         )}
                         <span
-                          className={currentPage === "my-matches" ? "font-semibold" : ""}
-                          style={currentPage === "my-matches" ? {
-                            textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                          } : {}}
+                          className={
+                            currentPage === "my-matches" ? "font-semibold" : ""
+                          }
+                          style={
+                            currentPage === "my-matches"
+                              ? {
+                                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                }
+                              : {}
+                          }
                         >
                           Matches
                         </span>
@@ -259,10 +307,16 @@ export default function Navigation({
                           <SkipForward className="w-4 h-4" />
                         )}
                         <span
-                          className={currentPage === "skipped" ? "font-semibold" : ""}
-                          style={currentPage === "skipped" ? {
-                            textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                          } : {}}
+                          className={
+                            currentPage === "skipped" ? "font-semibold" : ""
+                          }
+                          style={
+                            currentPage === "skipped"
+                              ? {
+                                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                }
+                              : {}
+                          }
                         >
                           Skipped Profiles
                         </span>
@@ -279,14 +333,24 @@ export default function Navigation({
               onMouseEnter={() => setActiveDropdown("account")}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <button
-                className="px-4 py-2 font-mono text-sm transition duration-200 rounded-md flex items-center space-x-1 text-gray-700"
-              >
+              <button className="px-4 py-2 font-mono text-sm transition duration-200 rounded-md flex items-center space-x-1 text-gray-700">
                 <span
-                  className={currentPage === "profile" || currentPage === "settings" || currentPage === "blocked" ? "font-semibold" : ""}
-                  style={currentPage === "profile" || currentPage === "settings" || currentPage === "blocked" ? {
-                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                  } : {}}
+                  className={
+                    currentPage === "profile" ||
+                    currentPage === "settings" ||
+                    currentPage === "blocked"
+                      ? "font-semibold"
+                      : ""
+                  }
+                  style={
+                    currentPage === "profile" ||
+                    currentPage === "settings" ||
+                    currentPage === "blocked"
+                      ? {
+                          textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        }
+                      : {}
+                  }
                 >
                   Account
                 </span>
@@ -299,7 +363,10 @@ export default function Navigation({
 
               {activeDropdown === "account" && (
                 <div className="absolute top-full pt-2 left-0 w-86 z-60">
-                  <div className="border border-gray-200 rounded-sm shadow-2xl overflow-hidden" style={{ backgroundColor: '#FFFFFB' }}>
+                  <div
+                    className="border border-gray-200 rounded-sm shadow-2xl overflow-hidden"
+                    style={{ backgroundColor: "#FFFFFB" }}
+                  >
                     <div className="p-2">
                       <button
                         onClick={() => navigate("/profile")}
@@ -315,10 +382,16 @@ export default function Navigation({
                           <User className="w-4 h-4" />
                         )}
                         <span
-                          className={currentPage === "profile" ? "font-semibold" : ""}
-                          style={currentPage === "profile" ? {
-                            textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                          } : {}}
+                          className={
+                            currentPage === "profile" ? "font-semibold" : ""
+                          }
+                          style={
+                            currentPage === "profile"
+                              ? {
+                                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                }
+                              : {}
+                          }
                         >
                           Profile
                         </span>
@@ -337,10 +410,16 @@ export default function Navigation({
                           <Settings className="w-4 h-4" />
                         )}
                         <span
-                          className={currentPage === "settings" ? "font-semibold" : ""}
-                          style={currentPage === "settings" ? {
-                            textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                          } : {}}
+                          className={
+                            currentPage === "settings" ? "font-semibold" : ""
+                          }
+                          style={
+                            currentPage === "settings"
+                              ? {
+                                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                }
+                              : {}
+                          }
                         >
                           Account Settings
                         </span>
@@ -359,10 +438,16 @@ export default function Navigation({
                           <ShieldOff className="w-4 h-4" />
                         )}
                         <span
-                          className={currentPage === "blocked" ? "font-semibold" : ""}
-                          style={currentPage === "blocked" ? {
-                            textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                          } : {}}
+                          className={
+                            currentPage === "blocked" ? "font-semibold" : ""
+                          }
+                          style={
+                            currentPage === "blocked"
+                              ? {
+                                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                }
+                              : {}
+                          }
                         >
                           Blocked Profiles
                         </span>

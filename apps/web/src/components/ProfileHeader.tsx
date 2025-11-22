@@ -26,7 +26,8 @@ export function ProfileHeader({
           <h2
             className="text-2xl font-mono font-bold bg-clip-text text-transparent mb-2"
             style={{
-              backgroundImage: 'linear-gradient(135deg, rgb(183, 167, 248) 0%, rgb(107, 168, 244) 50%, rgb(253, 191, 172) 100%)'
+              backgroundImage:
+                "linear-gradient(135deg, rgb(183, 167, 248) 0%, rgb(107, 168, 244) 50%, rgb(253, 191, 172) 100%)",
             }}
           >
             {name}

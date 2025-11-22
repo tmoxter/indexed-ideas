@@ -9,14 +9,7 @@ import Spaceship from "@/components/Spaceship";
 import { NavigationCard } from "@/components/NavigationCard";
 import { useAuth } from "@/hooks/useAuth";
 import { useBannerCounts } from "@/hooks/useBannerCounts";
-import {
-  Search,
-  Handshake,
-  User,
-  Settings,
-  Undo2,
-  Clock,
-} from "lucide-react";
+import { Search, Handshake, User, Settings, Undo2, Clock } from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
@@ -36,7 +29,6 @@ export default function HomePage() {
       />
 
       <main className="pt-24 pb-8">
-
         <div className="max-w-6xl mx-auto">
           <TickerBanner data={bannerData} />
         </div>

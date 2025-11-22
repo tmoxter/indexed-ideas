@@ -357,7 +357,9 @@ describe("ProfilePage Integration Tests", () => {
       "Jane Smith"
     );
     await user.type(
-      screen.getByPlaceholderText(/https:\/\/www.linkedin.com\/in\/yourprofile/i),
+      screen.getByPlaceholderText(
+        /https:\/\/www.linkedin.com\/in\/yourprofile/i
+      ),
       "https://www.linkedin.com/in/janesmith"
     );
     // City is now a CityPicker component, not a text input
@@ -453,7 +455,9 @@ describe("ProfilePage Integration Tests", () => {
       "Jane Smith"
     );
     await user.type(
-      screen.getByPlaceholderText(/https:\/\/www.linkedin.com\/in\/yourprofile/i),
+      screen.getByPlaceholderText(
+        /https:\/\/www.linkedin.com\/in\/yourprofile/i
+      ),
       "https://www.linkedin.com/in/janesmith"
     );
     await user.type(
@@ -669,7 +673,9 @@ describe("ProfilePage Integration Tests", () => {
       "Jane Smith"
     );
     await user.type(
-      screen.getByPlaceholderText(/https:\/\/www.linkedin.com\/in\/yourprofile/i),
+      screen.getByPlaceholderText(
+        /https:\/\/www.linkedin.com\/in\/yourprofile/i
+      ),
       "https://www.linkedin.com/in/janesmith"
     );
     await user.type(
@@ -728,7 +734,10 @@ describe("ProfilePage Integration Tests", () => {
       );
 
       // Test URL with hyphens and trailing slash
-      await user.type(linkedinInput, "https://www.linkedin.com/in/john-doe-123/");
+      await user.type(
+        linkedinInput,
+        "https://www.linkedin.com/in/john-doe-123/"
+      );
 
       // Should not show error
       expect(
@@ -818,7 +827,10 @@ describe("ProfilePage Integration Tests", () => {
       );
 
       // Test URL with company path instead of /in/
-      await user.type(linkedinInput, "https://www.linkedin.com/company/johndoe");
+      await user.type(
+        linkedinInput,
+        "https://www.linkedin.com/company/johndoe"
+      );
 
       // Should show error
       await waitFor(() => {
@@ -842,7 +854,9 @@ describe("ProfilePage Integration Tests", () => {
         "Jane Smith"
       );
       await user.type(
-        screen.getByPlaceholderText(/https:\/\/www.linkedin.com\/in\/yourprofile/i),
+        screen.getByPlaceholderText(
+          /https:\/\/www.linkedin.com\/in\/yourprofile/i
+        ),
         "https://facebook.com/jane"
       );
       await user.type(
@@ -906,7 +920,9 @@ describe("ProfilePage Integration Tests", () => {
         "Jane Smith"
       );
       await user.type(
-        screen.getByPlaceholderText(/https:\/\/www.linkedin.com\/in\/yourprofile/i),
+        screen.getByPlaceholderText(
+          /https:\/\/www.linkedin.com\/in\/yourprofile/i
+        ),
         "https://www.linkedin.com/in/janesmith"
       );
       await user.type(
@@ -943,7 +959,9 @@ describe("ProfilePage Integration Tests", () => {
         "Jane Smith"
       );
       await user.type(
-        screen.getByPlaceholderText(/https:\/\/www.linkedin.com\/in\/yourprofile/i),
+        screen.getByPlaceholderText(
+          /https:\/\/www.linkedin.com\/in\/yourprofile/i
+        ),
         linkedinUrl
       );
       await user.type(
@@ -1022,7 +1040,9 @@ describe("ProfilePage Integration Tests", () => {
         "Jane Smith"
       );
       await user.type(
-        screen.getByPlaceholderText(/https:\/\/www.linkedin.com\/in\/yourprofile/i),
+        screen.getByPlaceholderText(
+          /https:\/\/www.linkedin.com\/in\/yourprofile/i
+        ),
         "invalid-url"
       );
       await user.type(
@@ -1090,7 +1110,9 @@ describe("ProfilePage Integration Tests", () => {
         expect(screen.getByTestId("hide-profile-button")).toBeInTheDocument();
       });
 
-      expect(screen.getByText(/your profile is currently/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/your profile is currently/i)
+      ).toBeInTheDocument();
       expect(screen.getByText(/published/i)).toBeInTheDocument();
     });
 

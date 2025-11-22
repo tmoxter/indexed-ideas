@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { LogIn } from 'lucide-react';
-import { supabaseClient } from '@/lib/supabase';
+import { useState, useRef, useEffect } from "react";
+import { LogIn } from "lucide-react";
+import { supabaseClient } from "@/lib/supabase";
 
 export default function MagneticLoginButton() {
   const [isHovering, setIsHovering] = useState(false);
@@ -12,7 +12,7 @@ export default function MagneticLoginButton() {
   const [message, setMessage] = useState("");
 
   const text = "Continue with LinkedIn ";
-  const chars = text.split('');
+  const chars = text.split("");
 
   // Handle LinkedIn OAuth login
   const handleLogin = async () => {
@@ -21,8 +21,10 @@ export default function MagneticLoginButton() {
     try {
       const supabase = supabaseClient();
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'linkedin_oidc',
-        options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback` }
+        provider: "linkedin_oidc",
+        options: {
+          redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+        },
       });
 
       if (error) {
@@ -62,8 +64,8 @@ export default function MagneticLoginButton() {
         let deltaY = e.clientY - containerCenterY;
 
         // Clamp the position to stay within the buffer zone
-        const maxX = (containerRect.width / 2) - buffer;
-        const maxY = (containerRect.height / 2) - buffer;
+        const maxX = containerRect.width / 2 - buffer;
+        const maxY = containerRect.height / 2 - buffer;
 
         deltaX = Math.max(-maxX, Math.min(maxX, deltaX));
         deltaY = Math.max(-maxY, Math.min(maxY, deltaY));
@@ -71,7 +73,7 @@ export default function MagneticLoginButton() {
         // Move button directly to mouse position
         setButtonPosition({
           x: deltaX,
-          y: deltaY
+          y: deltaY,
         });
       } else {
         // Return to original position when mouse leaves
@@ -79,8 +81,8 @@ export default function MagneticLoginButton() {
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (
@@ -94,14 +96,18 @@ export default function MagneticLoginButton() {
         className="relative cursor-pointer"
         style={{
           transform: `translate(${buttonPosition.x}px, ${buttonPosition.y}px)`,
-          transition: isHovering ? 'transform 0.15s ease-out' : 'transform 0.7s ease-out'
+          transition: isHovering
+            ? "transform 0.15s ease-out"
+            : "transform 0.7s ease-out",
         }}
       >
         {/* Circular rotating text */}
         <div
           className="relative w-48 h-48 flex items-center justify-center"
           style={{
-            animation: isHovering ? 'spin 3s linear infinite' : 'spin 20s linear infinite'
+            animation: isHovering
+              ? "spin 3s linear infinite"
+              : "spin 20s linear infinite",
           }}
         >
           {chars.map((char, index) => {
@@ -112,10 +118,10 @@ export default function MagneticLoginButton() {
                 className="absolute text-m font-mono text-gray-900"
                 style={{
                   transform: `rotate(${angle}deg) translateY(-70px) rotate(0deg)`,
-                  transformOrigin: 'center'
+                  transformOrigin: "center",
                 }}
               >
-                {char === ' ' ? '\u00A0' : char}
+                {char === " " ? "\u00A0" : char}
               </span>
             );
           })}
@@ -123,10 +129,7 @@ export default function MagneticLoginButton() {
 
         {/* Center icon */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <LogIn
-            className="w-8 h-8 text-gray-900"
-            strokeWidth={2}
-          />
+          <LogIn className="w-8 h-8 text-gray-900" strokeWidth={2} />
         </div>
       </div>
 

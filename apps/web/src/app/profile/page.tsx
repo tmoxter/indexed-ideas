@@ -130,10 +130,13 @@ export default function ProfilePage() {
     }
 
     // Must match https://www.linkedin.com/in/{vanityName}
-    const linkedInPattern = /^https:\/\/www\.linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/;
+    const linkedInPattern =
+      /^https:\/\/www\.linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/;
 
     if (!linkedInPattern.test(url)) {
-      setLinkedinUrlError("URL must be in the format: https://www.linkedin.com/in/yourprofile");
+      setLinkedinUrlError(
+        "URL must be in the format: https://www.linkedin.com/in/yourprofile"
+      );
       return false;
     }
 
@@ -177,7 +180,9 @@ export default function ProfilePage() {
         setMessage("Error hiding profile: " + error.message);
       } else {
         setIsPublished(false);
-        setMessage("Profile hidden successfully! You will no longer appear in matches.");
+        setMessage(
+          "Profile hidden successfully! You will no longer appear in matches."
+        );
       }
     } catch (error) {
       setMessage("An unexpected error occurred");
@@ -417,7 +422,9 @@ export default function ProfilePage() {
                 <input
                   type="url"
                   value={profileData.linkedinUrl}
-                  onChange={(e) => handleInputChange("linkedinUrl", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("linkedinUrl", e.target.value)
+                  }
                   className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none bg-white ${
                     linkedinUrlError
                       ? "border-red-300 focus:ring-red-500"
@@ -632,8 +639,8 @@ export default function ProfilePage() {
                 Profile Visibility
               </h3>
               <p className="text-sm font-mono text-gray-600 mb-4">
-                Your profile is currently <strong>published</strong> and visible to other users.
-                You can hide it to stop appearing in matches.
+                Your profile is currently <strong>published</strong> and visible
+                to other users. You can hide it to stop appearing in matches.
               </p>
               <button
                 onClick={hideProfile}

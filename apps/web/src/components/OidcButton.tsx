@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { supabaseClient } from "@/lib/supabase";
@@ -13,8 +13,10 @@ export default function LoginButton() {
 
     try {
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'linkedin_oidc',
-        options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback` }
+        provider: "linkedin_oidc",
+        options: {
+          redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+        },
       });
 
       if (error) {

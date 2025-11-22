@@ -9,12 +9,7 @@ import FAQ, { type FAQItem } from "@/components/FAQ";
 import MagneticLoginButton from "@/components/MagneticLoginButton";
 import SectionHeader from "@/components/SectionHeader";
 import FeatureCard from "@/components/FeatureCard";
-import {
-  ArrowUpZA,
-  Telescope,
-  Handshake,
-  Map,
-} from "lucide-react";
+import { ArrowUpZA, Telescope, Handshake, Map } from "lucide-react";
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -30,38 +25,38 @@ export default function Home() {
     checkAuth();
   }, []);
 
-
   const faqItems: FAQItem[] = [
     {
       question: "Aren't there already alternative platforms out there?",
       answer:
-        "Yes, but we found it hard to find people on them who want to work on the same problems. "
-        + "Usually you only get to specify the industry or field you are interested in but the emphasis "
-        + "is on people's backgrounds.",
+        "Yes, but we found it hard to find people on them who want to work on the same problems. " +
+        "Usually you only get to specify the industry or field you are interested in but the emphasis " +
+        "is on people's backgrounds.",
     },
     {
       question: "Do I need to login with my linkedin account?",
       answer:
-        "Yes, since we want to keep this lightweight, avoid implementing a chat feature or store any credentials ourselves, "
-        + "at least for now, you can only log in with linkedin. Since you are sharing your profile with potential co-founders "
-        + "you need it anyway.",
+        "Yes, since we want to keep this lightweight, avoid implementing a chat feature or store any credentials ourselves, " +
+        "at least for now, you can only log in with linkedin. Since you are sharing your profile with potential co-founders " +
+        "you need it anyway.",
     },
     {
       question: "Won't other users steal my venture ideas?",
       answer:
-        "Sharing your idea here means making it publically visible. But many founders will tell you that "
-        + "the secrecy is rarely justified. Please don't share any sensitive information that you would "
-        + "want to protect. If you delete your account all your data is wiped permanently. "
-        + "<br/> <br/>"
-        + "'You can always recognize the first-timers because they're too secretive. And "
-        + "you can always recognize the experienced ones because they don't care.' - Naval Ravikant",
+        "Sharing your idea here means making it publically visible. But many founders will tell you that " +
+        "the secrecy is rarely justified. Please don't share any sensitive information that you would " +
+        "want to protect. If you delete your account all your data is wiped permanently. " +
+        "<br/> <br/>" +
+        "'You can always recognize the first-timers because they're too secretive. And " +
+        "you can always recognize the experienced ones because they don't care.' - Naval Ravikant",
     },
     {
-      question: "I lost access to my linked-in account and would like to delete my profile.",
+      question:
+        "I lost access to my linked-in account and would like to delete my profile.",
       answer:
-          "If you can log-in via linked-in, please do so and permanentlty delete your account under 'Account Settings'. If have really lost "
-          + "access to your linked-in credentials, send me an email to delete your data."
-    }
+        "If you can log-in via linked-in, please do so and permanentlty delete your account under 'Account Settings'. If have really lost " +
+        "access to your linked-in credentials, send me an email to delete your data.",
+    },
   ];
 
   const features = [
@@ -129,8 +124,10 @@ export default function Home() {
               <div className="flex-1 max-w-5xl">
                 <TypewriterHero />
                 <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono">
-                  Vectorized-ideas is a lightweight, minimal, and free co-founder matchig platform. Use your project and venture ideas to find collaborators and connect with those already tackling the same
-                  problems as you.
+                  Vectorized-ideas is a lightweight, minimal, and free
+                  co-founder matchig platform. Use your project and venture
+                  ideas to find collaborators and connect with those already
+                  tackling the same problems as you.
                 </p>
               </div>
             </div>
@@ -160,18 +157,18 @@ export default function Home() {
 
             {/* Technical Note */}
             <div className="max-w-5xl">
-
               <SectionHeader title="Free and open-source" />
               <div className="mt-6 rounded mb-10">
                 <p className="text-m font-mono text-gray-900">
-                  Vectorized-ideas is an experiment and a side project. It is completely free and does not generate any profit, e.g., by showing you adds.
-                  It is also in an experimental state, so if you find any bugs or have
-                  suggestions, please open an issue or a PR on
-                  GitHub.
+                  Vectorized-ideas is an experiment and a side project. It is
+                  completely free and does not generate any profit, e.g., by
+                  showing you adds. It is also in an experimental state, so if
+                  you find any bugs or have suggestions, please open an issue or
+                  a PR on GitHub.
                   <a
                     href="https://github.com"
                     className="text-gray-900 hover:underline ml-1"
-                    >
+                  >
                     <strong>View source on GH →</strong>
                   </a>
                 </p>
@@ -180,7 +177,6 @@ export default function Home() {
               {/* FAQ Section */}
               <SectionHeader title="FAQ" />
               <FAQ items={faqItems} />
-
             </div>
           </div>
         </div>

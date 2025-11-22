@@ -16,7 +16,7 @@ export default function TypewriterHero() {
 
   useEffect(() => {
     const currentPhrase = phrases[currentPhraseIndex];
-    const typingSpeed = isDeleting ?40 : 60;
+    const typingSpeed = isDeleting ? 40 : 60;
     const pauseDuration = 3000;
 
     if (!isDeleting && charIndex === currentPhrase.length) {

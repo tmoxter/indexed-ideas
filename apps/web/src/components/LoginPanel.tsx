@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { supabaseClient } from "@/lib/supabase";
@@ -12,7 +12,7 @@ export default function LoginPanel() {
   const [isLoginMode, setIsLoginMode] = useState(false);
 
   // Check if email/password authentication should be enabled
-  const showEmailAuth = process.env.NEXT_PUBLIC_ENABLE_EMAIL_AUTH === 'true';
+  const showEmailAuth = process.env.NEXT_PUBLIC_ENABLE_EMAIL_AUTH === "true";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,9 +85,7 @@ export default function LoginPanel() {
               <input
                 type="password"
                 placeholder={
-                  isLoginMode
-                    ? "password"
-                    : "password (min 6 characters)"
+                  isLoginMode ? "password" : "password (min 6 characters)"
                 }
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

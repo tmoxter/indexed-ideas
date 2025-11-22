@@ -17,7 +17,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #FFFFFB;
+    --background: #fffffb;
     --foreground: #ededed;
   }
 }
@@ -35,7 +35,7 @@
 }
 
 .bg-gradient-breathe {
-  background: linear-gradient(-45deg, #FFFFFB, #FFFFFB, #FFFFFB);
+  background: linear-gradient(-45deg, #fffffb, #fffffb, #fffffb);
   background-size: 100% 100%;
 }
 
@@ -149,10 +149,12 @@ body {
 
 /* Blinking cursor animation for typewriter effect */
 @keyframes blink {
-  0%, 50% {
+  0%,
+  50% {
     opacity: 1;
   }
-  51%, 100% {
+  51%,
+  100% {
     opacity: 0;
   }
 }
@@ -160,7 +162,6 @@ body {
 .animate-blink {
   animation: blink 1s step-end infinite;
 }
-
 
 /* Keep the background layer truly behind content.
    Ensure your main layout/content has a higher stacking context if needed. */
