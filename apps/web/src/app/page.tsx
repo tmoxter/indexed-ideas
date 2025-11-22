@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
 import MagneticLoginButton from "@/components/MagneticLoginButton";
 import SectionHeader from "@/components/SectionHeader";
+import FeatureCard from "@/components/FeatureCard";
 import {
   ArrowUpZA,
   Telescope,
@@ -52,8 +53,8 @@ export default function Home() {
         + "the secrecy is rarely justified. Please don't share any sensitive information that you would "
         + "want to protect. If you delete your account all your data is wiped permanently. "
         + "<br/> <br/>"
-        + "'You can always recognize the first-timers because they’re too secretive. And "
-        + "you can always recognize the experienced ones because they don’t care.' - Naval Ravikant",
+        + "'You can always recognize the first-timers because they're too secretive. And "
+        + "you can always recognize the experienced ones because they don't care.' - Naval Ravikant",
     },
     {
       question: "I lost access to my linked-in account and would like to delete my profile.",
@@ -61,6 +62,33 @@ export default function Home() {
           "If you can log-in via linked-in, please do so and permanentlty delete your account under 'Account Settings'. If have really lost "
           + "access to your linked-in credentials, send me an email to delete your data."
     }
+  ];
+
+  const features = [
+    {
+      icon: ArrowUpZA,
+      title: "Semantic Similarity",
+      description:
+        "Describe what you are working on, embed your ideas as semantic vectors, and search through profiles of others who are either already working on similar ideas or want to solve the same problems.",
+    },
+    {
+      icon: Telescope,
+      title: "Visibility",
+      description:
+        "You share your first name and region, and give an overview over your background, skills, and accomplishments. Of course, you also get to see each other's project ideas along some optional co-founder preferences. Please don't share any sensitive information.",
+    },
+    {
+      icon: Handshake,
+      title: "Connect on LinkedIn",
+      description:
+        "If both parties are interested, your LinkedIn profiles are shared to connect directly. We don't have a chat feature for now to keep it lightweight.",
+    },
+    {
+      icon: Map,
+      title: "Discover",
+      description:
+        "Work in progress: Discover how unique your ideas are and view aggregates how many out have tackled the same problems.",
+    },
   ];
 
   return (
@@ -113,64 +141,14 @@ export default function Home() {
               <div className="flex-1">
                 <SectionHeader title="How it works" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-6 rounded border border-gray-900 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="w-11 h-11 rounded flex items-center justify-center mb-4 icon-gradient">
-                    <ArrowUpZA className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="text-lg font-mono font-semibold text-gray-900 mb-2">
-                    Semantic Similarity
-                  </h3>
-                  <p className="text-gray-900 text-m">
-                    Describe what you are working on, embed your ideas as
-                    semantic vectors, and search through profiles of others who
-                    are either already working on similar ideas or want to solve
-                    the same problems.
-                  </p>
-                </div>
-
-                <div className="p-6 rounded border border-gray-900 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="w-10 h-10 rounded flex items-center justify-center mb-4 icon-gradient">
-                    <Telescope className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="text-lg font-mono font-semibold text-gray-900 mb-2">
-                    Visibility
-                  </h3>
-                  <p className="text-gray-900 text-m">
-                    You share your first name and region, and give an overview
-                    over your background, skills, and accomplishments. Of
-                    course, you also get to see each other's project ideas along
-                    some optional co-founder preferences. Please don't share any
-                    sensitive information.
-                  </p>
-                </div>
-
-                <div className="p-6 rounded border border-gray-900 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="w-10 h-10 rounded flex items-center justify-center mb-4 icon-gradient">
-                    <Handshake className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="text-lg font-mono font-semibold text-gray-900 mb-2">
-                    Connect on LinkedIn
-                  </h3>
-                  <p className="text-gray-900 text-m">
-                    If both parties are interested, your LinkedIn profiles are
-                    shared to connect directly. We don't have a chat feature for
-                    now to keep it lightweight. <br />
-                  </p>
-                </div>
-
-                <div className="p-6 rounded border border-gray-900 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="w-10 h-10 rounded flex items-center justify-center mb-4 icon-gradient">
-                    <Map className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="text-lg font-mono font-semibold text-gray-900 mb-2">
-                    Discover
-                  </h3>
-                  <p className="text-gray-900 text-m">
-                    Work in progress: Discover how unique your ideas are and view aggregates how many out have
-                    tackled the same problems.
-                    <br />
-                  </p>
-                </div>
+                  {features.map((feature, index) => (
+                    <FeatureCard
+                      key={index}
+                      icon={feature.icon}
+                      title={feature.title}
+                      description={feature.description}
+                    />
+                  ))}
                 </div>
               </div>
 
