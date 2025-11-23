@@ -22,6 +22,14 @@ vi.mock("react-loader-spinner", () => ({
       "Loading..."
     );
   },
+  Rings: ({ visible = true, ...props }: any) => {
+    if (!visible) return null;
+    return React.createElement(
+      "div",
+      { "data-testid": "rings-loader", ...props },
+      "Loading..."
+    );
+  },
   InfinitySpin: ({ color, width, ...props }: any) => {
     return React.createElement(
       "div",

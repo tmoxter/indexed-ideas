@@ -101,7 +101,7 @@ describe("MatchesPage Integration Tests", () => {
     });
 
     render(<MatchesPage />);
-    expect(screen.getByTestId("circles-loader")).toBeInTheDocument();
+    expect(screen.getByText(/Searching/i)).toBeInTheDocument();
   });
 
   it("should load and display candidate matches after authentication", async () => {
