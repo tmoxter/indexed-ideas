@@ -270,6 +270,23 @@ export default function SettingsPage() {
             </div>
           </section>
 
+          {/* Blocked Profiles Panel */}
+          <section className="p-6 rounded border border-gray-800 shadow-md mb-6">
+            <h2 className="text-xl font-mono font-bold text-gray-900 mb-4">
+              View and edit blocked profiles
+            </h2>
+            <p className="font-mono text-sm text-gray-600 mb-6">
+              Review the people you've blocked and manage who can appear in your
+              discovery feed.
+            </p>
+            <button
+              onClick={() => router.push("/blocked")}
+              className="px-6 py-3 bg-black text-white rounded font-mono text-sm hover:bg-gray-800 transition duration-200"
+            >
+              Go to blocked profiles
+            </button>
+          </section>
+
           {/* Danger Zone */}
           <section className="bg-white p-6 rounded border border-red-200">
             <div className="flex items-start space-x-3 mb-4">

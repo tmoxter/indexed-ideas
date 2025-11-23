@@ -8,7 +8,6 @@ import {
   Search,
   Sparkles,
   SkipForward,
-  ShieldOff,
   Settings,
   LogOut,
   User,
@@ -336,16 +335,12 @@ export default function Navigation({
               <button className="px-4 py-2 font-mono text-sm transition duration-200 rounded-md flex items-center space-x-1 text-gray-700">
                 <span
                   className={
-                    currentPage === "profile" ||
-                    currentPage === "settings" ||
-                    currentPage === "blocked"
+                    currentPage === "profile" || currentPage === "settings"
                       ? "font-semibold"
                       : ""
                   }
                   style={
-                    currentPage === "profile" ||
-                    currentPage === "settings" ||
-                    currentPage === "blocked"
+                    currentPage === "profile" || currentPage === "settings"
                       ? {
                           textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                         }
@@ -422,34 +417,6 @@ export default function Navigation({
                           }
                         >
                           Account Settings
-                        </span>
-                      </button>
-                      <button
-                        onClick={() => navigate("/blocked")}
-                        onMouseEnter={() => setHoveredItem("blocked")}
-                        onMouseLeave={() => setHoveredItem(null)}
-                        className={`w-full text-left px-4 py-3 rounded-md font-mono text-sm transition duration-200 flex items-center space-x-3 ${
-                          currentPage === "blocked"
-                            ? "text-gray-900 font-semibold"
-                            : "text-gray-700 "
-                        }`}
-                      >
-                        {hoveredItem === "blocked" && (
-                          <ShieldOff className="w-4 h-4" />
-                        )}
-                        <span
-                          className={
-                            currentPage === "blocked" ? "font-semibold" : ""
-                          }
-                          style={
-                            currentPage === "blocked"
-                              ? {
-                                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                                }
-                              : {}
-                          }
-                        >
-                          Blocked Profiles
                         </span>
                       </button>
                     </div>
