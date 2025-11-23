@@ -9,6 +9,7 @@ import FAQ, { type FAQItem } from "@/components/FAQ";
 import MagneticLoginButton from "@/components/MagneticLoginButton";
 import SectionHeader from "@/components/SectionHeader";
 import FeatureCard from "@/components/FeatureCard";
+import LandingPageImage from "@/components/LandingPageImage";
 import { ArrowUpZA, Telescope, Handshake, Map } from "lucide-react";
 
 export default function Home() {
@@ -87,9 +88,9 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-breathe pb-10">
+    <div className="min-h-screen bg-gradient-breathe pb-10 relative">
       {/* Header */}
-      <header className="px-6 py-4 border-b border-gray-200">
+      <header className="px-6 py-4 border-b border-gray-200 relative z-20">
         <nav className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center space-x-3">
             <button
@@ -116,14 +117,26 @@ export default function Home() {
         </nav>
       </header>
 
+      {/* Background image - sits above gradient background, below content */}
+      <LandingPageImage
+        src="/bulb-static.png"
+        alt="Light bulb decoration"
+        width={350}
+        height={300}
+        top="40px"
+        right="7%"
+        opacity={0.7}
+        zIndex={1}
+      />
+
       {/* Hero Section */}
       <main className="relative z-10 px-6 py-20">
         <div className="max-w-6xl mx-auto">
-          <div>
+          <div className="relative">
             <div className="flex flex-col lg:flex-row items-start gap-8 mb-12">
-              <div className="flex-1 max-w-5xl">
+              <div className="flex-1 max-w-5xl relative z-10">
                 <TypewriterHero />
-                <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono">
+                <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono relative z-10">
                   Vectorized-ideas is a lightweight, minimal, and free
                   co-founder matchig platform. Use your project and venture
                   ideas to find collaborators and connect with those already
