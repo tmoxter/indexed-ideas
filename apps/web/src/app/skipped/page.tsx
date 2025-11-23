@@ -50,7 +50,13 @@ export default function SkippedProfilesPage() {
 
   // Hard gate rendering until user + matches ready (prevents hydration mismatch)
   if (isLoading || profilesLoading) {
-    return <LoadingSpinner />;
+    return (
+      <LoadingSpinner
+        currentPage="skipped"
+        userEmail={user?.email}
+        onLogout={logout}
+      />
+    );
   }
 
   const handleLike = async () => {
@@ -86,7 +92,13 @@ export default function SkippedProfilesPage() {
   };
 
   if (isLoading || profilesLoading) {
-    return <LoadingSpinner />;
+    return (
+      <LoadingSpinner
+        currentPage="skipped"
+        userEmail={user?.email}
+        onLogout={logout}
+      />
+    );
   }
 
   return (

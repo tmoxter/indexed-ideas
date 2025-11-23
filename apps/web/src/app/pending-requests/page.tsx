@@ -76,7 +76,13 @@ export default function PendingRequestsPage() {
   };
 
   if (isLoading || requestsLoading) {
-    return <LoadingSpinner />;
+    return (
+      <LoadingSpinner
+        currentPage="pending-requests"
+        userEmail={user?.email}
+        onLogout={logout}
+      />
+    );
   }
 
   return (

@@ -362,7 +362,13 @@ export default function ProfilePage() {
   };
 
   if (authLoading || isLoadingProfile) {
-    return <LoadingSpinner />;
+    return (
+      <LoadingSpinner
+        currentPage="profile"
+        userEmail={user?.email}
+        onLogout={logout}
+      />
+    );
   }
 
   return (

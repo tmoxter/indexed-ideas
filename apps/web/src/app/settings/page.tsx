@@ -103,7 +103,13 @@ export default function SettingsPage() {
   };
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return (
+      <LoadingSpinner
+        currentPage="settings"
+        userEmail={user?.email}
+        onLogout={logout}
+      />
+    );
   }
 
   return (

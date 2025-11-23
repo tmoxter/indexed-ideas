@@ -48,7 +48,13 @@ export default function MyMatchesPage() {
 
   // Hard gate rendering until user + matches ready (prevents hydration mismatch)
   if (isLoading || matchesLoading) {
-    return <LoadingSpinner />;
+    return (
+      <LoadingSpinner
+        currentPage="my-matches"
+        userEmail={user?.email}
+        onLogout={logout}
+      />
+    );
   }
 
   const handleBlock = async () => {

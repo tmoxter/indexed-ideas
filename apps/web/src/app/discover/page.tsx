@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { DiscoverLoading } from "@/components/DiscoverLoading";
 import { PageHeader } from "@/components/PageHeader";
 import { MessageBanner } from "@/components/MessageBanner";
 import { EmptyState } from "@/components/EmptyState";
@@ -82,7 +82,15 @@ export default function MatchesPage() {
   };
 
   if (isLoading || matchesLoading) {
-    return <LoadingSpinner />;
+    return (
+      <DiscoverLoading
+        width={260}
+        height={180}
+        currentPage="discover"
+        userEmail={user?.email}
+        onLogout={logout}
+      />
+    );
   }
 
   return (

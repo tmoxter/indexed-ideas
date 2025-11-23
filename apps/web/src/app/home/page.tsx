@@ -17,7 +17,13 @@ export default function HomePage() {
   const bannerData = useBannerCounts();
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return (
+      <LoadingSpinner
+        currentPage="home"
+        userEmail={user?.email}
+        onLogout={logout}
+      />
+    );
   }
 
   return (

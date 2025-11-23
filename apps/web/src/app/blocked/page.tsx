@@ -52,7 +52,13 @@ export default function BlockedProfilesPage() {
   };
 
   if (isLoading || profilesLoading) {
-    return <LoadingSpinner />;
+    return (
+      <LoadingSpinner
+        currentPage="blocked"
+        userEmail={user?.email}
+        onLogout={logout}
+      />
+    );
   }
 
   return (
