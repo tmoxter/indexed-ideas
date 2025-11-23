@@ -6,7 +6,7 @@ import { testUsers } from "@/test/fixtures/users";
 const mockPush = vi.fn();
 const mockRouter = {
   push: mockPush,
-  pathname: "/matches",
+  pathname: "/discover",
 };
 
 vi.mock("next/navigation", () => ({
