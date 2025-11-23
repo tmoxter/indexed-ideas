@@ -64,7 +64,7 @@ export default function HomePage() {
               Icon={Handshake}
               title="Matches"
               description="view your mutual matches and connect with co-founders who are interested in collaborating"
-              onClick={() => router.push("/my-matches")}
+              onClick={() => router.push("/matches")}
             />
 
             <NavigationCard
