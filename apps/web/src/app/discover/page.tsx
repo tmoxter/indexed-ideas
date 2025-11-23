@@ -14,7 +14,6 @@ import { BlockButton, BlockConfirmation } from "@/components/BlockConfirmation";
 import { useAuth } from "@/hooks/useAuth";
 import { useMatches } from "@/hooks/useMatches";
 import { useInteraction } from "@/hooks/useInteraction";
-import { SearchX } from "lucide-react";
 
 export default function MatchesPage() {
   const router = useRouter();

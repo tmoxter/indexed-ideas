@@ -436,10 +436,12 @@ export default function Navigation({
           )}
           <button
             onClick={onLogout}
-            className="px-4 py-2 rounded-md font-mono text-sm text-red-600 transition duration-200 flex items-center space-x-2"
+            className="px-4 py-2 rounded-md font-mono text-sm text-red-600 transition duration-200 flex items-center space-x-2 group"
           >
             <LogOut className="w-4 h-4" />
-            <span className="hidden sm:inline">Logout</span>
+            <span className="hidden sm:inline group-hover:underline group-hover:decoration-red-600 group-hover:decoration-2">
+              Logout
+            </span>
           </button>
         </div>
       </nav>

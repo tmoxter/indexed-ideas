@@ -28,6 +28,22 @@ export default function Home() {
 
   const faqItems: FAQItem[] = [
     {
+      question: "How do you define whether an idea is 'similar'?",
+      answer:
+        "We offer 4 different levels for you to configure that work as a threshold for how related ideas have to be to count as 'similar'. "
+        + "The levels are heuristic derived from experimentation, please offer feedback if you are shown too dissimilar profiles."
+    },
+    {
+      question: "Won't other users steal my venture ideas?",
+      answer:
+        "Sharing your idea here means making it publically visible. But many founders will tell you that " +
+        "the secrecy is rarely justified. Please don't share any sensitive information that you would " +
+        "want to protect. If you delete your account all your data is wiped permanently. " +
+        "<br/> <br/>" +
+        "'You can always recognize the first-timers because they're too secretive. And " +
+        "you can always recognize the experienced ones because they don't care.' - Naval Ravikant",
+    },
+    {
       question: "Aren't there already alternative platforms out there?",
       answer:
         "Yes, but we found it hard to find people on them who want to work on the same problems. " +
@@ -40,16 +56,6 @@ export default function Home() {
         "Yes, since we want to keep this lightweight, avoid implementing a chat feature or store any credentials ourselves, " +
         "at least for now, you can only log in with linkedin. Since you are sharing your profile with potential co-founders " +
         "you need it anyway.",
-    },
-    {
-      question: "Won't other users steal my venture ideas?",
-      answer:
-        "Sharing your idea here means making it publically visible. But many founders will tell you that " +
-        "the secrecy is rarely justified. Please don't share any sensitive information that you would " +
-        "want to protect. If you delete your account all your data is wiped permanently. " +
-        "<br/> <br/>" +
-        "'You can always recognize the first-timers because they're too secretive. And " +
-        "you can always recognize the experienced ones because they don't care.' - Naval Ravikant",
     },
     {
       question:
@@ -125,7 +131,7 @@ export default function Home() {
         height={300}
         top="40px"
         right="7%"
-        opacity={0.7}
+        opacity={0.6}
         zIndex={1}
       />
 
