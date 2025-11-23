@@ -78,7 +78,6 @@ export default function BlockedProfilesPage() {
 
           {profiles.length === 0 ? (
             <EmptyState
-              Icon={ShieldOff}
               title="no blocked profiles"
               description="Users you block will appear here"
               actionText="Discover co-founders"

@@ -106,10 +106,9 @@ export default function PendingRequestsPage() {
 
           {requests.length === 0 ? (
             <EmptyState
-              Icon={Clock}
-              title="no pending requests"
-              description="when someone likes your profile, they'll appear here"
-              actionText="discover profiles"
+              title="No pending requests"
+              description="When someone likes your profile, they'll appear here"
+              actionText="Discover profiles"
               onAction={() => router.push("/discover")}
             />
           ) : currentRequest ? (

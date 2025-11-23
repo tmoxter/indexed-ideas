@@ -118,7 +118,6 @@ export default function SkippedProfilesPage() {
 
           {profiles.length === 0 ? (
             <EmptyState
-              Icon={UserX}
               title="no skipped profiles"
               description="Profiles you pass on will appear here"
               actionText="Discover co-founders"

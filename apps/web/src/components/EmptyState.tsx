@@ -1,8 +1,7 @@
 "use client";
-import { LucideIcon } from "lucide-react";
+import Image from "next/image";
 
 interface EmptyStateProps {
-  Icon: LucideIcon;
   title: string;
   description: string;
   actionText: string;
@@ -10,7 +9,6 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({
-  Icon,
   title,
   description,
   actionText,
@@ -19,7 +17,13 @@ export function EmptyState({
   return (
     <div className="text-center py-16">
       <div className="flex justify-center mb-6">
-        <Icon className="w-24 h-24 text-gray-400" strokeWidth={1.5} />
+        <Image
+          src="/nothing-here.gif"
+          alt="Nothing here animation"
+          width={180}
+          height={180}
+          priority
+        />
       </div>
       <h2 className="text-xl font-mono font-bold text-gray-900 mb-2">
         {title}

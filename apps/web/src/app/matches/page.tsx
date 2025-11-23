@@ -87,7 +87,6 @@ export default function MyMatchesPage() {
 
           {matches.length === 0 ? (
             <EmptyState
-              Icon={Users}
               title="no matches yet"
               description="Start swiping to find your co-founder!"
               actionText="Discover co-founders"

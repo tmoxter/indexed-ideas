@@ -116,7 +116,6 @@ export default function MatchesPage() {
 
           {candidates.length === 0 ? (
             <EmptyState
-              Icon={SearchX}
               title="no matches found"
               description="make sure you've completed your profile and published it to enable matching"
               actionText="complete profile"
