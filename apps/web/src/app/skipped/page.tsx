@@ -110,7 +110,7 @@ export default function SkippedProfilesPage() {
               title="no skipped profiles"
               description="Profiles you pass on will appear here"
               actionText="Discover co-founders"
-              onAction={() => router.push("/matches")}
+              onAction={() => router.push("/discover")}
             />
           ) : (
             <ProfileListLayout

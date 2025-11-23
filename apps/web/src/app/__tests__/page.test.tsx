@@ -160,7 +160,7 @@ describe("LandingPage", () => {
     });
   });
 
-  it("should redirect to /matches when authenticated and logo is clicked", async () => {
+  it("should redirect to /discover when authenticated and logo is clicked", async () => {
     const mockClient = {
       auth: {
         getSession: vi.fn().mockResolvedValue({
@@ -185,7 +185,7 @@ describe("LandingPage", () => {
     await user.click(logoButton!);
 
     await waitFor(() => {
-      expect(window.location.href).toBe("/matches");
+      expect(window.location.href).toBe("/discover");
     });
   });
 });

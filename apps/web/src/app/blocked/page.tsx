@@ -76,7 +76,7 @@ export default function BlockedProfilesPage() {
               title="no blocked profiles"
               description="Users you block will appear here"
               actionText="Discover co-founders"
-              onAction={() => router.push("/matches")}
+              onAction={() => router.push("/discover")}
             />
           ) : (
             <ProfileListLayout

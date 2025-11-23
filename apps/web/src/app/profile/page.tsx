@@ -328,7 +328,7 @@ export default function ProfilePage() {
                   );
                   // Redirect to matches page after successful publish
                   setTimeout(() => {
-                    router.push("/matches");
+                    router.push("/discover");
                   }, 1500);
                 } else {
                   setMessage("Profile saved as draft!");

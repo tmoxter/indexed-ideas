@@ -85,7 +85,7 @@ export default function MyMatchesPage() {
               title="no matches yet"
               description="Start swiping to find your co-founder!"
               actionText="Discover co-founders"
-              onAction={() => router.push("/matches")}
+              onAction={() => router.push("/discover")}
             />
           ) : (
             <ProfileListLayout

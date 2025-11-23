@@ -161,7 +161,7 @@ export default function Navigation({
                         </span>
                       </button>
                       <button
-                        onClick={() => navigate("/matches")}
+                        onClick={() => navigate("/discover")}
                         onMouseEnter={() => setHoveredItem("discover")}
                         onMouseLeave={() => setHoveredItem(null)}
                         className={`w-full text-left px-4 py-3 rounded-md font-mono text-sm transition duration-200 flex items-center space-x-3 ${

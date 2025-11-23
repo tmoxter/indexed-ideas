@@ -104,7 +104,7 @@ export default function PendingRequestsPage() {
               title="no pending requests"
               description="when someone likes your profile, they'll appear here"
               actionText="discover profiles"
-              onAction={() => router.push("/matches")}
+              onAction={() => router.push("/discover")}
             />
           ) : currentRequest ? (
             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">

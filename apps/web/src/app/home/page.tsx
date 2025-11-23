@@ -43,7 +43,7 @@ export default function HomePage() {
               Icon={Search}
               title="Discover Profiles"
               description="browse through semantic similarity matches and find potential co-founders based on your profile and venture ideas"
-              onClick={() => router.push("/matches")}
+              onClick={() => router.push("/discover")}
             />
 
             <NavigationCard

@@ -412,10 +412,10 @@ describe("ProfilePage Integration Tests", () => {
     );
     expect(mockEmbedIdea).toHaveBeenCalled();
 
-    // Should redirect to matches page after publish
+    // Should redirect to discover page after publish
     await waitFor(
       () => {
-        expect(mockPush).toHaveBeenCalledWith("/matches");
+        expect(mockPush).toHaveBeenCalledWith("/discover");
       },
       { timeout: 2000 }
     );

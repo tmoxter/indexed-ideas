@@ -96,7 +96,7 @@ export default function Home() {
             <button
               onClick={() => {
                 if (isAuthenticated) {
-                  window.location.href = "/matches";
+                  window.location.href = "/discover";
                 } else {
                   window.location.reload();
                 }

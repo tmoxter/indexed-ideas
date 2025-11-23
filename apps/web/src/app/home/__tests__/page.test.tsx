@@ -96,7 +96,7 @@ describe("HomePage", () => {
     const discoverButton = screen.getByText("Discover Profiles");
     await user.click(discoverButton);
 
-    expect(mockPush).toHaveBeenCalledWith("/matches");
+    expect(mockPush).toHaveBeenCalledWith("/discover");
   });
 
   it("should navigate to pending requests when button is clicked", async () => {
