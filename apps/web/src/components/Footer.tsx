@@ -10,13 +10,13 @@ export default function Footer() {
           <div className="mb-4 md:mb-0">
             <div className="flex items-center space-x-3 mb-2">
               <Image
-                src="/vi.svg"
+                src="/bulb-simple.svg"
                 alt="vectorized-ideas logo"
                 width={28}
                 height={28}
               />
               <span className="font-mono text-sm text-gray-700">
-                vectorized-ideas
+                Indexed-Ideas
               </span>
             </div>
             <p className="text-gray-500 text-sm font-mono">

@@ -13,11 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "vectorized ideas - co-founder matching via semantic similarity",
+  title: "Indexed Ideas - co-founder matching via semantic similarity",
   description:
     "Use the similarity of your venture ideas to find and connect with co-founders",
   icons: {
-    icon: "/vi_favicon.svg",
+    icon: "/bulb-simple.svg",
   },
 };
 

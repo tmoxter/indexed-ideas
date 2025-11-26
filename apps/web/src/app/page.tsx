@@ -110,13 +110,13 @@ export default function Home() {
               className="flex items-center space-x-3 hover:opacity-80"
             >
               <Image
-                src="/vi.svg"
-                alt="vectorized-ideas logo"
-                width={32}
-                height={32}
+                src="/bulb-simple.svg"
+                alt="indexed-ideas logo"
+                width={26}
+                height={26}
               />
               <span className="font-mono text-lg text-gray-900">
-                vectorized-ideas
+                Indexed-Ideas
               </span>
             </button>
           </div>
@@ -143,7 +143,7 @@ export default function Home() {
               <div className="flex-1 max-w-5xl relative z-10">
                 <TypewriterHero />
                 <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono relative z-10">
-                  Vectorized-ideas is a lightweight, minimal, and free
+                  Indexed-ideas is a lightweight, minimal, and free
                   co-founder matchig platform. Use your project and venture
                   ideas to find collaborators and connect with those already
                   tackling the same problems as you.
@@ -179,7 +179,7 @@ export default function Home() {
               <SectionHeader title="Free and open-source" />
               <div className="mt-6 rounded mb-10">
                 <p className="text-m font-mono text-gray-900">
-                  Vectorized-ideas is an experiment and a side project. It is
+                  Indexed-ideas is an experiment and a side project. It is
                   completely free and does not generate any profit, e.g., by
                   showing you adds. It is also in an experimental state, so if
                   you find any bugs or have suggestions, please open an issue or
