@@ -4,11 +4,18 @@ import OpenAI from "openai";
 import https from "https";
 import * as embeddingsRepo from "../repos/embeddings.repo";
 import { EntityType } from "../repos/embeddings.repo";
-import { normalizeVector, EMBEDDING_MODEL, JINA_EMBEDDING_MODEL } from "../logic/similarity";
+import {
+  normalizeVector,
+  EMBEDDING_MODEL,
+  JINA_EMBEDDING_MODEL,
+} from "../logic/similarity";
 
 export type EmbeddingProvider = "jina" | "open-ai";
 
-async function getJinaEmbedding(text: string, apiKey: string): Promise<number[]> {
+async function getJinaEmbedding(
+  text: string,
+  apiKey: string
+): Promise<number[]> {
   return new Promise((resolve, reject) => {
     const data = JSON.stringify({
       model: JINA_EMBEDDING_MODEL,
@@ -22,7 +29,7 @@ async function getJinaEmbedding(text: string, apiKey: string): Promise<number[]>
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
         "Content-Length": Buffer.byteLength(data),
       },
     };
@@ -88,7 +95,13 @@ export async function generateAndStoreEmbedding(
   }
 
   const embedding = normalizeVector(rawEmbedding);
-  console.log("[embeddings] Generated embedding for", entityType, entityId, "using", provider);
+  console.log(
+    "[embeddings] Generated embedding for",
+    entityType,
+    entityId,
+    "using",
+    provider
+  );
 
   const { error: upsertError } = await embeddingsRepo.upsertEmbedding(sb, {
     entity_type: entityType,

@@ -30,8 +30,8 @@ export default function Home() {
     {
       question: "How do you define whether an idea is 'similar'?",
       answer:
-        "We offer 4 different levels for you to configure that work as a threshold for how related ideas have to be to count as 'similar'. "
-        + "The levels are heuristic derived from experimentation, please offer feedback if you are shown too dissimilar profiles."
+        "We offer 4 different levels for you to configure that work as a threshold for how related ideas have to be to count as 'similar'. " +
+        "The levels are heuristic derived from experimentation, please offer feedback if you are shown too dissimilar profiles.",
     },
     {
       question: "Won't other users steal my venture ideas?",
@@ -143,10 +143,10 @@ export default function Home() {
               <div className="flex-1 max-w-5xl relative z-10">
                 <TypewriterHero />
                 <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono relative z-10">
-                  Indexed-ideas is a lightweight, minimal, and free
-                  co-founder matchig platform. Use your project and venture
-                  ideas to find collaborators and connect with those already
-                  tackling the same problems as you.
+                  Indexed-ideas is a lightweight, minimal, and free co-founder
+                  matchig platform. Use your project and venture ideas to find
+                  collaborators and connect with those already tackling the same
+                  problems as you.
                 </p>
               </div>
             </div>
