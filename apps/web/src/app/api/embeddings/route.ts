@@ -4,7 +4,7 @@ import OpenAI from "openai";
 import { supabaseClient } from "@/lib/supabase";
 import { createClient } from "@supabase/supabase-js";
 import { extractBearerToken, authenticateUser } from "@/server/logic/auth";
-import { generateAndStoreEmbedding } from "@/server/services/embeddings.service";
+import { generateAndStoreEmbedding, EmbeddingProvider } from "@/server/services/embeddings.service";
 import { findMatchingCandidates } from "@/server/services/matching.service";
 
 export type EntityType = "idea" | "profile";
@@ -13,11 +13,12 @@ interface EmbedRequest {
   entityType: EntityType;
   entityId: string;
   text: string;
+  provider?: EmbeddingProvider;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { entityType, entityId, text }: EmbedRequest = await request.json();
+    const { entityType, entityId, text, provider = "open-ai" }: EmbedRequest = await request.json();
 
     if (!entityType || !entityId || !text) {
       return NextResponse.json(
@@ -25,9 +26,14 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    if (!process.env.OPENAI_API_KEY) {
+
+    const apiKey = provider === "jina"
+      ? process.env.JINA_API_KEY
+      : process.env.OPENAI_API_KEY;
+
+    if (!apiKey) {
       return NextResponse.json(
-        { success: false, error: "OpenAI API key not configured" },
+        { success: false, error: `${provider === "jina" ? "Jina" : "OpenAI"} API key not configured` },
         { status: 500 }
       );
     }
@@ -60,7 +66,8 @@ export async function POST(request: NextRequest) {
       entityType,
       entityId,
       text,
-      process.env.OPENAI_API_KEY
+      provider,
+      apiKey
     );
 
     return NextResponse.json({ success: true });

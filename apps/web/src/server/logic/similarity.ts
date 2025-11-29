@@ -3,6 +3,7 @@
 
 // Update version and model together, re-embedd latest entries per users
 export const EMBEDDING_MODEL = "text-embedding-3-small";
+export const JINA_EMBEDDING_MODEL = "jina-embeddings-v3";
 export const EMBEDDING_VERSION = "v1";
 
 export function normalizeVector(vector: number[]): number[] {
