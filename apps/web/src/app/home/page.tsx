@@ -5,7 +5,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { TickerBanner } from "@/components/TickerBanner";
-import Spaceship from "@/components/Spaceship";
 import { NavigationCard } from "@/components/NavigationCard";
 import { useAuth } from "@/hooks/useAuth";
 import { useBannerCounts } from "@/hooks/useBannerCounts";
