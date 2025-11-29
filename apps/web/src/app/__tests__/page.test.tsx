@@ -175,11 +175,11 @@ describe("LandingPage", () => {
 
     // Wait for authentication check
     await waitFor(() => {
-      const logo = screen.getByAltText("vectorized-ideas logo");
+      const logo = screen.getByAltText("indexed-ideas logo");
       expect(logo).toBeInTheDocument();
     });
 
-    const logoButton = screen.getByText("vectorized-ideas").closest("button");
+    const logoButton = screen.getByText("Indexed-Ideas").closest("button");
     expect(logoButton).toBeInTheDocument();
 
     await user.click(logoButton!);
