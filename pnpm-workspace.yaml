@@ -5,3 +5,6 @@ packages:
 
 onlyBuiltDependencies:
   - supabase
+
+# Security setting
+minimum-release-age: 129600 # 90 days
