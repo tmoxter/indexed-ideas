@@ -14,7 +14,6 @@ import { BlockButton, BlockConfirmation } from "@/components/BlockConfirmation";
 import { useAuth } from "@/hooks/useAuth";
 import { usePendingRequests } from "@/hooks/usePendingRequests";
 import { useInteraction } from "@/hooks/useInteraction";
-import { Clock } from "lucide-react";
 
 export default function PendingRequestsPage() {
   const router = useRouter();

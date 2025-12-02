@@ -7,7 +7,17 @@ vi.mock("server-only", () => ({}));
 
 // Mock EmptyState to avoid Supabase storage dependency
 vi.mock("@/components/EmptyState", () => ({
-  EmptyState: ({ title, description, actionText, onAction }: any) => {
+  EmptyState: ({
+    title,
+    description,
+    actionText,
+    onAction,
+  }: {
+    title: string;
+    description: string;
+    actionText: string;
+    onAction: () => void;
+  }) => {
     return React.createElement(
       "div",
       { "data-testid": "empty-state" },
@@ -20,7 +30,7 @@ vi.mock("@/components/EmptyState", () => ({
 
 // Mock DiscoverLoading to avoid Supabase storage dependency
 vi.mock("@/components/DiscoverLoading", () => ({
-  DiscoverLoading: ({ currentPage, userEmail, onLogout }: any) => {
+  DiscoverLoading: () => {
     return React.createElement(
       "div",
       { "data-testid": "discover-loading" },
@@ -38,7 +48,7 @@ afterEach(() => server.resetHandlers());
 
 // Mock react-loader-spinner to avoid JSX rendering issues in happy-dom
 vi.mock("react-loader-spinner", () => ({
-  Circles: ({ visible, ...props }: any) => {
+  Circles: ({ visible, ...props }: { visible?: boolean; [key: string]: unknown }) => {
     if (!visible) return null;
     return React.createElement(
       "div",
@@ -46,7 +56,7 @@ vi.mock("react-loader-spinner", () => ({
       "Loading..."
     );
   },
-  Rings: ({ visible = true, ...props }: any) => {
+  Rings: ({ visible = true, ...props }: { visible?: boolean; [key: string]: unknown }) => {
     if (!visible) return null;
     return React.createElement(
       "div",
@@ -54,7 +64,7 @@ vi.mock("react-loader-spinner", () => ({
       "Loading..."
     );
   },
-  InfinitySpin: ({ color, width, ...props }: any) => {
+  InfinitySpin: (props: { [key: string]: unknown }) => {
     return React.createElement(
       "div",
       { "data-testid": "infinity-spin", ...props },

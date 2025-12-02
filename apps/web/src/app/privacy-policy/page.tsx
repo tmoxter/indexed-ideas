@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Footer from "@/components/Footer";
 import ReactMarkdown from "react-markdown";
 import { readFile } from "fs/promises";
@@ -19,7 +20,7 @@ export default async function PrivacyPolicy() {
       <header className="px-6 py-4 border-b border-gray-200">
         <nav className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center space-x-3">
-            <a href="/" className="flex items-center space-x-3 hover:opacity-80">
+            <Link href="/" className="flex items-center space-x-3 hover:opacity-80">
               <Image
                 src="/bulb-simple.svg"
                 alt="indexed-ideas logo"
@@ -29,7 +30,7 @@ export default async function PrivacyPolicy() {
               <span className="font-mono text-lg text-gray-900">
                 Indexed-Ideas
               </span>
-            </a>
+            </Link>
           </div>
         </nav>
       </header>

@@ -29,7 +29,7 @@ describe("GET /api/embeddings", () => {
     const testUser = testUsers[0]; // Alice
 
     // Mock the Supabase client
-    (createClient as any).mockReturnValue(
+    (createClient as ReturnType<typeof vi.fn>).mockReturnValue(
       createMockSupabaseClient(testUser.id)
     );
 
@@ -90,7 +90,7 @@ describe("GET /api/embeddings", () => {
     const { createClient } = await import("@supabase/supabase-js");
     const testUser = testUsers[1]; // Bob
 
-    (createClient as any).mockReturnValue(
+    (createClient as ReturnType<typeof vi.fn>).mockReturnValue(
       createMockSupabaseClient(testUser.id)
     );
 
@@ -116,7 +116,7 @@ describe("GET /api/embeddings", () => {
     const { createClient } = await import("@supabase/supabase-js");
     const testUser = testUsers[0];
 
-    (createClient as any).mockReturnValue(
+    (createClient as ReturnType<typeof vi.fn>).mockReturnValue(
       createMockSupabaseClient(testUser.id)
     );
 
@@ -135,7 +135,7 @@ describe("GET /api/embeddings", () => {
     const { createClient } = await import("@supabase/supabase-js");
     const testUser = testUsers[0];
 
-    (createClient as any).mockReturnValue(
+    (createClient as ReturnType<typeof vi.fn>).mockReturnValue(
       createMockSupabaseClient(testUser.id)
     );
 
@@ -154,7 +154,7 @@ describe("GET /api/embeddings", () => {
   it("should return 400 error when userId is missing", async () => {
     const { createClient } = await import("@supabase/supabase-js");
 
-    (createClient as any).mockReturnValue(createMockSupabaseClient());
+    (createClient as ReturnType<typeof vi.fn>).mockReturnValue(createMockSupabaseClient());
 
     const mockRequest = new NextRequest("http://localhost:3000/api/embeddings");
 
@@ -170,7 +170,7 @@ describe("GET /api/embeddings", () => {
     const { createClient } = await import("@supabase/supabase-js");
     const nonExistentUserId = "non-existent-user-id";
 
-    (createClient as any).mockReturnValue(
+    (createClient as ReturnType<typeof vi.fn>).mockReturnValue(
       createMockSupabaseClient(nonExistentUserId)
     );
 
@@ -190,7 +190,7 @@ describe("GET /api/embeddings", () => {
     const { createClient } = await import("@supabase/supabase-js");
     const testUser = testUsers[2]; // Carol
 
-    (createClient as any).mockReturnValue(
+    (createClient as ReturnType<typeof vi.fn>).mockReturnValue(
       createMockSupabaseClient(testUser.id)
     );
 
@@ -203,7 +203,7 @@ describe("GET /api/embeddings", () => {
 
     expect(response.status).toBe(200);
 
-    data.items.forEach((candidate: any) => {
+    data.items.forEach((candidate: Record<string, unknown>) => {
       // Check all required top-level fields
       expect(candidate).toHaveProperty("id");
       expect(candidate).toHaveProperty("similarity_score");
@@ -240,7 +240,7 @@ describe("GET /api/embeddings", () => {
 
     // Test with multiple different users
     for (const testUser of testUsers.slice(0, 3)) {
-      (createClient as any).mockReturnValue(
+      (createClient as ReturnType<typeof vi.fn>).mockReturnValue(
         createMockSupabaseClient(testUser.id)
       );
 

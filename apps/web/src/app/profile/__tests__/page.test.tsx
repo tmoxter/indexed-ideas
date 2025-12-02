@@ -1,11 +1,7 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import {
-  createMockSupabaseClient,
-  initializeMockData,
-  resetMockData,
-} from "@/test/mocks/supabase";
+import { initializeMockData, resetMockData } from "@/test/mocks/supabase";
 
 // Mock Next.js router
 const mockPush = vi.fn();
@@ -31,7 +27,12 @@ const mockEmbedIdea = vi.fn();
 vi.mock("@/lib/embeddings-client", () => ({
   embedProfile: mockEmbedProfile,
   embedIdea: mockEmbedIdea,
-  createProfileEmbeddingText: (profile: any) => {
+  createProfileEmbeddingText: (profile: {
+    name?: string;
+    bio?: string;
+    achievements?: string;
+    region?: string;
+  }) => {
     const parts = [
       profile.name && `Name: ${profile.name}`,
       profile.bio && `Bio: ${profile.bio}`,
@@ -40,7 +41,10 @@ vi.mock("@/lib/embeddings-client", () => ({
     ].filter(Boolean);
     return parts.join("\n\n");
   },
-  createVentureEmbeddingText: (venture: any) => {
+  createVentureEmbeddingText: (venture: {
+    title?: string;
+    description?: string;
+  }) => {
     const parts = [
       venture.title && `Project: ${venture.title}`,
       venture.description && `Description: ${venture.description}`,
@@ -51,9 +55,12 @@ vi.mock("@/lib/embeddings-client", () => ({
 
 // Mock CityPicker component
 vi.mock("../city_selection", () => ({
-  CityPicker: ({ onChange, defaultCity }: any) => (
-    <div data-testid="city-picker">City: {defaultCity?.name || "None"}</div>
-  ),
+  CityPicker: ({
+    defaultCity,
+  }: {
+    onChange?: (city: { id: number; name: string } | null) => void;
+    defaultCity?: { id: number; name: string } | null;
+  }) => <div data-testid="city-picker">City: {defaultCity?.name || "None"}</div>,
 }));
 
 // Import the component after all mocks are set up
@@ -64,9 +71,9 @@ describe("ProfilePage Integration Tests", () => {
   const testUserEmail = "test@example.com";
 
   // Track database state
-  let mockProfilesDb: any[] = [];
-  let mockVenturesDb: any[] = [];
-  let mockPreferencesDb: any[] = [];
+  let mockProfilesDb: Array<Record<string, unknown>> = [];
+  let mockVenturesDb: Array<Record<string, unknown>> = [];
+  let mockPreferencesDb: Array<Record<string, unknown>> = [];
 
   beforeEach(() => {
     // Reset all mocks
@@ -125,7 +132,7 @@ describe("ProfilePage Integration Tests", () => {
             });
           });
 
-          queryBuilder.upsert.mockImplementation((data: any) => {
+          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
             const existingIndex = mockProfilesDb.findIndex(
               (p) => p.user_id === data.user_id
             );
@@ -155,7 +162,7 @@ describe("ProfilePage Integration Tests", () => {
             });
           });
 
-          queryBuilder.upsert.mockImplementation((data: any) => {
+          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
             const existingIndex = mockVenturesDb.findIndex(
               (v) => v.user_id === data.user_id
             );
@@ -186,7 +193,7 @@ describe("ProfilePage Integration Tests", () => {
             });
           });
 
-          queryBuilder.upsert.mockImplementation((data: any) => {
+          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
             const existingIndex = mockPreferencesDb.findIndex(
               (p) => p.user_id === data.user_id
             );
@@ -1208,9 +1215,9 @@ describe("ProfilePage Integration Tests", () => {
             });
           });
 
-          queryBuilder.update.mockImplementation((data: any) => {
+          queryBuilder.update.mockImplementation((data: Record<string, unknown>) => {
             return {
-              eq: vi.fn().mockImplementation((field: string, value: any) => {
+              eq: vi.fn().mockImplementation((field: string, value: unknown) => {
                 const profileIndex = mockProfilesDb.findIndex(
                   (p) => p.user_id === value
                 );
@@ -1225,7 +1232,7 @@ describe("ProfilePage Integration Tests", () => {
             };
           });
 
-          queryBuilder.upsert.mockImplementation((data: any) => {
+          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
             const existingIndex = mockProfilesDb.findIndex(
               (p) => p.user_id === data.user_id
             );
@@ -1249,7 +1256,7 @@ describe("ProfilePage Integration Tests", () => {
             return Promise.resolve({ data: venture, error: null });
           });
 
-          queryBuilder.upsert.mockImplementation((data: any) => {
+          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
             return Promise.resolve({ data, error: null });
           });
         }
@@ -1265,7 +1272,7 @@ describe("ProfilePage Integration Tests", () => {
             return Promise.resolve({ data: pref, error: null });
           });
 
-          queryBuilder.upsert.mockImplementation((data: any) => {
+          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
             return Promise.resolve({ data, error: null });
           });
         }

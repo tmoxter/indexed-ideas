@@ -25,7 +25,9 @@ vi.mock("@/components/MagneticLoginButton", () => ({
 
 // Mock next/image
 vi.mock("next/image", () => ({
-  default: ({ src, alt }: any) => <img src={src} alt={alt} />,
+  default: ({ src, alt }: { src: string; alt: string }) => (
+    <img src={src} alt={alt} />
+  ),
 }));
 
 // Import after mocks

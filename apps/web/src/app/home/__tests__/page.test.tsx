@@ -16,7 +16,7 @@ vi.mock("@/hooks/useBannerCounts", () => ({
 }));
 
 vi.mock("@/components/Navigation", () => ({
-  default: ({ onLogout }: any) => (
+  default: ({ onLogout }: { onLogout: () => void }) => (
     <div data-testid="navigation">
       <button onClick={onLogout} data-testid="logout-button">
         Logout

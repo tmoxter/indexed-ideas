@@ -13,7 +13,7 @@ import { BlockButton, BlockConfirmation } from "@/components/BlockConfirmation";
 import { useAuth } from "@/hooks/useAuth";
 import { useMyMatches } from "@/hooks/useMyMatches";
 import { useInteraction } from "@/hooks/useInteraction";
-import { Users, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 export default function MyMatchesPage() {
   const router = useRouter();

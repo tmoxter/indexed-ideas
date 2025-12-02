@@ -2,13 +2,19 @@ import { vi } from "vitest";
 import { testUsers, generateMockEmbedding } from "../fixtures/users";
 
 export interface MockSupabaseClient {
-  from: (table: string) => any;
-  auth: {
-    getSession: () => Promise<any>;
-    getUser: (token: string) => Promise<any>;
-    signOut: () => Promise<any>;
+  from: (table: string) => {
+    select: (columns?: string) => unknown;
+    insert: (data: Record<string, unknown>) => unknown;
+    upsert: (data: Record<string, unknown>) => unknown;
+    update: (data: Record<string, unknown>) => unknown;
+    delete: () => unknown;
   };
-  rpc: (fn: string, params: any) => Promise<any>;
+  auth: {
+    getSession: () => Promise<{ data: { session: unknown }; error: unknown }>;
+    getUser: (token: string) => Promise<{ data: { user: unknown }; error: unknown }>;
+    signOut: () => Promise<{ error: unknown }>;
+  };
+  rpc: (fn: string, params: Record<string, unknown>) => Promise<unknown>;
 }
 
 // Mock database state
@@ -81,8 +87,9 @@ export function createMockSupabaseClient(
     // Mock profiles table
     if (table === "profiles") {
       queryBuilder.maybeSingle.mockImplementation(() => {
-        const userId = (queryBuilder.eq as any).mock.calls.find(
-          (call: any) => call[0] === "user_id"
+        const eqMock = queryBuilder.eq as ReturnType<typeof vi.fn>;
+        const userId = eqMock.mock.calls.find(
+          (call: unknown[]) => call[0] === "user_id"
         )?.[1];
 
         const user = testUsers.find((u) => u.id === userId);
@@ -93,8 +100,9 @@ export function createMockSupabaseClient(
       });
 
       queryBuilder.single.mockImplementation(() => {
-        const userId = (queryBuilder.eq as any).mock.calls.find(
-          (call: any) => call[0] === "user_id"
+        const eqMock = queryBuilder.eq as ReturnType<typeof vi.fn>;
+        const userId = eqMock.mock.calls.find(
+          (call: unknown[]) => call[0] === "user_id"
         )?.[1];
 
         const user = testUsers.find((u) => u.id === userId);
@@ -108,8 +116,9 @@ export function createMockSupabaseClient(
     // Mock user_ventures table
     if (table === "user_ventures") {
       queryBuilder.maybeSingle.mockImplementation(() => {
-        const userId = (queryBuilder.eq as any).mock.calls.find(
-          (call: any) => call[0] === "user_id"
+        const eqMock = queryBuilder.eq as ReturnType<typeof vi.fn>;
+        const userId = eqMock.mock.calls.find(
+          (call: unknown[]) => call[0] === "user_id"
         )?.[1];
 
         const user = testUsers.find((u) => u.id === userId);
@@ -120,8 +129,9 @@ export function createMockSupabaseClient(
       });
 
       queryBuilder.single.mockImplementation(() => {
-        const userId = (queryBuilder.eq as any).mock.calls.find(
-          (call: any) => call[0] === "user_id"
+        const eqMock = queryBuilder.eq as ReturnType<typeof vi.fn>;
+        const userId = eqMock.mock.calls.find(
+          (call: unknown[]) => call[0] === "user_id"
         )?.[1];
 
         const user = testUsers.find((u) => u.id === userId);
@@ -133,7 +143,7 @@ export function createMockSupabaseClient(
 
       // Add select method for when querying specific fields like "id"
       const originalSelect = queryBuilder.select;
-      queryBuilder.select = vi.fn().mockImplementation((fields?: string) => {
+      queryBuilder.select = vi.fn().mockImplementation((_fields?: string) => {
         // Return chainable builder that supports eq, order, limit
         return {
           ...queryBuilder,
@@ -145,8 +155,9 @@ export function createMockSupabaseClient(
     // Mock user_cofounder_preference table
     if (table === "user_cofounder_preference") {
       queryBuilder.maybeSingle.mockImplementation(() => {
-        const userId = (queryBuilder.eq as any).mock.calls.find(
-          (call: any) => call[0] === "user_id"
+        const eqMock = queryBuilder.eq as ReturnType<typeof vi.fn>;
+        const userId = eqMock.mock.calls.find(
+          (call: unknown[]) => call[0] === "user_id"
         )?.[1];
 
         const user = testUsers.find((u) => u.id === userId);
@@ -160,8 +171,9 @@ export function createMockSupabaseClient(
     // Mock cities table
     if (table === "cities") {
       queryBuilder.maybeSingle.mockImplementation(() => {
-        const cityId = (queryBuilder.eq as any).mock.calls.find(
-          (call: any) => call[0] === "id"
+        const eqMock = queryBuilder.eq as ReturnType<typeof vi.fn>;
+        const cityId = eqMock.mock.calls.find(
+          (call: unknown[]) => call[0] === "id"
         )?.[1];
 
         // Mock city data
@@ -186,8 +198,9 @@ export function createMockSupabaseClient(
     // Mock embeddings table
     if (table === "embeddings") {
       queryBuilder.single.mockImplementation(() => {
-        const entityId = (queryBuilder.eq as any).mock.calls.find(
-          (call: any) => call[0] === "entity_id"
+        const eqMock = queryBuilder.eq as ReturnType<typeof vi.fn>;
+        const entityId = eqMock.mock.calls.find(
+          (call: unknown[]) => call[0] === "entity_id"
         )?.[1];
 
         const embedding = mockEmbeddings.find((e) => e.entity_id === entityId);
@@ -197,7 +210,7 @@ export function createMockSupabaseClient(
         return Promise.resolve({ data: null, error: { message: "Not found" } });
       });
 
-      queryBuilder.upsert.mockImplementation((data: any) => {
+      queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
         const existingIndex = mockEmbeddings.findIndex(
           (e) => e.entity_id === data.entity_id
         );
@@ -205,9 +218,9 @@ export function createMockSupabaseClient(
           mockEmbeddings[existingIndex] = {
             ...mockEmbeddings[existingIndex],
             ...data,
-          };
+          } as { entity_type: string; entity_id: string; user_id: string; vector: number[] };
         } else {
-          mockEmbeddings.push(data);
+          mockEmbeddings.push(data as { entity_type: string; entity_id: string; user_id: string; vector: number[] });
         }
         return Promise.resolve({ data, error: null });
       });
@@ -215,17 +228,17 @@ export function createMockSupabaseClient(
 
     // Mock matches table
     if (table === "matches") {
-      queryBuilder.insert.mockImplementation((data: any) => {
+      queryBuilder.insert.mockImplementation((data: Record<string, unknown>) => {
         const match = {
           ...data,
           created_at: data.created_at || new Date().toISOString(),
-        };
+        } as { user_a: string; user_b: string; created_at: string; active?: boolean };
         mockMatches.push(match);
 
         // Return chainable object with select method
         return {
           select: vi.fn().mockResolvedValue({ data: match, error: null }),
-          then: (resolve: any) => resolve({ data: match, error: null }),
+          then: (resolve: (value: unknown) => void) => resolve({ data: match, error: null }),
         };
       });
 
@@ -240,7 +253,7 @@ export function createMockSupabaseClient(
 
     // Mock interactions table
     if (table === "interactions") {
-      queryBuilder.insert.mockImplementation((data: any) => {
+      queryBuilder.insert.mockImplementation((data: Record<string, unknown>) => {
         // Check for duplicates
         const exists = mockInteractions.find(
           (i) =>
@@ -258,7 +271,7 @@ export function createMockSupabaseClient(
                 message: "duplicate key value violates unique constraint",
               },
             }),
-            then: (resolve: any) =>
+            then: (resolve: (value: unknown) => void) =>
               resolve({
                 data: null,
                 error: {
@@ -273,15 +286,24 @@ export function createMockSupabaseClient(
           ...data,
           created_at: data.created_at || new Date().toISOString(),
           updated_at: new Date().toISOString(),
+        } as {
+          id: string;
+          actor_user: string;
+          target_user: string;
+          action: "like" | "pass" | "block";
+          actor_current_idea: string | null;
+          target_current_idea: string | null;
+          created_at: string;
+          updated_at: string;
         };
         mockInteractions.push(interaction);
         return {
           select: vi.fn().mockResolvedValue({ data: interaction, error: null }),
-          then: (resolve: any) => resolve({ data: interaction, error: null }),
+          then: (resolve: (value: unknown) => void) => resolve({ data: interaction, error: null }),
         };
       });
 
-      queryBuilder.upsert.mockImplementation((data: any) => {
+      queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
         const existingIndex = mockInteractions.findIndex(
           (i) =>
             i.actor_user === data.actor_user &&
@@ -300,7 +322,7 @@ export function createMockSupabaseClient(
               data: mockInteractions[existingIndex],
               error: null,
             }),
-            then: (resolve: any) =>
+            then: (resolve: (value: unknown) => void) =>
               resolve({ data: mockInteractions[existingIndex], error: null }),
           };
         } else {
@@ -309,37 +331,46 @@ export function createMockSupabaseClient(
             ...data,
             created_at: data.created_at || new Date().toISOString(),
             updated_at: new Date().toISOString(),
+          } as {
+            id: string;
+            actor_user: string;
+            target_user: string;
+            action: "like" | "pass" | "block";
+            actor_current_idea: string | null;
+            target_current_idea: string | null;
+            created_at: string;
+            updated_at: string;
           };
           mockInteractions.push(interaction);
           return {
             select: vi
               .fn()
               .mockResolvedValue({ data: interaction, error: null }),
-            then: (resolve: any) => resolve({ data: interaction, error: null }),
+            then: (resolve: (value: unknown) => void) => resolve({ data: interaction, error: null }),
           };
         }
       });
 
-      queryBuilder.select.mockImplementation((fields?: string) => {
+      queryBuilder.select.mockImplementation((_fields?: string) => {
         // Return a chainable query builder for filtering
         let filteredInteractions = [...mockInteractions];
 
         return {
-          eq: vi.fn().mockImplementation((field: string, value: any) => {
+          eq: vi.fn().mockImplementation((field: string, value: unknown) => {
             filteredInteractions = filteredInteractions.filter(
-              (i) => (i as any)[field] === value
+              (i) => (i as Record<string, unknown>)[field] === value
             );
             return {
-              eq: vi.fn().mockImplementation((field2: string, value2: any) => {
+              eq: vi.fn().mockImplementation((field2: string, value2: unknown) => {
                 filteredInteractions = filteredInteractions.filter(
-                  (i) => (i as any)[field2] === value2
+                  (i) => (i as Record<string, unknown>)[field2] === value2
                 );
                 return {
                   eq: vi
                     .fn()
-                    .mockImplementation((field3: string, value3: any) => {
+                    .mockImplementation((field3: string, value3: unknown) => {
                       filteredInteractions = filteredInteractions.filter(
-                        (i) => (i as any)[field3] === value3
+                        (i) => (i as Record<string, unknown>)[field3] === value3
                       );
                       return {
                         limit: vi.fn().mockReturnValue(
@@ -377,19 +408,19 @@ export function createMockSupabaseClient(
 
       queryBuilder.delete.mockImplementation(() => {
         // Return chainable query builder for filtering before delete
-        const deleteFilters: Record<string, any> = {};
+        const deleteFilters: Record<string, unknown> = {};
 
         const deleteBuilder = {
-          eq: vi.fn().mockImplementation((field: string, value: any) => {
+          eq: vi.fn().mockImplementation((field: string, value: unknown) => {
             deleteFilters[field] = value;
             return deleteBuilder;
           }),
-          then: (resolve: any) => {
+          then: (resolve: (value: unknown) => void) => {
             // Actually perform the delete when promise is resolved
             const initialLength = mockInteractions.length;
             mockInteractions = mockInteractions.filter((i) => {
               return !Object.entries(deleteFilters).every(
-                ([field, value]) => (i as any)[field] === value
+                ([field, value]) => (i as Record<string, unknown>)[field] === value
               );
             });
             const deletedCount = initialLength - mockInteractions.length;
@@ -417,7 +448,7 @@ export function createMockSupabaseClient(
           : null,
       },
     }),
-    getUser: vi.fn().mockImplementation((token: string) => {
+    getUser: vi.fn().mockImplementation((_token: string) => {
       if (currentUserId) {
         return Promise.resolve({
           data: {
@@ -437,13 +468,19 @@ export function createMockSupabaseClient(
     signOut: vi.fn().mockResolvedValue({ error: null }),
   };
 
-  const mockRpc = vi.fn().mockImplementation((fn: string, params: any) => {
+  const mockRpc = vi.fn().mockImplementation((fn: string, params: Record<string, unknown>) => {
     if (
       fn === "knn_candidates" ||
       fn === "knn_candidates_excl" ||
       fn === "knn_candidates_interact_prefs_applied"
     ) {
-      const { p_idea_id, p_limit = 20, p_model, p_version, p_probes } = params;
+      const {
+        p_idea_id,
+        p_limit = 20,
+        p_model: _p_model,
+        p_version: _p_version,
+        p_probes: _p_probes,
+      } = params;
 
       // Find the embedding for the query idea
       const queryEmbedding = mockEmbeddings.find(
@@ -484,7 +521,7 @@ export function createMockSupabaseClient(
         })
         .filter((c) => c !== null)
         .sort((a, b) => b.similarity_score - a.similarity_score)
-        .slice(0, p_limit);
+        .slice(0, p_limit as number);
 
       return Promise.resolve({ data: candidates, error: null });
     }
@@ -504,8 +541,8 @@ export function createMockSupabaseClient(
       if (!exists) {
         const interaction = {
           id: `interaction-${Date.now()}-${Math.random()}`,
-          actor_user: p_actor_user,
-          target_user: p_target_user,
+          actor_user: p_actor_user as string,
+          target_user: p_target_user as string,
           action: "like" as const,
           actor_current_idea: null,
           target_current_idea: null,
@@ -539,8 +576,8 @@ export function createMockSupabaseClient(
         // Insert new pass interaction
         const interaction = {
           id: `interaction-${Date.now()}-${Math.random()}`,
-          actor_user: p_actor_user,
-          target_user: p_target_user,
+          actor_user: p_actor_user as string,
+          target_user: p_target_user as string,
           action: "pass" as const,
           actor_current_idea: null,
           target_current_idea: null,
@@ -559,8 +596,8 @@ export function createMockSupabaseClient(
 
       const interaction = {
         id: `interaction-${Date.now()}-${Math.random()}`,
-        actor_user: p_actor,
-        target_user: p_target,
+        actor_user: p_actor as string,
+        target_user: p_target as string,
         action: "block" as const,
         actor_current_idea: null,
         target_current_idea: null,

@@ -12,7 +12,6 @@ import { ProfileListLayout } from "@/components/ProfileListLayout";
 import { useAuth } from "@/hooks/useAuth";
 import { useBlockedProfiles } from "@/hooks/useBlockedProfiles";
 import { useInteraction } from "@/hooks/useInteraction";
-import { ShieldOff } from "lucide-react";
 
 export default function BlockedProfilesPage() {
   const router = useRouter();
