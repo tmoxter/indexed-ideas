@@ -5,6 +5,15 @@ import * as interactionsRepo from "../repos/interactions.repo";
 import * as embeddingsRepo from "../repos/embeddings.repo";
 import { EMBEDDING_MODEL, EMBEDDING_VERSION } from "../logic/similarity";
 
+interface CandidateRow {
+  user_id: string;
+  stage?: string;
+  timezone?: string;
+  availability_hours?: string;
+  idea_sim?: number;
+  created_at?: string;
+}
+
 export interface EnrichedCandidate {
   id: string;
   stage?: string;
@@ -12,14 +21,14 @@ export interface EnrichedCandidate {
   availability_hours?: string;
   similarity_score?: number;
   created_at?: string;
-  profile: any;
-  venture: any;
-  preferences: any;
+  profile: (profilesRepo.ProfileData & { city_name?: string; country?: string }) | null;
+  venture: profilesRepo.VentureData | null;
+  preferences: profilesRepo.CofounderPreferenceData | null;
 }
 
 async function enrichCandidateData(
   sb: SupabaseClient,
-  candidate: any
+  candidate: CandidateRow
 ): Promise<EnrichedCandidate | null> {
   const userId = candidate.user_id;
 
@@ -221,7 +230,7 @@ export async function getPendingRequests(
   }
 
   const enrichedData = await Promise.all(
-    (data || []).map((item: any) => enrichCandidateData(sb, item))
+    (data || []).map((item: CandidateRow) => enrichCandidateData(sb, item))
   );
 
   const validData = enrichedData.filter((item) => item !== null);

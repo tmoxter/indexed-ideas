@@ -32,7 +32,7 @@ export function CityPicker({
   const cache = useRef<Map<string, City[]>>(new Map());
 
   const debouncedFetch = useMemo(() => {
-    let t: any;
+    let t: ReturnType<typeof setTimeout>;
     return (q: string, fn: () => void) => {
       clearTimeout(t);
       t = setTimeout(fn, 180);

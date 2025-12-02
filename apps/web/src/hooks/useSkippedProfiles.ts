@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabaseClient } from "@/lib/supabase";
 import type { ProfileWithDetails, ProfileData } from "@/types";
 
@@ -8,13 +8,7 @@ export function useSkippedProfiles(userId: string | undefined) {
   const [error, setError] = useState<string>("");
   const supabase = supabaseClient();
 
-  useEffect(() => {
-    if (userId) {
-      loadProfiles();
-    }
-  }, [userId]);
-
-  const loadProfiles = async () => {
+  const loadProfiles = useCallback(async () => {
     if (!userId) return;
 
     setIsLoading(true);
@@ -113,7 +107,13 @@ export function useSkippedProfiles(userId: string | undefined) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [userId, supabase]);
+
+  useEffect(() => {
+    if (userId) {
+      loadProfiles();
+    }
+  }, [userId, loadProfiles]);
 
   return { profiles, isLoading, error, reload: loadProfiles };
 }

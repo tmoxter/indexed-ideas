@@ -54,7 +54,7 @@ export default function LoginPanel() {
           window.location.href = "/auth/callback";
         }
       }
-    } catch (error) {
+    } catch (_error) {
       setMessage("An unexpected error occurred");
     } finally {
       setIsLoading(false);

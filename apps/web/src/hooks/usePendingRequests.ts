@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabaseClient } from "@/lib/supabase";
 import type { PendingRequest } from "@/types";
 
@@ -8,11 +8,7 @@ export function usePendingRequests(limit = 20) {
   const [error, setError] = useState<string>("");
   const supabase = supabaseClient();
 
-  useEffect(() => {
-    loadRequests();
-  }, []);
-
-  const loadRequests = async () => {
+  const loadRequests = useCallback(async () => {
     setIsLoading(true);
     setError("");
 
@@ -52,7 +48,11 @@ export function usePendingRequests(limit = 20) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [supabase, limit]);
+
+  useEffect(() => {
+    loadRequests();
+  }, [loadRequests]);
 
   return { requests, isLoading, error, reload: loadRequests };
 }

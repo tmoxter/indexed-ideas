@@ -36,7 +36,6 @@ vi.mock("@/components/Footer", () => ({
 import { useAuth } from "@/hooks/useAuth";
 import { useMatches } from "@/hooks/useMatches";
 import { useInteraction } from "@/hooks/useInteraction";
-import { profile } from "console";
 
 const MatchesPage = await import("../page").then((m) => m.default);
 

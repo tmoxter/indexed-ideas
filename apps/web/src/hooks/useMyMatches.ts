@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabaseClient } from "@/lib/supabase";
 import type { ProfileWithDetails, ProfileData } from "@/types";
 
@@ -8,13 +8,7 @@ export function useMyMatches(userId: string | undefined) {
   const [error, setError] = useState<string>("");
   const supabase = supabaseClient();
 
-  useEffect(() => {
-    if (userId) {
-      loadMatches();
-    }
-  }, [userId]);
-
-  const loadMatches = async () => {
+  const loadMatches = useCallback(async () => {
     if (!userId) return;
 
     setIsLoading(true);
@@ -121,7 +115,13 @@ export function useMyMatches(userId: string | undefined) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [userId, supabase]);
+
+  useEffect(() => {
+    if (userId) {
+      loadMatches();
+    }
+  }, [userId, loadMatches]);
 
   return { matches, isLoading, error, reload: loadMatches };
 }

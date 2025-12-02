@@ -30,7 +30,7 @@ export default function MagneticLoginButton() {
       if (error) {
         setMessage("Error: " + error.message);
       }
-    } catch (error) {
+    } catch (_error) {
       setMessage("An unexpected error occurred");
     }
   };

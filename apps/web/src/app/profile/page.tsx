@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabaseClient } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Navigation from "@/components/Navigation";
@@ -44,13 +44,7 @@ export default function ProfilePage() {
   const [linkedinUrlError, setLinkedinUrlError] = useState("");
   const [isPublished, setIsPublished] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      loadProfile();
-    }
-  }, [user]);
-
-  const loadProfile = async () => {
+  const loadProfile = useCallback(async () => {
     setIsLoadingProfile(true);
     try {
       const {
@@ -121,7 +115,13 @@ export default function ProfilePage() {
     } finally {
       setIsLoadingProfile(false);
     }
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    if (user) {
+      loadProfile();
+    }
+  }, [user, loadProfile]);
 
   const validateLinkedInUrl = (url: string): boolean => {
     if (!url) {
@@ -558,7 +558,7 @@ export default function ProfilePage() {
                 03. Co-founder Preferences
               </h2>
               <p className="font-mono text-sm text-gray-600 mb-6">
-                Describe what kind of co-founder you're looking for and what you
+                Describe what kind of co-founder you&apos;re looking for and what you
                 bring to the table.
               </p>
 

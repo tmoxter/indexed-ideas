@@ -43,7 +43,7 @@ describe("Interactions API Route", () => {
       error: null,
     });
 
-    mockCreateClient.mockImplementation((url: string, key: string) => {
+    mockCreateClient.mockImplementation((_url: string, _key: string) => {
       return createMockSupabaseClient(currentUser.id);
     });
   });
@@ -473,7 +473,7 @@ describe("Interactions API Route", () => {
       // We'll use testUsers[3] or create a simpler mock where actor venture is removed
 
       // Create a custom mock that returns null for actor's venture
-      mockCreateClient.mockImplementation((url: string, key: string) => {
+      mockCreateClient.mockImplementation((_url: string, _key: string) => {
         const baseClient = createMockSupabaseClient(currentUser.id);
 
         // Wrap the from method to intercept user_ventures queries
@@ -485,7 +485,7 @@ describe("Interactions API Route", () => {
 
           if (table === "user_ventures") {
             // Store the original maybeSingle
-            const originalMaybeSingle =
+            const _originalMaybeSingle =
               queryBuilder.maybeSingle.getMockImplementation();
 
             queryBuilder.maybeSingle = vi.fn().mockImplementation(() => {
@@ -551,8 +551,8 @@ describe("Interactions API Route", () => {
       // First pass
       await POST(request1);
       const firstInteractions = getMockInteractions();
-      const firstActorIdea = firstInteractions[0].actor_current_idea;
-      const firstTargetIdea = firstInteractions[0].target_current_idea;
+      const _firstActorIdea = firstInteractions[0].actor_current_idea;
+      const _firstTargetIdea = firstInteractions[0].target_current_idea;
 
       // Wait a bit
       await new Promise((resolve) => setTimeout(resolve, 10));

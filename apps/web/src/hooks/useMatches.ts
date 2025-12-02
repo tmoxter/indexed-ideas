@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { MatchCandidate } from "@/types";
 
 export function useMatches(userId: string | undefined, limit = 20) {
@@ -6,13 +6,7 @@ export function useMatches(userId: string | undefined, limit = 20) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>("");
 
-  useEffect(() => {
-    if (userId) {
-      loadMatches();
-    }
-  }, [userId]);
-
-  const loadMatches = async () => {
+  const loadMatches = useCallback(async () => {
     setIsLoading(true);
     setError("");
 
@@ -47,7 +41,13 @@ export function useMatches(userId: string | undefined, limit = 20) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [userId, limit]);
+
+  useEffect(() => {
+    if (userId) {
+      loadMatches();
+    }
+  }, [userId, loadMatches]);
 
   return { candidates, isLoading, error, reload: loadMatches };
 }

@@ -13,7 +13,6 @@ import { BlockButton, BlockConfirmation } from "@/components/BlockConfirmation";
 import { useAuth } from "@/hooks/useAuth";
 import { useSkippedProfiles } from "@/hooks/useSkippedProfiles";
 import { useInteraction } from "@/hooks/useInteraction";
-import { UserX } from "lucide-react";
 
 export default function SkippedProfilesPage() {
   const router = useRouter();

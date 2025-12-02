@@ -137,7 +137,7 @@ describe("GET /api/cities", () => {
     const request = new NextRequest(
       "http://localhost/api/cities?q=san&country=US"
     );
-    const response = await GET(request);
+    await GET(request);
 
     expect(mockClient.rpc).toHaveBeenCalledWith("search_cities", {
       p_q: "san",
