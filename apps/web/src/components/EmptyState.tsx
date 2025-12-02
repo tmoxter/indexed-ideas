@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { supabaseClient } from "@/lib/supabase";
 
 interface EmptyStateProps {
   title: string;
@@ -14,11 +15,16 @@ export function EmptyState({
   actionText,
   onAction,
 }: EmptyStateProps) {
+  const supabase = supabaseClient();
+  const { data: nothingHereImageData } = supabase.storage
+    .from("internal_display_media")
+    .getPublicUrl("nothing-here.gif");
+
   return (
     <div className="text-center py-16">
       <div className="flex justify-center mb-6">
         <Image
-          src="/nothing-here.gif"
+          src={nothingHereImageData.publicUrl}
           alt="Nothing here animation"
           width={180}
           height={180}

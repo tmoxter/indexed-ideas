@@ -15,6 +15,11 @@ import { ArrowUpZA, Telescope, Handshake, Map } from "lucide-react";
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const supabase = supabaseClient();
+  const { data: bulbImageData } = supabase.storage
+    .from("internal_display_media")
+    .getPublicUrl("bulb-static.png");
+
   useEffect(() => {
     const checkAuth = async () => {
       const supabase = supabaseClient();
@@ -125,7 +130,7 @@ export default function Home() {
 
       {/* Background image - sits above gradient background, below content */}
       <LandingPageImage
-        src="/bulb-static.png"
+        src={bulbImageData.publicUrl}
         alt="Light bulb decoration"
         width={350}
         height={300}

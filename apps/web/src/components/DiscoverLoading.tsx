@@ -4,6 +4,7 @@ import type { ComponentProps } from "react";
 import Image from "next/image";
 import { Rings } from "react-loader-spinner";
 import Navigation from "@/components/Navigation";
+import { supabaseClient } from "@/lib/supabase";
 
 type NavigationProps = ComponentProps<typeof Navigation>;
 
@@ -24,6 +25,11 @@ export function DiscoverLoading({
 }: DiscoverLoadingProps) {
   const showNavigation = currentPage !== undefined && onLogout !== undefined;
 
+  const supabase = supabaseClient();
+  const { data: eyesImageData } = supabase.storage
+    .from("internal_display_media")
+    .getPublicUrl("eyes.gif");
+
   return (
     <div className="min-h-screen bg-[var(--page-background)]">
       {showNavigation ? (
@@ -35,7 +41,7 @@ export function DiscoverLoading({
       ) : null}
       <div className="flex flex-col items-center justify-center px-6 pt-32 pb-10 min-h-screen gap-6">
         <Image
-          src="/eyes.gif"
+          src={eyesImageData.publicUrl}
           alt="Searching animation"
           width={width}
           height={height}

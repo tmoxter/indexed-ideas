@@ -45,6 +45,13 @@ describe("LandingPage", () => {
           data: { session: null },
         }),
       },
+      storage: {
+        from: vi.fn().mockReturnValue({
+          getPublicUrl: vi.fn().mockReturnValue({
+            data: { publicUrl: "https://example.com/bulb-static.png" },
+          }),
+        }),
+      },
     };
     mockSupabaseClient.mockReturnValue(mockClient);
 
@@ -62,6 +69,13 @@ describe("LandingPage", () => {
           data: { session: null },
         }),
       },
+      storage: {
+        from: vi.fn().mockReturnValue({
+          getPublicUrl: vi.fn().mockReturnValue({
+            data: { publicUrl: "https://example.com/bulb-static.png" },
+          }),
+        }),
+      },
     };
     mockSupabaseClient.mockReturnValue(mockClient);
 
@@ -77,6 +91,13 @@ describe("LandingPage", () => {
           data: { session: null },
         }),
       },
+      storage: {
+        from: vi.fn().mockReturnValue({
+          getPublicUrl: vi.fn().mockReturnValue({
+            data: { publicUrl: "https://example.com/bulb-static.png" },
+          }),
+        }),
+      },
     };
     mockSupabaseClient.mockReturnValue(mockClient);
 
@@ -90,6 +111,13 @@ describe("LandingPage", () => {
       auth: {
         getSession: vi.fn().mockResolvedValue({
           data: { session: null },
+        }),
+      },
+      storage: {
+        from: vi.fn().mockReturnValue({
+          getPublicUrl: vi.fn().mockReturnValue({
+            data: { publicUrl: "https://example.com/bulb-static.png" },
+          }),
         }),
       },
     };
@@ -111,6 +139,13 @@ describe("LandingPage", () => {
           data: { session: null },
         }),
       },
+      storage: {
+        from: vi.fn().mockReturnValue({
+          getPublicUrl: vi.fn().mockReturnValue({
+            data: { publicUrl: "https://example.com/bulb-static.png" },
+          }),
+        }),
+      },
     };
     mockSupabaseClient.mockReturnValue(mockClient);
 
@@ -124,6 +159,13 @@ describe("LandingPage", () => {
       auth: {
         getSession: vi.fn().mockResolvedValue({
           data: { session: null },
+        }),
+      },
+      storage: {
+        from: vi.fn().mockReturnValue({
+          getPublicUrl: vi.fn().mockReturnValue({
+            data: { publicUrl: "https://example.com/bulb-static.png" },
+          }),
         }),
       },
     };
@@ -165,6 +207,13 @@ describe("LandingPage", () => {
       auth: {
         getSession: vi.fn().mockResolvedValue({
           data: { session: { access_token: "token-123" } },
+        }),
+      },
+      storage: {
+        from: vi.fn().mockReturnValue({
+          getPublicUrl: vi.fn().mockReturnValue({
+            data: { publicUrl: "https://example.com/bulb-static.png" },
+          }),
         }),
       },
     };
