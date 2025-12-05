@@ -10,6 +10,7 @@ interface LandingPageImageProps {
   bottom?: string;
   left?: string;
   opacity?: number;
+  mobileOpacity?: number;
   zIndex?: number;
   className?: string;
 }
@@ -24,6 +25,7 @@ export default function LandingPageImage({
   bottom,
   left,
   opacity = 0.6,
+  mobileOpacity,
   zIndex = 1,
   className = "",
 }: LandingPageImageProps) {
@@ -34,13 +36,23 @@ export default function LandingPageImage({
     left,
     opacity,
     zIndex,
+    ...(mobileOpacity !== undefined && {
+      ['--mobile-opacity' as string]: mobileOpacity,
+    }),
   };
 
   return (
     <div
-      className={`absolute pointer-events-none ${className}`}
+      className={`absolute pointer-events-none ${mobileOpacity !== undefined ? 'responsive-opacity' : ''} ${className}`}
       style={positionStyles}
     >
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .responsive-opacity {
+            opacity: var(--mobile-opacity) !important;
+          }
+        }
+      `}</style>
       <Image
         src={src}
         alt={alt}
