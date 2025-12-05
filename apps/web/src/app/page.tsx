@@ -137,7 +137,7 @@ export default function Home() {
         top="40px"
         right="7%"
         opacity={0.6}
-        mobileOpacity={0.2}
+        mobileOpacity={0.15}
         zIndex={1}
       />
 
@@ -151,7 +151,7 @@ export default function Home() {
                 <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono relative z-10">
                   Indexed-ideas is a lightweight, minimal, and free co-founder
                   matchig platform. Use your project and venture ideas to find
-                  collaborators and connect with those already tackling the same
+                  collaborators. Connect with others already tackling the same
                   problems as you.
                 </p>
               </div>
@@ -175,7 +175,7 @@ export default function Home() {
               </div>
 
               {/* Sign Up / Login Form */}
-              <div className="lg:w-96 min-h-[400px]">
+              <div className="lg:w-96 min-h-[400px] flex items-center justify-center">
                 <MagneticLoginButton />
               </div>
             </div>
