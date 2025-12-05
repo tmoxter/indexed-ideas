@@ -47,12 +47,18 @@ export default function TypewriterHero() {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, currentPhraseIndex]);
 
+  const currentPhrase = phrases[currentPhraseIndex];
+
   return (
     <div className="text-4xl md:text-6xl font-mono font-bold text-gray-900 mb-6 leading-tight">
       <div>Find co-founders</div>
       <div>based on the similarity of</div>
       <div className="relative my-1 min-h-[2.5em] md:min-h-[1.2em]">
-        <span className="inline-block min-w-[1ch] text-black-600">
+        {/* Block space to avoid sudden wrapping */}
+        <span className="inline-block min-w-[1ch] invisible">
+          {currentPhrase}_
+        </span>
+        <span className="absolute top-0 left-0 inline-block min-w-[1ch] text-black-600">
           {displayedText}
           <span className="animate-blink">_</span>
         </span>

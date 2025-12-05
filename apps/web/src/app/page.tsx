@@ -137,7 +137,7 @@ export default function Home() {
         top="40px"
         right="7%"
         opacity={0.6}
-        mobileOpacity={0.3}
+        mobileOpacity={0.2}
         zIndex={1}
       />
 
