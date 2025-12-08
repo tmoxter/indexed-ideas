@@ -14,18 +14,24 @@ export default function MagneticLoginButton() {
   const text = "Continue with LinkedIn ";
   const chars = text.split("");
 
-  // Handle LinkedIn OAuth login
   const handleLogin = async () => {
     setMessage("");
 
     try {
       const supabase = supabaseClient();
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "linkedin_oidc",
+      // const { error } = await supabase.auth.signInWithOAuth({
+      //   provider: "linkedin_oidc",
+      //   options: {
+      //     redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      //   },
+      // });
+      const { data, error } = await supabase.auth.signInWithOtp({
+        email: process.env.NEXT_PUBLIC_ADMIN_MAIL!,
         options: {
-          redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+          shouldCreateUser: false,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
         },
-      });
+      })
 
       if (error) {
         setMessage("Error: " + error.message);
@@ -35,7 +41,6 @@ export default function MagneticLoginButton() {
     }
   };
 
-  // Track mouse movement within the container
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current || !buttonRef.current) return;
@@ -43,9 +48,8 @@ export default function MagneticLoginButton() {
       const containerRect = containerRef.current.getBoundingClientRect();
 
       // Buffer to account for the text wheel radius (prevents overlap with adjacent elements)
-      const buffer = 80; // roughly the radius of the text wheel
+      const buffer = 80;
 
-      // Check if mouse is in the hover region (with buffer)
       const isInRegion =
         e.clientX >= containerRect.left + buffer &&
         e.clientX <= containerRect.right &&
@@ -70,7 +74,6 @@ export default function MagneticLoginButton() {
         deltaX = Math.max(-maxX, Math.min(maxX, deltaX));
         deltaY = Math.max(-maxY, Math.min(maxY, deltaY));
 
-        // Move button directly to mouse position
         setButtonPosition({
           x: deltaX,
           y: deltaY,
@@ -101,7 +104,6 @@ export default function MagneticLoginButton() {
             : "transform 0.7s ease-out",
         }}
       >
-        {/* Circular rotating text */}
         <div
           className="relative w-48 h-48 flex items-center justify-center"
           style={{
