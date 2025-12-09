@@ -22,14 +22,14 @@ export default function MagneticLoginButton() {
       // const { error } = await supabase.auth.signInWithOAuth({
       //   provider: "linkedin_oidc",
       //   options: {
-      //     redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      //     redirectTo: `${window.location.origin}/auth/callback`,
       //   },
       // });
       const { data, error } = await supabase.auth.signInWithOtp({
         email: process.env.NEXT_PUBLIC_ADMIN_MAIL!,
         options: {
           shouldCreateUser: false,
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       })
 
