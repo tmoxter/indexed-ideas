@@ -14,7 +14,9 @@ import {
   Home,
   ChevronDown,
   Clock,
+  Menu,
 } from "lucide-react";
+import MobileMenu from "./MobileMenu";
 
 interface NavigationProps {
   currentPage:
@@ -38,12 +40,27 @@ export default function Navigation({
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const navigate = (path: string) => {
     setActiveDropdown(null);
     router.push(path);
+  };
+
+  const getPageTitle = (page: string): string => {
+    const pageTitles: Record<string, string> = {
+      home: "Dashboard",
+      discover: "Discover Profiles",
+      "my-matches": "Matches",
+      skipped: "Skipped Profiles",
+      blocked: "Blocked Profiles",
+      profile: "Profile",
+      settings: "Account Settings",
+      "pending-requests": "Pending Requests",
+    };
+    return pageTitles[page] || "";
   };
 
   useEffect(() => {
@@ -66,6 +83,17 @@ export default function Navigation({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 border-b border-gray-300 transition-all duration-300 ${
@@ -87,10 +115,10 @@ export default function Navigation({
             className="flex items-center space-x-3 hover:opacity-80"
           >
             <Image
-              src="/vi.svg"
-              alt="vectorized-ideas logo"
-              width={32}
-              height={32}
+              src="/bulb-simple.svg"
+              alt="indexed-ideas logo"
+              width={24}
+              height={24}
             />
           </button>
 
@@ -429,22 +457,48 @@ export default function Navigation({
 
         {/* Right - User Info & Logout */}
         <div className="flex items-center space-x-4">
+          {/* Mobile Page Title */}
+          <span className="md:hidden font-mono text-sm font-semibold text-gray-900">
+            {getPageTitle(currentPage)}
+          </span>
+
           {userEmail && (
             <span className="font-mono text-sm text-gray-600 hidden lg:inline">
               {userEmail}
             </span>
           )}
+
+          {/* Desktop Logout Button */}
           <button
             onClick={onLogout}
-            className="px-4 py-2 rounded-md font-mono text-sm text-red-600 transition duration-200 flex items-center space-x-2 group"
+            className="hidden md:flex px-4 py-2 rounded-md font-mono text-sm text-red-600 transition duration-200 items-center space-x-2 group"
           >
             <LogOut className="w-4 h-4" />
             <span className="hidden sm:inline group-hover:underline group-hover:decoration-red-600 group-hover:decoration-2">
               Logout
             </span>
           </button>
+
+          {/* Mobile Burger Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="md:hidden p-2 hover:bg-gray-100 rounded-md transition-colors"
+            aria-label="Open menu"
+          >
+            <Menu className="w-6 h-6 text-gray-700" />
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        currentPage={currentPage}
+        onNavigate={navigate}
+        onLogout={onLogout}
+        userEmail={userEmail}
+      />
     </header>
   );
 }

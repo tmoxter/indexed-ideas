@@ -19,12 +19,12 @@ export function TickerBanner({ data }: TickerBannerProps) {
   const bannerText = `Currently, there are ${data.total_profiles} profiles matching your location filter. ${data.related_topics} are working on related topics.`;
 
   const renderTickerSentence = () => (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2 md:gap-3">
       <ChartColumnStacked
-        className="w-6 h-6 text-gray-700"
+        className="w-5 h-5 md:w-6 md:h-6 text-gray-700"
         aria-hidden="true"
       />
-      <p className="font-mono text-2xl font-semibold text-gray-800">
+      <p className="font-mono text-base md:text-2xl font-semibold text-gray-800">
         {bannerText}
       </p>
     </div>
@@ -32,7 +32,7 @@ export function TickerBanner({ data }: TickerBannerProps) {
 
   return (
     <div className="mb-8 overflow-hidden">
-      <div className="ticker-animate flex gap-16 whitespace-nowrap">
+      <div className="ticker-animate flex gap-8 md:gap-16 whitespace-nowrap">
         {renderTickerSentence()}
         {renderTickerSentence()}
       </div>

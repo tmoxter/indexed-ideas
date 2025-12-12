@@ -37,13 +37,13 @@ export default function LandingPageImage({
     opacity,
     zIndex,
     ...(mobileOpacity !== undefined && {
-      ['--mobile-opacity' as string]: mobileOpacity,
+      ["--mobile-opacity" as string]: mobileOpacity,
     }),
   };
 
   return (
     <div
-      className={`absolute pointer-events-none ${mobileOpacity !== undefined ? 'responsive-opacity' : ''} ${className}`}
+      className={`absolute pointer-events-none ${mobileOpacity !== undefined ? "responsive-opacity" : ""} ${className}`}
       style={positionStyles}
     >
       <style jsx>{`

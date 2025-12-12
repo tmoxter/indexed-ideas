@@ -19,7 +19,8 @@ export function BlockConfirmation({
           <strong>Block this user?</strong>
         </p>
         <p className="font-mono text-xs text-red-700">
-          They won&apos;t appear in your matches again and you won&apos;t see each other.
+          They won&apos;t appear in your matches again and you won&apos;t see
+          each other.
         </p>
       </div>
       <div className="flex justify-center space-x-3">

@@ -154,7 +154,9 @@ describe("GET /api/embeddings", () => {
   it("should return 400 error when userId is missing", async () => {
     const { createClient } = await import("@supabase/supabase-js");
 
-    (createClient as ReturnType<typeof vi.fn>).mockReturnValue(createMockSupabaseClient());
+    (createClient as ReturnType<typeof vi.fn>).mockReturnValue(
+      createMockSupabaseClient()
+    );
 
     const mockRequest = new NextRequest("http://localhost:3000/api/embeddings");
 

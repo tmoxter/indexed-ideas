@@ -48,7 +48,13 @@ afterEach(() => server.resetHandlers());
 
 // Mock react-loader-spinner to avoid JSX rendering issues in happy-dom
 vi.mock("react-loader-spinner", () => ({
-  Circles: ({ visible, ...props }: { visible?: boolean; [key: string]: unknown }) => {
+  Circles: ({
+    visible,
+    ...props
+  }: {
+    visible?: boolean;
+    [key: string]: unknown;
+  }) => {
     if (!visible) return null;
     return React.createElement(
       "div",
@@ -56,7 +62,13 @@ vi.mock("react-loader-spinner", () => ({
       "Loading..."
     );
   },
-  Rings: ({ visible = true, ...props }: { visible?: boolean; [key: string]: unknown }) => {
+  Rings: ({
+    visible = true,
+    ...props
+  }: {
+    visible?: boolean;
+    [key: string]: unknown;
+  }) => {
     if (!visible) return null;
     return React.createElement(
       "div",

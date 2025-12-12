@@ -276,8 +276,8 @@ export default function SettingsPage() {
               View and edit blocked profiles
             </h2>
             <p className="font-mono text-sm text-gray-600 mb-6">
-              Review the people you&apos;ve blocked and manage who can appear in your
-              discovery feed.
+              Review the people you&apos;ve blocked and manage who can appear in
+              your discovery feed.
             </p>
             <button
               onClick={() => router.push("/blocked")}

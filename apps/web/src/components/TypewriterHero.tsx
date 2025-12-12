@@ -56,7 +56,7 @@ export default function TypewriterHero() {
 
   // Find the start of the current word (last space before current position, or start)
   for (let i = displayedText.length - 1; i >= 0; i--) {
-    if (displayedText[i] === ' ') {
+    if (displayedText[i] === " ") {
       currentWordStart = i + 1;
       break;
     }
@@ -64,7 +64,7 @@ export default function TypewriterHero() {
 
   // Find the end of the current word in the full phrase (next space, or end)
   for (let i = currentWordStart; i < currentPhrase.length; i++) {
-    if (currentPhrase[i] === ' ') {
+    if (currentPhrase[i] === " ") {
       currentWordEnd = i;
       break;
     }

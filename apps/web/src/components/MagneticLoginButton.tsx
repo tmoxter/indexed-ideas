@@ -31,7 +31,7 @@ export default function MagneticLoginButton() {
           shouldCreateUser: false,
           emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
-      })
+      });
 
       if (error) {
         setMessage("Error: " + error.message);

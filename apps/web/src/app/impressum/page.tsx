@@ -9,7 +9,10 @@ export default function Impressum() {
       <header className="px-6 py-4 border-b border-gray-200">
         <nav className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center space-x-3">
-            <Link href="/" className="flex items-center space-x-3 hover:opacity-80">
+            <Link
+              href="/"
+              className="flex items-center space-x-3 hover:opacity-80"
+            >
               <Image
                 src="/bulb-simple.svg"
                 alt="indexed-ideas logo"
@@ -33,14 +36,13 @@ export default function Impressum() {
           <div className="space-y-8 font-mono text-gray-700">
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Information according to § 5 TMG, Responsible for content according to § 55 Abs. 2 RStV
-                Liability for Contents
+                Information according to § 5 TMG, Responsible for content
+                according to § 55 Abs. 2 RStV Liability for Contents
               </h2>
               <div className="space-y-2">
                 Tobias Moxter
                 <br />
-                Groothoffgasse 4,
-                22303 Hamburg, Germany
+                Groothoffgasse 4, 22303 Hamburg, Germany
               </div>
             </section>
             <section>

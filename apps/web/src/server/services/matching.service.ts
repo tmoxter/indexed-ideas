@@ -21,7 +21,9 @@ export interface EnrichedCandidate {
   availability_hours?: string;
   similarity_score?: number;
   created_at?: string;
-  profile: (profilesRepo.ProfileData & { city_name?: string; country?: string }) | null;
+  profile:
+    | (profilesRepo.ProfileData & { city_name?: string; country?: string })
+    | null;
   venture: profilesRepo.VentureData | null;
   preferences: profilesRepo.CofounderPreferenceData | null;
 }

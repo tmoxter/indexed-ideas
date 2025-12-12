@@ -11,7 +11,9 @@ export interface MockSupabaseClient {
   };
   auth: {
     getSession: () => Promise<{ data: { session: unknown }; error: unknown }>;
-    getUser: (token: string) => Promise<{ data: { user: unknown }; error: unknown }>;
+    getUser: (
+      token: string
+    ) => Promise<{ data: { user: unknown }; error: unknown }>;
     signOut: () => Promise<{ error: unknown }>;
   };
   rpc: (fn: string, params: Record<string, unknown>) => Promise<unknown>;
@@ -210,37 +212,59 @@ export function createMockSupabaseClient(
         return Promise.resolve({ data: null, error: { message: "Not found" } });
       });
 
-      queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
-        const existingIndex = mockEmbeddings.findIndex(
-          (e) => e.entity_id === data.entity_id
-        );
-        if (existingIndex >= 0) {
-          mockEmbeddings[existingIndex] = {
-            ...mockEmbeddings[existingIndex],
-            ...data,
-          } as { entity_type: string; entity_id: string; user_id: string; vector: number[] };
-        } else {
-          mockEmbeddings.push(data as { entity_type: string; entity_id: string; user_id: string; vector: number[] });
+      queryBuilder.upsert.mockImplementation(
+        (data: Record<string, unknown>) => {
+          const existingIndex = mockEmbeddings.findIndex(
+            (e) => e.entity_id === data.entity_id
+          );
+          if (existingIndex >= 0) {
+            mockEmbeddings[existingIndex] = {
+              ...mockEmbeddings[existingIndex],
+              ...data,
+            } as {
+              entity_type: string;
+              entity_id: string;
+              user_id: string;
+              vector: number[];
+            };
+          } else {
+            mockEmbeddings.push(
+              data as {
+                entity_type: string;
+                entity_id: string;
+                user_id: string;
+                vector: number[];
+              }
+            );
+          }
+          return Promise.resolve({ data, error: null });
         }
-        return Promise.resolve({ data, error: null });
-      });
+      );
     }
 
     // Mock matches table
     if (table === "matches") {
-      queryBuilder.insert.mockImplementation((data: Record<string, unknown>) => {
-        const match = {
-          ...data,
-          created_at: data.created_at || new Date().toISOString(),
-        } as { user_a: string; user_b: string; created_at: string; active?: boolean };
-        mockMatches.push(match);
+      queryBuilder.insert.mockImplementation(
+        (data: Record<string, unknown>) => {
+          const match = {
+            ...data,
+            created_at: data.created_at || new Date().toISOString(),
+          } as {
+            user_a: string;
+            user_b: string;
+            created_at: string;
+            active?: boolean;
+          };
+          mockMatches.push(match);
 
-        // Return chainable object with select method
-        return {
-          select: vi.fn().mockResolvedValue({ data: match, error: null }),
-          then: (resolve: (value: unknown) => void) => resolve({ data: match, error: null }),
-        };
-      });
+          // Return chainable object with select method
+          return {
+            select: vi.fn().mockResolvedValue({ data: match, error: null }),
+            then: (resolve: (value: unknown) => void) =>
+              resolve({ data: match, error: null }),
+          };
+        }
+      );
 
       queryBuilder.select.mockImplementation(() => {
         return {
@@ -253,79 +277,35 @@ export function createMockSupabaseClient(
 
     // Mock interactions table
     if (table === "interactions") {
-      queryBuilder.insert.mockImplementation((data: Record<string, unknown>) => {
-        // Check for duplicates
-        const exists = mockInteractions.find(
-          (i) =>
-            i.actor_user === data.actor_user &&
-            i.target_user === data.target_user &&
-            i.action === data.action
-        );
+      queryBuilder.insert.mockImplementation(
+        (data: Record<string, unknown>) => {
+          // Check for duplicates
+          const exists = mockInteractions.find(
+            (i) =>
+              i.actor_user === data.actor_user &&
+              i.target_user === data.target_user &&
+              i.action === data.action
+          );
 
-        if (exists) {
-          // Return error for duplicate
-          return {
-            select: vi.fn().mockResolvedValue({
-              data: null,
-              error: {
-                message: "duplicate key value violates unique constraint",
-              },
-            }),
-            then: (resolve: (value: unknown) => void) =>
-              resolve({
+          if (exists) {
+            // Return error for duplicate
+            return {
+              select: vi.fn().mockResolvedValue({
                 data: null,
                 error: {
                   message: "duplicate key value violates unique constraint",
                 },
               }),
-          };
-        }
+              then: (resolve: (value: unknown) => void) =>
+                resolve({
+                  data: null,
+                  error: {
+                    message: "duplicate key value violates unique constraint",
+                  },
+                }),
+            };
+          }
 
-        const interaction = {
-          id: `interaction-${Date.now()}-${Math.random()}`,
-          ...data,
-          created_at: data.created_at || new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        } as {
-          id: string;
-          actor_user: string;
-          target_user: string;
-          action: "like" | "pass" | "block";
-          actor_current_idea: string | null;
-          target_current_idea: string | null;
-          created_at: string;
-          updated_at: string;
-        };
-        mockInteractions.push(interaction);
-        return {
-          select: vi.fn().mockResolvedValue({ data: interaction, error: null }),
-          then: (resolve: (value: unknown) => void) => resolve({ data: interaction, error: null }),
-        };
-      });
-
-      queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
-        const existingIndex = mockInteractions.findIndex(
-          (i) =>
-            i.actor_user === data.actor_user &&
-            i.target_user === data.target_user &&
-            i.action === data.action
-        );
-
-        if (existingIndex >= 0) {
-          mockInteractions[existingIndex] = {
-            ...mockInteractions[existingIndex],
-            ...data,
-            updated_at: new Date().toISOString(),
-          };
-          return {
-            select: vi.fn().mockResolvedValue({
-              data: mockInteractions[existingIndex],
-              error: null,
-            }),
-            then: (resolve: (value: unknown) => void) =>
-              resolve({ data: mockInteractions[existingIndex], error: null }),
-          };
-        } else {
           const interaction = {
             id: `interaction-${Date.now()}-${Math.random()}`,
             ...data,
@@ -346,10 +326,62 @@ export function createMockSupabaseClient(
             select: vi
               .fn()
               .mockResolvedValue({ data: interaction, error: null }),
-            then: (resolve: (value: unknown) => void) => resolve({ data: interaction, error: null }),
+            then: (resolve: (value: unknown) => void) =>
+              resolve({ data: interaction, error: null }),
           };
         }
-      });
+      );
+
+      queryBuilder.upsert.mockImplementation(
+        (data: Record<string, unknown>) => {
+          const existingIndex = mockInteractions.findIndex(
+            (i) =>
+              i.actor_user === data.actor_user &&
+              i.target_user === data.target_user &&
+              i.action === data.action
+          );
+
+          if (existingIndex >= 0) {
+            mockInteractions[existingIndex] = {
+              ...mockInteractions[existingIndex],
+              ...data,
+              updated_at: new Date().toISOString(),
+            };
+            return {
+              select: vi.fn().mockResolvedValue({
+                data: mockInteractions[existingIndex],
+                error: null,
+              }),
+              then: (resolve: (value: unknown) => void) =>
+                resolve({ data: mockInteractions[existingIndex], error: null }),
+            };
+          } else {
+            const interaction = {
+              id: `interaction-${Date.now()}-${Math.random()}`,
+              ...data,
+              created_at: data.created_at || new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            } as {
+              id: string;
+              actor_user: string;
+              target_user: string;
+              action: "like" | "pass" | "block";
+              actor_current_idea: string | null;
+              target_current_idea: string | null;
+              created_at: string;
+              updated_at: string;
+            };
+            mockInteractions.push(interaction);
+            return {
+              select: vi
+                .fn()
+                .mockResolvedValue({ data: interaction, error: null }),
+              then: (resolve: (value: unknown) => void) =>
+                resolve({ data: interaction, error: null }),
+            };
+          }
+        }
+      );
 
       queryBuilder.select.mockImplementation((_fields?: string) => {
         // Return a chainable query builder for filtering
@@ -361,34 +393,37 @@ export function createMockSupabaseClient(
               (i) => (i as Record<string, unknown>)[field] === value
             );
             return {
-              eq: vi.fn().mockImplementation((field2: string, value2: unknown) => {
-                filteredInteractions = filteredInteractions.filter(
-                  (i) => (i as Record<string, unknown>)[field2] === value2
-                );
-                return {
-                  eq: vi
-                    .fn()
-                    .mockImplementation((field3: string, value3: unknown) => {
-                      filteredInteractions = filteredInteractions.filter(
-                        (i) => (i as Record<string, unknown>)[field3] === value3
-                      );
-                      return {
-                        limit: vi.fn().mockReturnValue(
-                          Promise.resolve({
-                            data: filteredInteractions.slice(0, 1),
-                            error: null,
-                          })
-                        ),
-                      };
-                    }),
-                  limit: vi.fn().mockReturnValue(
-                    Promise.resolve({
-                      data: filteredInteractions.slice(0, 1),
-                      error: null,
-                    })
-                  ),
-                };
-              }),
+              eq: vi
+                .fn()
+                .mockImplementation((field2: string, value2: unknown) => {
+                  filteredInteractions = filteredInteractions.filter(
+                    (i) => (i as Record<string, unknown>)[field2] === value2
+                  );
+                  return {
+                    eq: vi
+                      .fn()
+                      .mockImplementation((field3: string, value3: unknown) => {
+                        filteredInteractions = filteredInteractions.filter(
+                          (i) =>
+                            (i as Record<string, unknown>)[field3] === value3
+                        );
+                        return {
+                          limit: vi.fn().mockReturnValue(
+                            Promise.resolve({
+                              data: filteredInteractions.slice(0, 1),
+                              error: null,
+                            })
+                          ),
+                        };
+                      }),
+                    limit: vi.fn().mockReturnValue(
+                      Promise.resolve({
+                        data: filteredInteractions.slice(0, 1),
+                        error: null,
+                      })
+                    ),
+                  };
+                }),
               limit: vi.fn().mockReturnValue(
                 Promise.resolve({
                   data: filteredInteractions.slice(0, 1),
@@ -420,7 +455,8 @@ export function createMockSupabaseClient(
             const initialLength = mockInteractions.length;
             mockInteractions = mockInteractions.filter((i) => {
               return !Object.entries(deleteFilters).every(
-                ([field, value]) => (i as Record<string, unknown>)[field] === value
+                ([field, value]) =>
+                  (i as Record<string, unknown>)[field] === value
               );
             });
             const deletedCount = initialLength - mockInteractions.length;
@@ -468,152 +504,154 @@ export function createMockSupabaseClient(
     signOut: vi.fn().mockResolvedValue({ error: null }),
   };
 
-  const mockRpc = vi.fn().mockImplementation((fn: string, params: Record<string, unknown>) => {
-    if (
-      fn === "knn_candidates" ||
-      fn === "knn_candidates_excl" ||
-      fn === "knn_candidates_interact_prefs_applied"
-    ) {
-      const {
-        p_idea_id,
-        p_limit = 20,
-        p_model: _p_model,
-        p_version: _p_version,
-        p_probes: _p_probes,
-      } = params;
+  const mockRpc = vi
+    .fn()
+    .mockImplementation((fn: string, params: Record<string, unknown>) => {
+      if (
+        fn === "knn_candidates" ||
+        fn === "knn_candidates_excl" ||
+        fn === "knn_candidates_interact_prefs_applied"
+      ) {
+        const {
+          p_idea_id,
+          p_limit = 20,
+          p_model: _p_model,
+          p_version: _p_version,
+          p_probes: _p_probes,
+        } = params;
 
-      // Find the embedding for the query idea
-      const queryEmbedding = mockEmbeddings.find(
-        (e) => e.entity_id === p_idea_id
-      );
-      if (!queryEmbedding) {
-        return Promise.resolve({
-          data: null,
-          error: { message: "Embedding not found" },
-        });
+        // Find the embedding for the query idea
+        const queryEmbedding = mockEmbeddings.find(
+          (e) => e.entity_id === p_idea_id
+        );
+        if (!queryEmbedding) {
+          return Promise.resolve({
+            data: null,
+            error: { message: "Embedding not found" },
+          });
+        }
+
+        // Calculate similarities and return simple candidates (API will enrich them)
+        const candidates = mockEmbeddings
+          .filter((e) => e.entity_id !== p_idea_id)
+          .map((candidateEmb) => {
+            const similarity = cosineSimilarity(
+              queryEmbedding.vector,
+              candidateEmb.vector
+            );
+            const user = testUsers.find(
+              (u) => u.venture.id === candidateEmb.entity_id
+            );
+
+            if (!user) return null;
+
+            // Return simple candidate structure - API will enrich it
+            // For the new function, use 'idea_sim' instead of 'similarity_score' to match actual DB response
+            return {
+              user_id: user.id,
+              venture_id: candidateEmb.entity_id,
+              similarity_score: similarity,
+              idea_sim: similarity, // Add this field for the new function
+              stage: user.stage,
+              timezone: user.profile.timezone,
+              availability_hours: user.availability_hours,
+            };
+          })
+          .filter((c) => c !== null)
+          .sort((a, b) => b.similarity_score - a.similarity_score)
+          .slice(0, p_limit as number);
+
+        return Promise.resolve({ data: candidates, error: null });
       }
 
-      // Calculate similarities and return simple candidates (API will enrich them)
-      const candidates = mockEmbeddings
-        .filter((e) => e.entity_id !== p_idea_id)
-        .map((candidateEmb) => {
-          const similarity = cosineSimilarity(
-            queryEmbedding.vector,
-            candidateEmb.vector
-          );
-          const user = testUsers.find(
-            (u) => u.venture.id === candidateEmb.entity_id
-          );
+      // Mock insert_like_interaction RPC
+      if (fn === "insert_like_interaction") {
+        const { p_actor_user, p_target_user } = params;
 
-          if (!user) return null;
+        // Check if already exists
+        const exists = mockInteractions.find(
+          (i) =>
+            i.actor_user === p_actor_user &&
+            i.target_user === p_target_user &&
+            (i.action === "like" || i.action === "pass")
+        );
 
-          // Return simple candidate structure - API will enrich it
-          // For the new function, use 'idea_sim' instead of 'similarity_score' to match actual DB response
-          return {
-            user_id: user.id,
-            venture_id: candidateEmb.entity_id,
-            similarity_score: similarity,
-            idea_sim: similarity, // Add this field for the new function
-            stage: user.stage,
-            timezone: user.profile.timezone,
-            availability_hours: user.availability_hours,
+        if (!exists) {
+          const interaction = {
+            id: `interaction-${Date.now()}-${Math.random()}`,
+            actor_user: p_actor_user as string,
+            target_user: p_target_user as string,
+            action: "like" as const,
+            actor_current_idea: null,
+            target_current_idea: null,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
           };
-        })
-        .filter((c) => c !== null)
-        .sort((a, b) => b.similarity_score - a.similarity_score)
-        .slice(0, p_limit as number);
+          mockInteractions.push(interaction);
+        }
 
-      return Promise.resolve({ data: candidates, error: null });
-    }
+        return Promise.resolve({ data: null, error: null });
+      }
 
-    // Mock insert_like_interaction RPC
-    if (fn === "insert_like_interaction") {
-      const { p_actor_user, p_target_user } = params;
+      // Mock insert_pass_interaction RPC
+      if (fn === "insert_pass_interaction") {
+        const { p_actor_user, p_target_user } = params;
 
-      // Check if already exists
-      const exists = mockInteractions.find(
-        (i) =>
-          i.actor_user === p_actor_user &&
-          i.target_user === p_target_user &&
-          (i.action === "like" || i.action === "pass")
-      );
+        const existingIndex = mockInteractions.findIndex(
+          (i) =>
+            i.actor_user === p_actor_user &&
+            i.target_user === p_target_user &&
+            i.action === "pass"
+        );
 
-      if (!exists) {
+        const now = new Date().toISOString();
+
+        if (existingIndex >= 0) {
+          // Update created_at for existing pass
+          mockInteractions[existingIndex].created_at = now;
+          mockInteractions[existingIndex].updated_at = now;
+        } else {
+          // Insert new pass interaction
+          const interaction = {
+            id: `interaction-${Date.now()}-${Math.random()}`,
+            actor_user: p_actor_user as string,
+            target_user: p_target_user as string,
+            action: "pass" as const,
+            actor_current_idea: null,
+            target_current_idea: null,
+            created_at: now,
+            updated_at: now,
+          };
+          mockInteractions.push(interaction);
+        }
+
+        return Promise.resolve({ data: null, error: null });
+      }
+
+      // Mock block_user RPC
+      if (fn === "block_user") {
+        const { p_actor, p_target } = params;
+
         const interaction = {
           id: `interaction-${Date.now()}-${Math.random()}`,
-          actor_user: p_actor_user as string,
-          target_user: p_target_user as string,
-          action: "like" as const,
+          actor_user: p_actor as string,
+          target_user: p_target as string,
+          action: "block" as const,
           actor_current_idea: null,
           target_current_idea: null,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         };
         mockInteractions.push(interaction);
+
+        return Promise.resolve({ data: null, error: null });
       }
 
-      return Promise.resolve({ data: null, error: null });
-    }
-
-    // Mock insert_pass_interaction RPC
-    if (fn === "insert_pass_interaction") {
-      const { p_actor_user, p_target_user } = params;
-
-      const existingIndex = mockInteractions.findIndex(
-        (i) =>
-          i.actor_user === p_actor_user &&
-          i.target_user === p_target_user &&
-          i.action === "pass"
-      );
-
-      const now = new Date().toISOString();
-
-      if (existingIndex >= 0) {
-        // Update created_at for existing pass
-        mockInteractions[existingIndex].created_at = now;
-        mockInteractions[existingIndex].updated_at = now;
-      } else {
-        // Insert new pass interaction
-        const interaction = {
-          id: `interaction-${Date.now()}-${Math.random()}`,
-          actor_user: p_actor_user as string,
-          target_user: p_target_user as string,
-          action: "pass" as const,
-          actor_current_idea: null,
-          target_current_idea: null,
-          created_at: now,
-          updated_at: now,
-        };
-        mockInteractions.push(interaction);
-      }
-
-      return Promise.resolve({ data: null, error: null });
-    }
-
-    // Mock block_user RPC
-    if (fn === "block_user") {
-      const { p_actor, p_target } = params;
-
-      const interaction = {
-        id: `interaction-${Date.now()}-${Math.random()}`,
-        actor_user: p_actor as string,
-        target_user: p_target as string,
-        action: "block" as const,
-        actor_current_idea: null,
-        target_current_idea: null,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-      mockInteractions.push(interaction);
-
-      return Promise.resolve({ data: null, error: null });
-    }
-
-    return Promise.resolve({
-      data: null,
-      error: { message: "Unknown RPC function" },
+      return Promise.resolve({
+        data: null,
+        error: { message: "Unknown RPC function" },
+      });
     });
-  });
 
   return {
     from: mockFrom,

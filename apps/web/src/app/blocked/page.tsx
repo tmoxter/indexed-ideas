@@ -61,7 +61,7 @@ export default function BlockedProfilesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--page-background)] pb-10">
+    <div className="min-h-screen bg-[var(--page-background)] pb-10 overflow-x-hidden">
       <Navigation
         currentPage="blocked"
         userEmail={user?.email}

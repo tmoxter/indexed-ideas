@@ -39,7 +39,6 @@ Personal Information Provided by You. The personal information that we collect d
 
 Sensitive Information. We do not process sensitive information.
 
-
 Social Media Login Data. We may provide you with the option to register with us using your existing social media account details, like your Facebook, X, or other social media account. If you choose to register in this way, we will collect certain profile information about you from the social media provider, as described in the section called "HOW DO WE HANDLE YOUR SOCIAL LOGINS?" below.
 All personal information that you provide to us must be true, complete, and accurate, and you must notify us of any changes to such personal information.
 
@@ -74,13 +73,13 @@ Vendors, Consultants, and Other Third-Party Service Providers. We may share your
 The third parties we may share personal information with are as follows:
 
 - Al Service Providers:
-    - Jina Al GmbH
+  - Jina Al GmbH
 - Database Infrastructure Hosting
-    - Supabase Inc
+  - Supabase Inc
 - User Account Registration and Authentication
-    - Linkedin OAuth 2.0
+  - Linkedin OAuth 2.0
 - Website Hosting
-    - Vercel Inc.
+  - Vercel Inc.
 
 We also may need to share your personal information in the following situations:
 

@@ -60,7 +60,9 @@ vi.mock("../city_selection", () => ({
   }: {
     onChange?: (city: { id: number; name: string } | null) => void;
     defaultCity?: { id: number; name: string } | null;
-  }) => <div data-testid="city-picker">City: {defaultCity?.name || "None"}</div>,
+  }) => (
+    <div data-testid="city-picker">City: {defaultCity?.name || "None"}</div>
+  ),
 }));
 
 // Import the component after all mocks are set up
@@ -115,6 +117,7 @@ describe("ProfilePage Integration Tests", () => {
           order: vi.fn().mockReturnThis(),
           limit: vi.fn().mockReturnThis(),
           single: vi.fn(),
+          maybeSingle: vi.fn(),
         };
 
         // Handle different table operations
@@ -132,20 +135,29 @@ describe("ProfilePage Integration Tests", () => {
             });
           });
 
-          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
-            const existingIndex = mockProfilesDb.findIndex(
-              (p) => p.user_id === data.user_id
+          queryBuilder.maybeSingle.mockImplementation(() => {
+            const profile = mockProfilesDb.find(
+              (p) => p.user_id === testUserId
             );
-            if (existingIndex >= 0) {
-              mockProfilesDb[existingIndex] = {
-                ...mockProfilesDb[existingIndex],
-                ...data,
-              };
-            } else {
-              mockProfilesDb.push(data);
-            }
-            return Promise.resolve({ data, error: null });
+            return Promise.resolve({ data: profile || null, error: null });
           });
+
+          queryBuilder.upsert.mockImplementation(
+            (data: Record<string, unknown>) => {
+              const existingIndex = mockProfilesDb.findIndex(
+                (p) => p.user_id === data.user_id
+              );
+              if (existingIndex >= 0) {
+                mockProfilesDb[existingIndex] = {
+                  ...mockProfilesDb[existingIndex],
+                  ...data,
+                };
+              } else {
+                mockProfilesDb.push(data);
+              }
+              return Promise.resolve({ data, error: null });
+            }
+          );
         }
 
         if (table === "user_ventures") {
@@ -162,21 +174,30 @@ describe("ProfilePage Integration Tests", () => {
             });
           });
 
-          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
-            const existingIndex = mockVenturesDb.findIndex(
-              (v) => v.user_id === data.user_id
+          queryBuilder.maybeSingle.mockImplementation(() => {
+            const venture = mockVenturesDb.find(
+              (v) => v.user_id === testUserId
             );
-            if (existingIndex >= 0) {
-              mockVenturesDb[existingIndex] = {
-                ...mockVenturesDb[existingIndex],
-                ...data,
-              };
-            } else {
-              const newVenture = { ...data, id: `venture-${Date.now()}` };
-              mockVenturesDb.push(newVenture);
-            }
-            return Promise.resolve({ data, error: null });
+            return Promise.resolve({ data: venture || null, error: null });
           });
+
+          queryBuilder.upsert.mockImplementation(
+            (data: Record<string, unknown>) => {
+              const existingIndex = mockVenturesDb.findIndex(
+                (v) => v.user_id === data.user_id
+              );
+              if (existingIndex >= 0) {
+                mockVenturesDb[existingIndex] = {
+                  ...mockVenturesDb[existingIndex],
+                  ...data,
+                };
+              } else {
+                const newVenture = { ...data, id: `venture-${Date.now()}` };
+                mockVenturesDb.push(newVenture);
+              }
+              return Promise.resolve({ data, error: null });
+            }
+          );
         }
 
         if (table === "user_cofounder_preference") {
@@ -193,35 +214,36 @@ describe("ProfilePage Integration Tests", () => {
             });
           });
 
-          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
-            const existingIndex = mockPreferencesDb.findIndex(
-              (p) => p.user_id === data.user_id
-            );
-            if (existingIndex >= 0) {
-              mockPreferencesDb[existingIndex] = {
-                ...mockPreferencesDb[existingIndex],
-                ...data,
-              };
-            } else {
-              mockPreferencesDb.push(data);
-            }
-            return Promise.resolve({ data, error: null });
-          });
-        }
-
-        // Special handling for "user_cofounder_preferences" (with 's')
-        if (table === "user_cofounder_preferences") {
-          queryBuilder.single.mockImplementation(() => {
+          queryBuilder.maybeSingle.mockImplementation(() => {
             const pref = mockPreferencesDb.find(
               (p) => p.user_id === testUserId
             );
-            if (pref) {
-              return Promise.resolve({ data: pref, error: null });
+            return Promise.resolve({ data: pref || null, error: null });
+          });
+
+          queryBuilder.upsert.mockImplementation(
+            (data: Record<string, unknown>) => {
+              const existingIndex = mockPreferencesDb.findIndex(
+                (p) => p.user_id === data.user_id
+              );
+              if (existingIndex >= 0) {
+                mockPreferencesDb[existingIndex] = {
+                  ...mockPreferencesDb[existingIndex],
+                  ...data,
+                };
+              } else {
+                mockPreferencesDb.push(data);
+              }
+              return Promise.resolve({ data, error: null });
             }
-            return Promise.resolve({
-              data: null,
-              error: { message: "Not found" },
-            });
+          );
+        }
+
+        // Handle cities table for city lookups
+        if (table === "cities") {
+          queryBuilder.maybeSingle.mockImplementation(() => {
+            // For test purposes, return a mock city if needed
+            return Promise.resolve({ data: null, error: null });
           });
         }
 
@@ -1199,6 +1221,7 @@ describe("ProfilePage Integration Tests", () => {
           order: vi.fn().mockReturnThis(),
           limit: vi.fn().mockReturnThis(),
           single: vi.fn(),
+          maybeSingle: vi.fn(),
         };
 
         if (table === "profiles") {
@@ -1215,37 +1238,50 @@ describe("ProfilePage Integration Tests", () => {
             });
           });
 
-          queryBuilder.update.mockImplementation((data: Record<string, unknown>) => {
-            return {
-              eq: vi.fn().mockImplementation((field: string, value: unknown) => {
-                const profileIndex = mockProfilesDb.findIndex(
-                  (p) => p.user_id === value
-                );
-                if (profileIndex >= 0) {
-                  mockProfilesDb[profileIndex] = {
-                    ...mockProfilesDb[profileIndex],
-                    ...data,
-                  };
-                }
-                return Promise.resolve({ data, error: null });
-              }),
-            };
+          queryBuilder.maybeSingle.mockImplementation(() => {
+            const profile = mockProfilesDb.find(
+              (p) => p.user_id === testUserId
+            );
+            return Promise.resolve({ data: profile || null, error: null });
           });
 
-          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
-            const existingIndex = mockProfilesDb.findIndex(
-              (p) => p.user_id === data.user_id
-            );
-            if (existingIndex >= 0) {
-              mockProfilesDb[existingIndex] = {
-                ...mockProfilesDb[existingIndex],
-                ...data,
+          queryBuilder.update.mockImplementation(
+            (data: Record<string, unknown>) => {
+              return {
+                eq: vi
+                  .fn()
+                  .mockImplementation((field: string, value: unknown) => {
+                    const profileIndex = mockProfilesDb.findIndex(
+                      (p) => p.user_id === value
+                    );
+                    if (profileIndex >= 0) {
+                      mockProfilesDb[profileIndex] = {
+                        ...mockProfilesDb[profileIndex],
+                        ...data,
+                      };
+                    }
+                    return Promise.resolve({ data, error: null });
+                  }),
               };
-            } else {
-              mockProfilesDb.push(data);
             }
-            return Promise.resolve({ data, error: null });
-          });
+          );
+
+          queryBuilder.upsert.mockImplementation(
+            (data: Record<string, unknown>) => {
+              const existingIndex = mockProfilesDb.findIndex(
+                (p) => p.user_id === data.user_id
+              );
+              if (existingIndex >= 0) {
+                mockProfilesDb[existingIndex] = {
+                  ...mockProfilesDb[existingIndex],
+                  ...data,
+                };
+              } else {
+                mockProfilesDb.push(data);
+              }
+              return Promise.resolve({ data, error: null });
+            }
+          );
         }
 
         if (table === "user_ventures") {
@@ -1256,13 +1292,22 @@ describe("ProfilePage Integration Tests", () => {
             return Promise.resolve({ data: venture, error: null });
           });
 
-          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
-            return Promise.resolve({ data, error: null });
+          queryBuilder.maybeSingle.mockImplementation(() => {
+            const venture = mockVenturesDb.find(
+              (v) => v.user_id === testUserId
+            );
+            return Promise.resolve({ data: venture || null, error: null });
           });
+
+          queryBuilder.upsert.mockImplementation(
+            (data: Record<string, unknown>) => {
+              return Promise.resolve({ data, error: null });
+            }
+          );
         }
 
         if (
-          table === "user_cofounder_preferences" ||
+          table === "user_cofounder_preference" ||
           table === "user_cofounder_preference"
         ) {
           queryBuilder.single.mockImplementation(() => {
@@ -1272,8 +1317,24 @@ describe("ProfilePage Integration Tests", () => {
             return Promise.resolve({ data: pref, error: null });
           });
 
-          queryBuilder.upsert.mockImplementation((data: Record<string, unknown>) => {
-            return Promise.resolve({ data, error: null });
+          queryBuilder.maybeSingle.mockImplementation(() => {
+            const pref = mockPreferencesDb.find(
+              (p) => p.user_id === testUserId
+            );
+            return Promise.resolve({ data: pref || null, error: null });
+          });
+
+          queryBuilder.upsert.mockImplementation(
+            (data: Record<string, unknown>) => {
+              return Promise.resolve({ data, error: null });
+            }
+          );
+        }
+
+        // Handle cities table
+        if (table === "cities") {
+          queryBuilder.maybeSingle.mockImplementation(() => {
+            return Promise.resolve({ data: null, error: null });
           });
         }
 
@@ -1353,13 +1414,21 @@ describe("ProfilePage Integration Tests", () => {
           update: vi.fn().mockReturnThis(),
           eq: vi.fn().mockReturnThis(),
           single: vi.fn(),
+          maybeSingle: vi.fn(),
           upsert: vi.fn(),
+          order: vi.fn().mockReturnThis(),
+          limit: vi.fn().mockReturnThis(),
         };
 
         if (table === "profiles") {
           queryBuilder.single.mockImplementation(() => {
             const profile = mockProfilesDb[0];
             return Promise.resolve({ data: profile, error: null });
+          });
+
+          queryBuilder.maybeSingle.mockImplementation(() => {
+            const profile = mockProfilesDb[0];
+            return Promise.resolve({ data: profile || null, error: null });
           });
 
           queryBuilder.update.mockImplementation(() => {
@@ -1379,18 +1448,34 @@ describe("ProfilePage Integration Tests", () => {
             data: mockVenturesDb[0],
             error: null,
           });
+          queryBuilder.maybeSingle.mockResolvedValue({
+            data: mockVenturesDb[0] || null,
+            error: null,
+          });
           queryBuilder.upsert.mockResolvedValue({ data: {}, error: null });
         }
 
         if (
-          table === "user_cofounder_preferences" ||
+          table === "user_cofounder_preference" ||
           table === "user_cofounder_preference"
         ) {
           queryBuilder.single.mockResolvedValue({
             data: mockPreferencesDb[0],
             error: null,
           });
+          queryBuilder.maybeSingle.mockResolvedValue({
+            data: mockPreferencesDb[0] || null,
+            error: null,
+          });
           queryBuilder.upsert.mockResolvedValue({ data: {}, error: null });
+        }
+
+        // Handle cities table
+        if (table === "cities") {
+          queryBuilder.maybeSingle.mockResolvedValue({
+            data: null,
+            error: null,
+          });
         }
 
         return queryBuilder;

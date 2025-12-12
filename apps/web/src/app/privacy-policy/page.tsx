@@ -20,7 +20,10 @@ export default async function PrivacyPolicy() {
       <header className="px-6 py-4 border-b border-gray-200">
         <nav className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center space-x-3">
-            <Link href="/" className="flex items-center space-x-3 hover:opacity-80">
+            <Link
+              href="/"
+              className="flex items-center space-x-3 hover:opacity-80"
+            >
               <Image
                 src="/bulb-simple.svg"
                 alt="indexed-ideas logo"
@@ -62,7 +65,9 @@ export default async function PrivacyPolicy() {
                 ul: ({ children }) => (
                   <ul className="list-disc pl-6 mb-4 space-y-2">{children}</ul>
                 ),
-                li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                li: ({ children }) => (
+                  <li className="leading-relaxed">{children}</li>
+                ),
                 a: ({ href, children }) => (
                   <a
                     href={href}
