@@ -6,7 +6,6 @@ export function useMyMatches(userId: string | undefined) {
   const [matches, setMatches] = useState<ProfileWithDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>("");
-  const supabase = supabaseClient();
 
   const loadMatches = useCallback(async () => {
     if (!userId) return;
@@ -15,6 +14,7 @@ export function useMyMatches(userId: string | undefined) {
     setError("");
 
     try {
+      const supabase = supabaseClient();
       const { data: matchesData, error: matchesError } = await supabase
         .from("matches")
         .select("user_a, user_b, created_at")
@@ -115,7 +115,7 @@ export function useMyMatches(userId: string | undefined) {
     } finally {
       setIsLoading(false);
     }
-  }, [userId, supabase]);
+  }, [userId]);
 
   useEffect(() => {
     if (userId) {

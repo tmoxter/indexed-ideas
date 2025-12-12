@@ -7,9 +7,9 @@ export function useAuth(redirectOnUnauthenticated = true) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const supabase = supabaseClient();
 
   const checkAuth = useCallback(async () => {
+    const supabase = supabaseClient();
     const {
       data: { session },
     } = await supabase.auth.getSession();
@@ -21,13 +21,14 @@ export function useAuth(redirectOnUnauthenticated = true) {
 
     setUser(session?.user || null);
     setIsLoading(false);
-  }, [supabase, router, redirectOnUnauthenticated]);
+  }, [router, redirectOnUnauthenticated]);
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
   const logout = async () => {
+    const supabase = supabaseClient();
     await supabase.auth.signOut();
     router.push("/");
   };

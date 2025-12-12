@@ -6,7 +6,6 @@ export function useSkippedProfiles(userId: string | undefined) {
   const [profiles, setProfiles] = useState<ProfileWithDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>("");
-  const supabase = supabaseClient();
 
   const loadProfiles = useCallback(async () => {
     if (!userId) return;
@@ -15,6 +14,7 @@ export function useSkippedProfiles(userId: string | undefined) {
     setError("");
 
     try {
+      const supabase = supabaseClient();
       const { data: interactionsData, error: interactionsError } =
         await supabase
           .from("interactions")
@@ -107,7 +107,7 @@ export function useSkippedProfiles(userId: string | undefined) {
     } finally {
       setIsLoading(false);
     }
-  }, [userId, supabase]);
+  }, [userId]);
 
   useEffect(() => {
     if (userId) {

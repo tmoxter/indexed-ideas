@@ -5,7 +5,6 @@ type InteractionAction = "like" | "pass" | "block" | "unblock";
 
 export function useInteraction() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const supabase = supabaseClient();
 
   const recordInteraction = async (
     targetUserId: string,
@@ -14,6 +13,7 @@ export function useInteraction() {
     setIsSubmitting(true);
 
     try {
+      const supabase = supabaseClient();
       const {
         data: { session },
       } = await supabase.auth.getSession();

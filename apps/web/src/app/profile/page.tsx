@@ -20,7 +20,6 @@ import { CityPicker } from "./city_selection";
 export default function ProfilePage() {
   const router = useRouter();
   const { user, isLoading: authLoading, logout } = useAuth();
-  const supabase = supabaseClient();
 
   const [profileData, setProfileData] = useState<ProfileFormData>({
     name: "",
@@ -47,6 +46,7 @@ export default function ProfilePage() {
   const loadProfile = useCallback(async () => {
     setIsLoadingProfile(true);
     try {
+      const supabase = supabaseClient();
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -59,17 +59,21 @@ export default function ProfilePage() {
             .from("profiles")
             .select("*")
             .eq("user_id", session.user.id)
-            .single(),
+            .maybeSingle(),
           supabase
             .from("user_ventures")
             .select("*")
             .eq("user_id", session.user.id)
-            .single(),
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle(),
           supabase
-            .from("user_cofounder_preferences")
+            .from("user_cofounder_preference")
             .select("*")
             .eq("user_id", session.user.id)
-            .single(),
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle(),
         ]);
 
       const cityId = profileResult.data?.city_id;
@@ -80,7 +84,7 @@ export default function ProfilePage() {
           .from("cities")
           .select("*")
           .eq("id", cityId)
-          .single();
+          .maybeSingle();
 
         if (cityData) {
           setCity({
@@ -115,7 +119,7 @@ export default function ProfilePage() {
     } finally {
       setIsLoadingProfile(false);
     }
-  }, [supabase]);
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -171,6 +175,7 @@ export default function ProfilePage() {
     setMessage("");
 
     try {
+      const supabase = supabaseClient();
       const { error } = await supabase
         .from("profiles")
         .update({ is_published: false, updated_at: new Date().toISOString() })
@@ -205,6 +210,7 @@ export default function ProfilePage() {
     setMessage("");
 
     try {
+      const supabase = supabaseClient();
       const now = new Date().toISOString();
 
       // Prepare data for all three tables
@@ -294,7 +300,7 @@ export default function ProfilePage() {
                   .eq("user_id", user.id)
                   .order("updated_at", { ascending: false })
                   .limit(1)
-                  .single();
+                  .maybeSingle();
 
                 if (recentVenture) {
                   embeddingPromises.push(

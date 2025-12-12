@@ -6,13 +6,13 @@ export function usePendingRequests(limit = 20) {
   const [requests, setRequests] = useState<PendingRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>("");
-  const supabase = supabaseClient();
 
   const loadRequests = useCallback(async () => {
     setIsLoading(true);
     setError("");
 
     try {
+      const supabase = supabaseClient();
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -48,7 +48,7 @@ export function usePendingRequests(limit = 20) {
     } finally {
       setIsLoading(false);
     }
-  }, [supabase, limit]);
+  }, [limit]);
 
   useEffect(() => {
     loadRequests();
