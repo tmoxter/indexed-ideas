@@ -26,7 +26,11 @@ export default function Home() {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
+      if (session) {
+        window.location.href = "/home";
+      } else {
+        setIsAuthenticated(false);
+      }
     };
     checkAuth();
   }, []);
@@ -191,7 +195,7 @@ export default function Home() {
                   you find any bugs or have suggestions, please open an issue or
                   a PR on GitHub.
                   <a
-                    href="https://github.com"
+                    href={process.env.NEXT_PUBLIC_GITHUB_REPO_URL}
                     className="text-gray-900 hover:underline ml-1"
                   >
                     <strong>View source on GH →</strong>

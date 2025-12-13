@@ -238,7 +238,7 @@ describe("LandingPage", () => {
     await user.click(logoButton!);
 
     await waitFor(() => {
-      expect(window.location.href).toBe("/discover");
+      expect(window.location.href).toBe("/home");
     });
   });
 });

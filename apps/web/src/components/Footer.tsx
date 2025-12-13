@@ -25,7 +25,10 @@ export default function Footer() {
           </div>
 
           <div className="flex space-x-6 text-sm font-mono">
-            <a href="#" className="text-gray-500 hover:text-gray-700">
+            <a
+              href={process.env.NEXT_PUBLIC_GITHUB_REPO_URL}
+              className="text-gray-500 hover:text-gray-700"
+            >
               github
             </a>
             <a href="/impressum" className="text-gray-500 hover:text-gray-700">
