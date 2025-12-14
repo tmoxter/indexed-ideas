@@ -51,7 +51,7 @@ export default function MyMatchesPage() {
     return (
       <LoadingSpinner
         currentPage="my-matches"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
     );
@@ -74,7 +74,7 @@ export default function MyMatchesPage() {
     <div className="min-h-screen bg-[var(--page-background)] pb-10 overflow-x-hidden">
       <Navigation
         currentPage="my-matches"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
 

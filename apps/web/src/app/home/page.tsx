@@ -19,7 +19,7 @@ export default function HomePage() {
     return (
       <LoadingSpinner
         currentPage="home"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
     );
@@ -29,7 +29,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-[var(--page-background)] pb-10">
       <Navigation
         currentPage="home"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
 

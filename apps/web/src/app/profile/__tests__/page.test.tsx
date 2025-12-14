@@ -108,9 +108,14 @@ describe("ProfilePage Integration Tests", () => {
         }),
         signOut: vi.fn().mockResolvedValue({ error: null }),
       },
-      from: vi.fn((table: string) => {
+      from: vi.fn().mockImplementation((table: string) => {
+        let selectedFields: string | undefined;
+
         const queryBuilder = {
-          select: vi.fn().mockReturnThis(),
+          select: vi.fn().mockImplementation((fields?: string) => {
+            selectedFields = fields;
+            return queryBuilder;
+          }),
           insert: vi.fn().mockReturnThis(),
           upsert: vi.fn(),
           eq: vi.fn().mockReturnThis(),
@@ -126,7 +131,21 @@ describe("ProfilePage Integration Tests", () => {
             const profile = mockProfilesDb.find(
               (p) => p.user_id === testUserId
             );
+
+            const fieldsToReturn = selectedFields;
+            selectedFields = undefined;
+
             if (profile) {
+              // If specific fields were requested, filter to those fields
+              // but include the field even if it's undefined
+              if (fieldsToReturn) {
+                const fields = fieldsToReturn.split(',').map(f => f.trim());
+                const data: Record<string, unknown> = {};
+                fields.forEach(field => {
+                  data[field] = profile[field];
+                });
+                return Promise.resolve({ data, error: null });
+              }
               return Promise.resolve({ data: profile, error: null });
             }
             return Promise.resolve({
@@ -139,6 +158,21 @@ describe("ProfilePage Integration Tests", () => {
             const profile = mockProfilesDb.find(
               (p) => p.user_id === testUserId
             );
+
+            const fieldsToReturn = selectedFields;
+            selectedFields = undefined;
+
+            if (profile) {
+              // If specific fields were requested (but not "*"), filter to those fields
+              if (fieldsToReturn && fieldsToReturn !== "*") {
+                const fields = fieldsToReturn.split(',').map(f => f.trim());
+                const data: Record<string, unknown> = {};
+                fields.forEach(field => {
+                  data[field] = profile[field];
+                });
+                return Promise.resolve({ data, error: null });
+              }
+            }
             return Promise.resolve({ data: profile || null, error: null });
           });
 
@@ -552,21 +586,25 @@ describe("ProfilePage Integration Tests", () => {
   it("should handle save errors gracefully", async () => {
     // Mock an error in the upsert operation
     const mockClient = mockSupabaseClient();
-    mockClient.from = vi.fn((table: string) => {
-      if (table === "profiles") {
-        return {
-          upsert: vi.fn().mockResolvedValue({
-            data: null,
-            error: { message: "Database connection failed" },
-          }),
-        };
-      }
-      return {
+    mockClient.from = vi.fn().mockImplementation((table: string) => {
+      const queryBuilder = {
         select: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
+        order: vi.fn().mockReturnThis(),
+        limit: vi.fn().mockReturnThis(),
         single: vi.fn().mockResolvedValue({ data: null, error: null }),
+        maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
         upsert: vi.fn().mockResolvedValue({ data: {}, error: null }),
       };
+
+      if (table === "profiles") {
+        queryBuilder.upsert = vi.fn().mockResolvedValue({
+          data: null,
+          error: { message: "Database connection failed" },
+        });
+      }
+
+      return queryBuilder;
     });
 
     const user = userEvent.setup();
@@ -1211,7 +1249,7 @@ describe("ProfilePage Integration Tests", () => {
 
       // Create mock client with update functionality
       const mockClient = mockSupabaseClient();
-      mockClient.from = vi.fn((table: string) => {
+      mockClient.from = vi.fn().mockImplementation((table: string) => {
         const queryBuilder = {
           select: vi.fn().mockReturnThis(),
           insert: vi.fn().mockReturnThis(),
@@ -1408,7 +1446,7 @@ describe("ProfilePage Integration Tests", () => {
 
       // Mock client with update error
       const mockClient = mockSupabaseClient();
-      mockClient.from = vi.fn((table: string) => {
+      mockClient.from = vi.fn().mockImplementation((table: string) => {
         const queryBuilder = {
           select: vi.fn().mockReturnThis(),
           update: vi.fn().mockReturnThis(),

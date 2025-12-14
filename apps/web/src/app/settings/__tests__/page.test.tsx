@@ -65,6 +65,14 @@ describe("SettingsPage", () => {
           },
         }),
       },
+      from: vi.fn().mockReturnValue({
+        select: vi.fn().mockReturnThis(),
+        eq: vi.fn().mockReturnThis(),
+        maybeSingle: vi.fn().mockResolvedValue({
+          data: { name: "Test User" },
+          error: null,
+        }),
+      }),
     };
     mockSupabaseClient.mockReturnValue(mockClient);
 
@@ -84,6 +92,14 @@ describe("SettingsPage", () => {
           },
         }),
       },
+      from: vi.fn().mockReturnValue({
+        select: vi.fn().mockReturnThis(),
+        eq: vi.fn().mockReturnThis(),
+        maybeSingle: vi.fn().mockResolvedValue({
+          data: { name: "Test User" },
+          error: null,
+        }),
+      }),
     };
     mockSupabaseClient.mockReturnValue(mockClient);
 

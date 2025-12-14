@@ -11,6 +11,7 @@ import {
   Clock,
   X,
 } from "lucide-react";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -18,7 +19,8 @@ interface MobileMenuProps {
   currentPage: string;
   onNavigate: (path: string) => void;
   onLogout: () => void;
-  userEmail?: string;
+  user: SupabaseUser | null;
+  userName: string | null;
 }
 
 export default function MobileMenu({
@@ -27,7 +29,8 @@ export default function MobileMenu({
   currentPage,
   onNavigate,
   onLogout,
-  userEmail,
+  user,
+  userName,
 }: MobileMenuProps) {
   const handleNavigate = (path: string) => {
     onNavigate(path);
@@ -105,10 +108,21 @@ export default function MobileMenu({
               <span className="font-mono text-sm font-semibold text-gray-900">
                 Menu
               </span>
-              {userEmail && (
-                <span className="font-mono text-xs text-gray-600 mt-1">
-                  {userEmail}
-                </span>
+              {user && (
+                userName ? (
+                  <span className="font-mono text-xs text-gray-600 mt-1">
+                    {userName}
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => {
+                      onNavigate("/profile");
+                    }}
+                    className="font-mono text-xs text-gray-600 mt-1 text-left hover:text-gray-900 hover:underline transition-colors"
+                  >
+                    Create a Profile
+                  </button>
+                )
               )}
             </div>
             <button

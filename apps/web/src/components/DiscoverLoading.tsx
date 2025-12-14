@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Rings } from "react-loader-spinner";
 import Navigation from "@/components/Navigation";
 import { supabaseClient } from "@/lib/supabase";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 type NavigationProps = ComponentProps<typeof Navigation>;
 
@@ -12,7 +13,7 @@ type DiscoverLoadingProps = {
   width?: number;
   height?: number;
   currentPage?: NavigationProps["currentPage"];
-  userEmail?: string;
+  user?: SupabaseUser | null;
   onLogout?: () => void;
 };
 
@@ -20,7 +21,7 @@ export function DiscoverLoading({
   width = 120,
   height = 120,
   currentPage,
-  userEmail,
+  user,
   onLogout,
 }: DiscoverLoadingProps) {
   const showNavigation = currentPage !== undefined && onLogout !== undefined;
@@ -35,7 +36,7 @@ export function DiscoverLoading({
       {showNavigation ? (
         <Navigation
           currentPage={currentPage!}
-          userEmail={userEmail}
+          user={user ?? null}
           onLogout={onLogout!}
         />
       ) : null}

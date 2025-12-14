@@ -54,7 +54,7 @@ export default function BlockedProfilesPage() {
     return (
       <LoadingSpinner
         currentPage="blocked"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
     );
@@ -64,7 +64,7 @@ export default function BlockedProfilesPage() {
     <div className="min-h-screen bg-[var(--page-background)] pb-10 overflow-x-hidden">
       <Navigation
         currentPage="blocked"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
 

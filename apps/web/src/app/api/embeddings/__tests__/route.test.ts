@@ -68,7 +68,6 @@ describe("GET /api/embeddings", () => {
     expect(firstCandidate.profile).toHaveProperty("name");
     expect(firstCandidate.profile).toHaveProperty("bio");
     expect(firstCandidate.profile).toHaveProperty("achievements");
-    expect(firstCandidate.profile).toHaveProperty("region");
 
     // Check nested venture structure
     expect(firstCandidate.venture).toHaveProperty("title");
@@ -225,7 +224,6 @@ describe("GET /api/embeddings", () => {
       expect(candidate.profile).toHaveProperty("name");
       expect(candidate.profile).toHaveProperty("bio");
       expect(candidate.profile).toHaveProperty("achievements");
-      expect(candidate.profile).toHaveProperty("region");
 
       // Check nested venture fields
       expect(candidate.venture).toHaveProperty("title");

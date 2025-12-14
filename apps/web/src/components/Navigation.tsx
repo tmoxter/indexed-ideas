@@ -17,6 +17,7 @@ import {
   Menu,
 } from "lucide-react";
 import MobileMenu from "./MobileMenu";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 interface NavigationProps {
   currentPage:
@@ -28,13 +29,13 @@ interface NavigationProps {
     | "profile"
     | "settings"
     | "pending-requests";
-  userEmail?: string;
+  user: SupabaseUser | null;
   onLogout: () => void;
 }
 
 export default function Navigation({
   currentPage,
-  userEmail,
+  user,
   onLogout,
 }: NavigationProps) {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -43,6 +44,7 @@ export default function Navigation({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
 
   const navigate = (path: string) => {
     setActiveDropdown(null);
@@ -73,6 +75,31 @@ export default function Navigation({
     };
     checkAuth();
   }, []);
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      if (!user?.id) {
+        setUserName(null);
+        return;
+      }
+
+      const supabase = supabaseClient();
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("name")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Error fetching user name:", error);
+        setUserName(null);
+      } else {
+        setUserName(data?.name || null);
+      }
+    };
+
+    fetchUserName();
+  }, [user?.id]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -462,10 +489,19 @@ export default function Navigation({
             {getPageTitle(currentPage)}
           </span>
 
-          {userEmail && (
-            <span className="font-mono text-sm text-gray-600 hidden lg:inline">
-              {userEmail}
-            </span>
+          {user && (
+            userName ? (
+              <span className="font-mono text-sm text-gray-600 hidden lg:inline">
+                {userName}
+              </span>
+            ) : (
+              <button
+                onClick={() => router.push("/profile")}
+                className="font-mono text-sm text-gray-600 hidden lg:inline hover:text-gray-900 hover:underline transition-colors"
+              >
+                Create a Profile
+              </button>
+            )
           )}
 
           {/* Desktop Logout Button */}
@@ -497,7 +533,8 @@ export default function Navigation({
         currentPage={currentPage}
         onNavigate={navigate}
         onLogout={onLogout}
-        userEmail={userEmail}
+        user={user}
+        userName={userName}
       />
     </header>
   );

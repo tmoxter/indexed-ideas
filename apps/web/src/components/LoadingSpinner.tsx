@@ -3,18 +3,19 @@
 import type { ComponentProps } from "react";
 import Navigation from "@/components/Navigation";
 import { Circles } from "react-loader-spinner";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 type NavigationProps = ComponentProps<typeof Navigation>;
 
 type LoadingSpinnerProps = {
   currentPage?: NavigationProps["currentPage"];
-  userEmail?: string;
+  user?: SupabaseUser | null;
   onLogout?: () => void;
 };
 
 export function LoadingSpinner({
   currentPage,
-  userEmail,
+  user,
   onLogout,
 }: LoadingSpinnerProps = {}) {
   const showNavigation = currentPage !== undefined && onLogout !== undefined;
@@ -24,7 +25,7 @@ export function LoadingSpinner({
       {showNavigation ? (
         <Navigation
           currentPage={currentPage!}
-          userEmail={userEmail}
+          user={user ?? null}
           onLogout={onLogout!}
         />
       ) : null}

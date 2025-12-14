@@ -86,7 +86,7 @@ export default function MatchesPage() {
         width={260}
         height={180}
         currentPage="discover"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
     );
@@ -96,7 +96,7 @@ export default function MatchesPage() {
     <div className="min-h-screen bg-[var(--page-background)] pb-10">
       <Navigation
         currentPage="discover"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
 

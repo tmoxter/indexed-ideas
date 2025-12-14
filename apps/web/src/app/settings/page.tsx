@@ -25,9 +25,34 @@ export default function SettingsPage() {
   const [similarityLevel, setSimilarityLevel] = useState("Broadly Similar");
   const [isSavingPreferences, setIsSavingPreferences] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
 
   const regionDropdownRef = useRef<HTMLDivElement>(null);
   const similarityDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      if (!user?.id) {
+        setUserName(null);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("name")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Error fetching user name:", error);
+        setUserName(null);
+      } else {
+        setUserName(data?.name || null);
+      }
+    };
+
+    fetchUserName();
+  }, [user?.id, supabase]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -106,7 +131,7 @@ export default function SettingsPage() {
     return (
       <LoadingSpinner
         currentPage="settings"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
     );
@@ -116,7 +141,7 @@ export default function SettingsPage() {
     <div className="min-h-screen bg-[var(--page-background)] pb-10">
       <Navigation
         currentPage="settings"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
 
@@ -137,9 +162,13 @@ export default function SettingsPage() {
             <div className="space-y-3">
               <div>
                 <label className="block font-mono text-sm text-gray-600 mb-1">
-                  Email
+                  Name
                 </label>
-                <div className="font-mono text-gray-900">{user?.email}</div>
+                <div className="font-mono text-gray-900">
+                  {userName || "No name set"}
+                </div>
+              </div>
+              <div>
               </div>
               <div>
                 <label className="block font-mono text-sm text-gray-600 mb-1">

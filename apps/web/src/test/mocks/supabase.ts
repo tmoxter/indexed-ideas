@@ -88,6 +88,18 @@ export function createMockSupabaseClient(
 
     // Mock profiles table
     if (table === "profiles") {
+      // Store which fields were selected
+      let selectedFields: string | undefined;
+
+      const originalSelect = queryBuilder.select;
+      queryBuilder.select = vi.fn().mockImplementation((fields?: string) => {
+        selectedFields = fields;
+        return {
+          ...queryBuilder,
+          select: originalSelect,
+        };
+      });
+
       queryBuilder.maybeSingle.mockImplementation(() => {
         const eqMock = queryBuilder.eq as ReturnType<typeof vi.fn>;
         const userId = eqMock.mock.calls.find(
@@ -95,7 +107,23 @@ export function createMockSupabaseClient(
         )?.[1];
 
         const user = testUsers.find((u) => u.id === userId);
+
+        // Capture the current selectedFields value and reset it
+        const fieldsToReturn = selectedFields;
+        selectedFields = undefined;
+
         if (user) {
+          // If specific fields were selected, return only those fields
+          if (fieldsToReturn) {
+            const fields = fieldsToReturn.split(',').map(f => f.trim());
+            const data: Record<string, unknown> = {};
+            fields.forEach(field => {
+              if (field in user.profile) {
+                data[field] = user.profile[field as keyof typeof user.profile];
+              }
+            });
+            return Promise.resolve({ data, error: null });
+          }
           return Promise.resolve({ data: user.profile, error: null });
         }
         return Promise.resolve({ data: null, error: null });
@@ -108,7 +136,23 @@ export function createMockSupabaseClient(
         )?.[1];
 
         const user = testUsers.find((u) => u.id === userId);
+
+        // Capture the current selectedFields value and reset it
+        const fieldsToReturn = selectedFields;
+        selectedFields = undefined;
+
         if (user) {
+          // If specific fields were selected, return only those fields
+          if (fieldsToReturn) {
+            const fields = fieldsToReturn.split(',').map(f => f.trim());
+            const data: Record<string, unknown> = {};
+            fields.forEach(field => {
+              if (field in user.profile) {
+                data[field] = user.profile[field as keyof typeof user.profile];
+              }
+            });
+            return Promise.resolve({ data, error: null });
+          }
           return Promise.resolve({ data: user.profile, error: null });
         }
         return Promise.resolve({ data: null, error: { message: "Not found" } });

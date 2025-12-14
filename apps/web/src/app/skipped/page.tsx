@@ -52,7 +52,7 @@ export default function SkippedProfilesPage() {
     return (
       <LoadingSpinner
         currentPage="skipped"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
     );
@@ -94,7 +94,7 @@ export default function SkippedProfilesPage() {
     return (
       <LoadingSpinner
         currentPage="skipped"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
     );
@@ -104,7 +104,7 @@ export default function SkippedProfilesPage() {
     <div className="min-h-screen bg-[var(--page-background)] pb-10 overflow-x-hidden">
       <Navigation
         currentPage="skipped"
-        userEmail={user?.email}
+        user={user}
         onLogout={logout}
       />
 
