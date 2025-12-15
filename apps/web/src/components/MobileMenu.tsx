@@ -21,6 +21,7 @@ interface MobileMenuProps {
   onLogout: () => void;
   user: SupabaseUser | null;
   userName: string | null;
+  isLoadingUserName: boolean;
 }
 
 export default function MobileMenu({
@@ -31,6 +32,7 @@ export default function MobileMenu({
   onLogout,
   user,
   userName,
+  isLoadingUserName,
 }: MobileMenuProps) {
   const handleNavigate = (path: string) => {
     onNavigate(path);
@@ -108,7 +110,7 @@ export default function MobileMenu({
               <span className="font-mono text-sm font-semibold text-gray-900">
                 Menu
               </span>
-              {user && (
+              {user && !isLoadingUserName && (
                 userName ? (
                   <span className="font-mono text-xs text-gray-600 mt-1">
                     {userName}

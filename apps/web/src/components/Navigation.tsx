@@ -45,6 +45,7 @@ export default function Navigation({
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
+  const [isLoadingUserName, setIsLoadingUserName] = useState(true);
 
   const navigate = (path: string) => {
     setActiveDropdown(null);
@@ -80,9 +81,11 @@ export default function Navigation({
     const fetchUserName = async () => {
       if (!user?.id) {
         setUserName(null);
+        setIsLoadingUserName(false);
         return;
       }
 
+      setIsLoadingUserName(true);
       const supabase = supabaseClient();
       const { data, error } = await supabase
         .from("profiles")
@@ -96,6 +99,7 @@ export default function Navigation({
       } else {
         setUserName(data?.name || null);
       }
+      setIsLoadingUserName(false);
     };
 
     fetchUserName();
@@ -489,7 +493,7 @@ export default function Navigation({
             {getPageTitle(currentPage)}
           </span>
 
-          {user && (
+          {user && !isLoadingUserName && (
             userName ? (
               <span className="font-mono text-sm text-gray-600 hidden lg:inline">
                 {userName}
@@ -535,6 +539,7 @@ export default function Navigation({
         onLogout={onLogout}
         user={user}
         userName={userName}
+        isLoadingUserName={isLoadingUserName}
       />
     </header>
   );
