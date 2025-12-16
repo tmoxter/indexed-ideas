@@ -21,7 +21,7 @@
     "drizzle-kit": "^0.31.4",
     "drizzle-orm": "^0.44.5",
     "eslint-config-next": "^16.0.7",
-    "next": "^16.0.7",
+    "next": "^16.0.10",
     "postgres": "^3.4.7",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
