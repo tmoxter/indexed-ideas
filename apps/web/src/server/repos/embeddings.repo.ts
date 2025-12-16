@@ -9,6 +9,7 @@ export interface EmbeddingInsert {
   user_id: string;
   model: string;
   vector: number[];
+  version: string;
   updated_at: string;
 }
 

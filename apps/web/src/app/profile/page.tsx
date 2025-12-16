@@ -278,34 +278,14 @@ export default function ProfilePage() {
           try {
             const embeddingPromises = [];
 
-            // Generate profile embedding if profile data exists
-            if (
-              profileData.name ||
-              profileData.bio ||
-              profileData.achievements ||
-              city
-            ) {
-              const profileText = createProfileEmbeddingText({
-                name: profileData.name,
-                bio: profileData.bio,
-                achievements: profileData.achievements,
-                region: city?.label || "",
-              });
-              if (profileText.trim()) {
-                embeddingPromises.push(embedProfile(user.id, profileText));
-              }
-            }
-
-            // Generate venture embedding if venture data exists - need to get the venture ID
+            // Generate venture embedding if venture data exists
             if (profileData.venture_title || profileData.venture_description) {
-              // Get the venture ID from the venture result (which was just saved)
               const ventureText = createVentureEmbeddingText({
                 title: profileData.venture_title,
                 description: profileData.venture_description,
               });
               if (ventureText.trim()) {
-                // We need to get the venture ID that was just created/updated
-                // Let's fetch the most recent venture for this user
+                // Fetch the most recent venture for this user
                 const { data: recentVenture } = await supabase
                   .from("user_ventures")
                   .select("id")
@@ -322,7 +302,6 @@ export default function ProfilePage() {
               }
             }
 
-            // Execute all embedding operations
             if (embeddingPromises.length > 0) {
               const embeddingResults = await Promise.all(embeddingPromises);
               const embeddingErrors = embeddingResults.filter(

@@ -9,6 +9,7 @@ import {
   EMBEDDING_MODEL,
   JINA_EMBEDDING_MODEL,
 } from "../logic/similarity";
+import { CURRENT_EMBEDDING_VERSION } from "../embedding-version";
 
 export type EmbeddingProvider = "jina" | "open-ai";
 
@@ -19,6 +20,8 @@ async function getJinaEmbedding(
   return new Promise((resolve, reject) => {
     const data = JSON.stringify({
       model: JINA_EMBEDDING_MODEL,
+      task: "text-matching",
+      dimensions: 1024,
       input: [text],
     });
 
@@ -109,6 +112,7 @@ export async function generateAndStoreEmbedding(
     user_id: userId,
     model: modelName,
     vector: embedding,
+    version: CURRENT_EMBEDDING_VERSION,
     updated_at: new Date().toISOString(),
   });
 

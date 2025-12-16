@@ -1,4 +1,5 @@
 import { supabaseClient } from "./supabase";
+import { VENTURE_EMBEDDING_PROMPT } from "./embedding-prompts";
 
 export type EntityType = "idea" | "profile";
 
@@ -85,7 +86,7 @@ export function createVentureEmbeddingText(venture: {
     venture.description && `Description: ${venture.description}`,
   ].filter(Boolean);
 
-  return parts.join("\n\n");
+  return VENTURE_EMBEDDING_PROMPT + parts.join("\n\n");
 }
 
 // Function to combine co-founder preferences into embeddings text

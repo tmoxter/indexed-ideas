@@ -481,10 +481,6 @@ describe("ProfilePage Integration Tests", () => {
     });
 
     // Embeddings should be generated
-    expect(mockEmbedProfile).toHaveBeenCalledWith(
-      testUserId,
-      expect.stringContaining("Jane Smith")
-    );
     expect(mockEmbedIdea).toHaveBeenCalled();
 
     // Should redirect to discover page after publish

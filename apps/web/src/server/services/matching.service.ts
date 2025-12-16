@@ -3,7 +3,8 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import * as profilesRepo from "../repos/profiles.repo";
 import * as interactionsRepo from "../repos/interactions.repo";
 import * as embeddingsRepo from "../repos/embeddings.repo";
-import { EMBEDDING_MODEL, EMBEDDING_VERSION } from "../logic/similarity";
+import { EMBEDDING_MODEL } from "../logic/similarity";
+import { CURRENT_EMBEDDING_VERSION } from "../embedding-version";
 
 interface CandidateRow {
   user_id: string;
@@ -120,7 +121,7 @@ export async function findMatchingCandidates(
     sb,
     embedding.entity_id,
     EMBEDDING_MODEL,
-    EMBEDDING_VERSION,
+    CURRENT_EMBEDDING_VERSION,
     100,
     10
   );

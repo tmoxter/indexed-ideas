@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       entityType,
       entityId,
       text,
-      provider = "open-ai",
+      provider = "jina",
     }: EmbedRequest = await request.json();
 
     if (!entityType || !entityId || !text) {
