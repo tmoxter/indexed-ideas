@@ -375,6 +375,12 @@ describe("ProfilePage Integration Tests", () => {
       "A comprehensive development toolkit for modern teams"
     );
 
+    // Agree to privacy policy
+    const privacyCheckbox = screen.getByRole("checkbox", {
+      name: /privacy policy/i,
+    });
+    await user.click(privacyCheckbox);
+
     // Click save as draft
     const saveDraftButton = screen.getByRole("button", {
       name: /save as draft/i,
@@ -438,6 +444,12 @@ describe("ProfilePage Integration Tests", () => {
       screen.getByPlaceholderText(/explain the problem you're solving/i),
       "A comprehensive development toolkit for modern teams"
     );
+
+    // Agree to privacy policy
+    const privacyCheckbox = screen.getByRole("checkbox", {
+      name: /privacy policy/i,
+    });
+    await user.click(privacyCheckbox);
 
     // Click publish
     const publishButton = screen.getByRole("button", {
@@ -531,6 +543,12 @@ describe("ProfilePage Integration Tests", () => {
       screen.getByPlaceholderText(/explain the problem you're solving/i),
       "A toolkit for developers"
     );
+
+    // Agree to privacy policy
+    const privacyCheckbox = screen.getByRole("checkbox", {
+      name: /privacy policy/i,
+    });
+    await user.click(privacyCheckbox);
 
     // Should now be enabled
     await waitFor(() => {
@@ -628,6 +646,12 @@ describe("ProfilePage Integration Tests", () => {
       "A toolkit"
     );
 
+    // Agree to privacy policy
+    const privacyCheckbox = screen.getByRole("checkbox", {
+      name: /privacy policy/i,
+    });
+    await user.click(privacyCheckbox);
+
     // Try to save
     await user.click(screen.getByRole("button", { name: /save as draft/i }));
 
@@ -689,6 +713,12 @@ describe("ProfilePage Integration Tests", () => {
       screen.getByPlaceholderText(/describe ideal co-founder skills/i),
       "Looking for backend engineer with ML experience"
     );
+
+    // Agree to privacy policy
+    const privacyCheckbox = screen.getByRole("checkbox", {
+      name: /privacy policy/i,
+    });
+    await user.click(privacyCheckbox);
 
     // Save as draft
     await user.click(screen.getByRole("button", { name: /save as draft/i }));
@@ -753,6 +783,12 @@ describe("ProfilePage Integration Tests", () => {
       screen.getByPlaceholderText(/explain the problem you're solving/i),
       "A toolkit"
     );
+
+    // Agree to privacy policy
+    const privacyCheckbox = screen.getByRole("checkbox", {
+      name: /privacy policy/i,
+    });
+    await user.click(privacyCheckbox);
 
     await user.click(screen.getByRole("button", { name: /save & publish/i }));
 
@@ -1001,6 +1037,12 @@ describe("ProfilePage Integration Tests", () => {
         "A toolkit for developers"
       );
 
+      // Agree to privacy policy
+      const privacyCheckbox = screen.getByRole("checkbox", {
+        name: /privacy policy/i,
+      });
+      await user.click(privacyCheckbox);
+
       // Publish button should be enabled
       const publishButton = screen.getByRole("button", {
         name: /save & publish/i,
@@ -1039,6 +1081,12 @@ describe("ProfilePage Integration Tests", () => {
         screen.getByPlaceholderText(/explain the problem you're solving/i),
         "A comprehensive development toolkit"
       );
+
+      // Agree to privacy policy
+      const privacyCheckbox = screen.getByRole("checkbox", {
+        name: /privacy policy/i,
+      });
+      await user.click(privacyCheckbox);
 
       // Save as draft
       await user.click(screen.getByRole("button", { name: /save as draft/i }));

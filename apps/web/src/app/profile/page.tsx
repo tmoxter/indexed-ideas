@@ -42,6 +42,7 @@ export default function ProfilePage() {
   const [message, setMessage] = useState("");
   const [linkedinUrlError, setLinkedinUrlError] = useState("");
   const [isPublished, setIsPublished] = useState(false);
+  const [agreedToPrivacyPolicy, setAgreedToPrivacyPolicy] = useState(false);
 
   const loadProfile = useCallback(async () => {
     setIsLoadingProfile(true);
@@ -114,6 +115,11 @@ export default function ProfilePage() {
           preferencesResult.data?.description || "",
       });
       setIsPublished(profileResult.data?.is_published || false);
+
+      // If user has already saved their profile, they must have agreed to privacy policy
+      if (profileResult.data) {
+        setAgreedToPrivacyPolicy(true);
+      }
     } catch (error) {
       console.error("Error loading profile:", error);
     } finally {
@@ -199,6 +205,12 @@ export default function ProfilePage() {
 
   const saveProfile = async (publish: boolean = false) => {
     if (!user) return;
+
+    // Require privacy policy agreement for both saving and publishing
+    if (!agreedToPrivacyPolicy) {
+      setMessage("Please agree to the privacy policy before saving");
+      return;
+    }
 
     // Validate LinkedIn URL when publishing
     if (publish && !validateLinkedInUrl(profileData.linkedinUrl)) {
@@ -606,11 +618,35 @@ export default function ProfilePage() {
             </section>
           </div>
 
+          {/* Privacy Policy Agreement */}
+          <div className="mt-8 p-4 bg-gray-50 rounded border border-gray-300">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={agreedToPrivacyPolicy}
+                onChange={(e) => setAgreedToPrivacyPolicy(e.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+              />
+              <span className="font-mono text-sm text-gray-700">
+                I have read and agree to the{" "}
+                <a
+                  href="/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 underline"
+                >
+                  privacy policy
+                </a>
+                {" *"}
+              </span>
+            </label>
+          </div>
+
           {/* Save Actions */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-4">
+          <div className="mt-6 flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => saveProfile(false)}
-              disabled={isSaving}
+              disabled={isSaving || !agreedToPrivacyPolicy}
               className="group relative inline-flex items-center justify-center px-6 py-3 rounded-lg font-mono text-sm text-gray-900 bg-white border border-gray-300 shadow-lg hover:shadow-2xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSaving ? "saving..." : "Save as draft"}
@@ -620,6 +656,7 @@ export default function ProfilePage() {
               onClick={() => saveProfile(true)}
               disabled={
                 isSaving ||
+                !agreedToPrivacyPolicy ||
                 !profileData.name ||
                 !profileData.linkedinUrl ||
                 !!linkedinUrlError ||
