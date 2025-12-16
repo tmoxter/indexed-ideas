@@ -82,6 +82,7 @@ describe("MatchesPage Integration Tests", () => {
       candidates: mockCandidates,
       isLoading: false,
       error: "",
+      isProfileIncomplete: false,
       reload: vi.fn(),
     });
 
@@ -96,6 +97,7 @@ describe("MatchesPage Integration Tests", () => {
       candidates: [],
       isLoading: true,
       error: "",
+      isProfileIncomplete: false,
       reload: vi.fn(),
     });
 
@@ -259,6 +261,7 @@ describe("MatchesPage Integration Tests", () => {
       candidates: [],
       isLoading: false,
       error: "",
+      isProfileIncomplete: false,
       reload: vi.fn(),
     });
 
@@ -275,12 +278,139 @@ describe("MatchesPage Integration Tests", () => {
       candidates: [],
       isLoading: false,
       error: "Server error",
+      isProfileIncomplete: false,
       reload: vi.fn(),
     });
 
     render(<MatchesPage />);
 
     expect(screen.getByText(/server error/i)).toBeInTheDocument();
+  });
+
+  describe("Profile Incomplete Scenarios", () => {
+    it("should display warning banner when profile is incomplete", async () => {
+      vi.mocked(useMatches).mockReturnValue({
+        candidates: [],
+        isLoading: false,
+        error: "Please create your profile first to discover matches",
+        isProfileIncomplete: true,
+        reload: vi.fn(),
+      });
+
+      render(<MatchesPage />);
+
+      expect(
+        screen.getByText(/please create your profile first to discover matches/i)
+      ).toBeInTheDocument();
+    });
+
+    it("should display 'Create Profile' button when profile is incomplete", async () => {
+      vi.mocked(useMatches).mockReturnValue({
+        candidates: [],
+        isLoading: false,
+        error: "Please create your profile first to discover matches",
+        isProfileIncomplete: true,
+        reload: vi.fn(),
+      });
+
+      render(<MatchesPage />);
+
+      const createProfileButton = screen.getByRole("button", {
+        name: /create profile/i,
+      });
+      expect(createProfileButton).toBeInTheDocument();
+    });
+
+    it("should navigate to profile page when 'Create Profile' button is clicked", async () => {
+      vi.mocked(useMatches).mockReturnValue({
+        candidates: [],
+        isLoading: false,
+        error: "Please create your profile first to discover matches",
+        isProfileIncomplete: true,
+        reload: vi.fn(),
+      });
+
+      const user = userEvent.setup();
+      render(<MatchesPage />);
+
+      const createProfileButton = screen.getByRole("button", {
+        name: /create profile/i,
+      });
+      await user.click(createProfileButton);
+
+      expect(mockPush).toHaveBeenCalledWith("/profile");
+    });
+
+    it("should not display empty state when profile is incomplete", async () => {
+      vi.mocked(useMatches).mockReturnValue({
+        candidates: [],
+        isLoading: false,
+        error: "Please create your profile first to discover matches",
+        isProfileIncomplete: true,
+        reload: vi.fn(),
+      });
+
+      render(<MatchesPage />);
+
+      // Should not show the empty state
+      expect(screen.queryByText(/no matches found/i)).not.toBeInTheDocument();
+    });
+
+    it("should not display candidate list when profile is incomplete", async () => {
+      vi.mocked(useMatches).mockReturnValue({
+        candidates: mockCandidates, // Even if candidates exist
+        isLoading: false,
+        error: "Please create your profile first to discover matches",
+        isProfileIncomplete: true,
+        reload: vi.fn(),
+      });
+
+      render(<MatchesPage />);
+
+      // Should show the warning banner
+      expect(
+        screen.getByText(/please create your profile first to discover matches/i)
+      ).toBeInTheDocument();
+
+      // Should not show candidate profiles
+      expect(
+        screen.queryByText(mockCandidates[0].profile.name)
+      ).not.toBeInTheDocument();
+    });
+
+    it("should display generic message if error is empty but profile is incomplete", async () => {
+      vi.mocked(useMatches).mockReturnValue({
+        candidates: [],
+        isLoading: false,
+        error: "",
+        isProfileIncomplete: true,
+        reload: vi.fn(),
+      });
+
+      render(<MatchesPage />);
+
+      expect(
+        screen.getByText(/please create your profile to discover matches/i)
+      ).toBeInTheDocument();
+    });
+
+    it("should display regular error when profile is complete but other error occurs", async () => {
+      vi.mocked(useMatches).mockReturnValue({
+        candidates: [],
+        isLoading: false,
+        error: "Network error",
+        isProfileIncomplete: false,
+        reload: vi.fn(),
+      });
+
+      render(<MatchesPage />);
+
+      expect(screen.getByText(/network error/i)).toBeInTheDocument();
+      // Should not show the Create Profile button for non-profile errors
+      expect(
+        screen.queryByRole("button", { name: /create profile/i })
+      ).not.toBeInTheDocument();
+    });
   });
 
   it("should navigate through all candidates when clicking connect", async () => {

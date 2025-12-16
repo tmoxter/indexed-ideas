@@ -5,10 +5,12 @@ export function useMatches(userId: string | undefined, limit = 20) {
   const [candidates, setCandidates] = useState<MatchCandidate[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>("");
+  const [isProfileIncomplete, setIsProfileIncomplete] = useState(false);
 
   const loadMatches = useCallback(async () => {
     setIsLoading(true);
     setError("");
+    setIsProfileIncomplete(false);
 
     try {
       const response = await fetch(
@@ -17,7 +19,14 @@ export function useMatches(userId: string | undefined, limit = 20) {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setError(errorData?.error || "Unknown error");
+        const errorMessage = errorData?.error || "Unknown error";
+
+        if (errorData?.code === "PROFILE_INCOMPLETE" || errorMessage.includes("PROFILE_INCOMPLETE:")) {
+          setIsProfileIncomplete(true);
+          setError(errorMessage.replace("PROFILE_INCOMPLETE: ", ""));
+        } else {
+          setError(errorMessage);
+        }
         setCandidates([]);
         return;
       }
@@ -49,5 +58,5 @@ export function useMatches(userId: string | undefined, limit = 20) {
     }
   }, [userId, loadMatches]);
 
-  return { candidates, isLoading, error, reload: loadMatches };
+  return { candidates, isLoading, error, isProfileIncomplete, reload: loadMatches };
 }

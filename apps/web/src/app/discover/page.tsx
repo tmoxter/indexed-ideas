@@ -22,6 +22,7 @@ export default function MatchesPage() {
     candidates,
     isLoading: matchesLoading,
     error: matchesError,
+    isProfileIncomplete,
   } = useMatches(user?.id);
   const { recordInteraction, isSubmitting } = useInteraction();
 
@@ -109,46 +110,66 @@ export default function MatchesPage() {
           />
 
           {message && <MessageBanner message={message} />}
-          {matchesError && (
+
+          {isProfileIncomplete ? (
+            <div className="mb-6">
+              <MessageBanner
+                message={matchesError || "Please create your profile to discover matches"}
+                type="warning"
+              />
+              <div className="mt-4 text-center">
+                <button
+                  onClick={() => router.push("/profile")}
+                  className="px-6 py-3 bg-blue-600 text-white font-mono text-sm rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  Create Profile
+                </button>
+              </div>
+            </div>
+          ) : matchesError && (
             <MessageBanner message={matchesError} type="error" />
           )}
 
-          {candidates.length === 0 ? (
-            <EmptyState
-              title="no matches found"
-              description="make sure you've completed your profile and published it to enable matching"
-              actionText="complete profile"
-              onAction={() => router.push("/profile")}
-            />
-          ) : currentCandidate ? (
-            <div className=" border rounded-md border-gray-400 shadow-md overflow-hidden">
-              <ProfileDetail profile={currentCandidate} />
+          {!isProfileIncomplete && (
+            <>
+              {candidates.length === 0 ? (
+                <EmptyState
+                  title="no matches found"
+                  description="make sure you've completed your profile and published it to enable matching"
+                  actionText="complete profile"
+                  onAction={() => router.push("/profile")}
+                />
+              ) : currentCandidate ? (
+                <div className=" border rounded-md border-gray-400 shadow-md overflow-hidden">
+                  <ProfileDetail profile={currentCandidate} />
 
-              <div className="p-6 border-t border-gray-100">
-                {!showBlockConfirm ? (
-                  <>
-                    <ActionButtons
-                      onLike={() => handleAction("like")}
-                      onSkip={() => handleAction("pass")}
-                      isSubmitting={isSubmitting}
-                    />
-                    <div className="mt-4 flex justify-center">
-                      <BlockButton
-                        onClick={() => setShowBlockConfirm(true)}
+                  <div className="p-6 border-t border-gray-100">
+                    {!showBlockConfirm ? (
+                      <>
+                        <ActionButtons
+                          onLike={() => handleAction("like")}
+                          onSkip={() => handleAction("pass")}
+                          isSubmitting={isSubmitting}
+                        />
+                        <div className="mt-4 flex justify-center">
+                          <BlockButton
+                            onClick={() => setShowBlockConfirm(true)}
+                            isSubmitting={isSubmitting}
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <BlockConfirmation
+                        onConfirm={handleBlock}
+                        onCancel={() => setShowBlockConfirm(false)}
                         isSubmitting={isSubmitting}
                       />
-                    </div>
-                  </>
-                ) : (
-                  <BlockConfirmation
-                    onConfirm={handleBlock}
-                    onCancel={() => setShowBlockConfirm(false)}
-                    isSubmitting={isSubmitting}
-                  />
-                )}
-              </div>
-            </div>
-          ) : null}
+                    )}
+                  </div>
+                </div>
+              ) : null}
+            </>
+          )}
         </div>
       </main>
 

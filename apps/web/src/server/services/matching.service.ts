@@ -78,6 +78,13 @@ async function enrichCandidateData(
   }
 }
 
+export class ProfileNotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ProfileNotFoundError";
+  }
+}
+
 export async function findMatchingCandidates(
   sb: SupabaseClient,
   userId: string,
@@ -87,7 +94,7 @@ export async function findMatchingCandidates(
     await profilesRepo.getLatestUserVenture(sb, userId);
 
   if (ventureErr || !userVenture) {
-    throw new Error("No venture found for user");
+    throw new ProfileNotFoundError("PROFILE_INCOMPLETE: Please create your profile first to discover matches");
   }
 
   const ideaId = userVenture.id;
@@ -98,8 +105,8 @@ export async function findMatchingCandidates(
   );
 
   if (embErr || !embedding) {
-    throw new Error(
-      "No embedding found for this venture. Please make sure your profile is published to generate embeddings."
+    throw new ProfileNotFoundError(
+      "PROFILE_INCOMPLETE: Please make sure your profile is published to generate embeddings"
     );
   }
 

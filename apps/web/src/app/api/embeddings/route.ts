@@ -8,7 +8,7 @@ import {
   generateAndStoreEmbedding,
   EmbeddingProvider,
 } from "@/server/services/embeddings.service";
-import { findMatchingCandidates } from "@/server/services/matching.service";
+import { findMatchingCandidates, ProfileNotFoundError } from "@/server/services/matching.service";
 
 export type EntityType = "idea" | "profile";
 
@@ -121,6 +121,17 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(result);
   } catch (error) {
     console.error("GET /api/embeddings error:", error);
+
+    if (error instanceof ProfileNotFoundError) {
+      return NextResponse.json(
+        {
+          error: error.message,
+          code: "PROFILE_INCOMPLETE",
+        },
+        { status: 422 }
+      );
+    }
+
     return NextResponse.json(
       {
         error: `Server error: ${error instanceof Error ? error.message : "Unknown error"}`,

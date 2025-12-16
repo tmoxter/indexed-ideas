@@ -167,7 +167,7 @@ describe("GET /api/embeddings", () => {
     expect(data.error).toBe("userId required");
   });
 
-  it("should return 404 error when user has no venture", async () => {
+  it("should return 422 error with PROFILE_INCOMPLETE code when user has no venture", async () => {
     const { createClient } = await import("@supabase/supabase-js");
     const nonExistentUserId = "non-existent-user-id";
 
@@ -182,9 +182,11 @@ describe("GET /api/embeddings", () => {
     const response = await GET(mockRequest);
     const data = await response.json();
 
-    expect(response.status).toBe(500);
+    expect(response.status).toBe(422);
     expect(data).toHaveProperty("error");
-    expect(data.error).toContain("No venture found for user");
+    expect(data).toHaveProperty("code");
+    expect(data.code).toBe("PROFILE_INCOMPLETE");
+    expect(data.error).toContain("PROFILE_INCOMPLETE:");
   });
 
   it("should include all expected fields in candidate responses", async () => {
