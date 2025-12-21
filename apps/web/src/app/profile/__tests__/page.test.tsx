@@ -380,7 +380,7 @@ describe("ProfilePage Integration Tests", () => {
     );
     await user.type(
       screen.getByPlaceholderText(
-        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
       ),
       "A comprehensive development toolkit for modern teams"
     );
@@ -445,9 +445,7 @@ describe("ProfilePage Integration Tests", () => {
     );
     // City is now a CityPicker component, not a text input
     await user.type(
-      screen.getByPlaceholderText(
-        /a brief background of yourself, things you want others to know/i
-      ),
+      screen.getByPlaceholderText(/a brief background of yourself/i),
       "Experienced product manager"
     );
     await user.type(
@@ -458,7 +456,7 @@ describe("ProfilePage Integration Tests", () => {
     );
     await user.type(
       screen.getByPlaceholderText(
-        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
       ),
       "A comprehensive development toolkit for modern teams"
     );
@@ -559,7 +557,7 @@ describe("ProfilePage Integration Tests", () => {
     );
     await user.type(
       screen.getByPlaceholderText(
-        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
       ),
       "A toolkit for developers"
     );
@@ -667,7 +665,7 @@ describe("ProfilePage Integration Tests", () => {
     );
     await user.type(
       screen.getByPlaceholderText(
-        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
       ),
       "A toolkit"
     );
@@ -718,9 +716,7 @@ describe("ProfilePage Integration Tests", () => {
     );
     // City is now a CityPicker component, not a text input
     await user.type(
-      screen.getByPlaceholderText(
-        /a brief background of yourself, things you want others to know/i
-      ),
+      screen.getByPlaceholderText(/a brief background of yourself/i),
       "Full-stack developer with AI expertise"
     );
     await user.type(
@@ -737,7 +733,7 @@ describe("ProfilePage Integration Tests", () => {
     );
     await user.type(
       screen.getByPlaceholderText(
-        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
       ),
       "Automated code review using machine learning"
     );
@@ -825,7 +821,7 @@ describe("ProfilePage Integration Tests", () => {
     );
     await user.type(
       screen.getByPlaceholderText(
-        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
       ),
       "A toolkit"
     );
@@ -1018,7 +1014,7 @@ describe("ProfilePage Integration Tests", () => {
       );
       await user.type(
         screen.getByPlaceholderText(
-          /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
         ),
         "A toolkit for developers"
       );
@@ -1055,7 +1051,7 @@ describe("ProfilePage Integration Tests", () => {
       );
       await user.type(
         screen.getByPlaceholderText(
-          /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
         ),
         "A toolkit for developers"
       );
@@ -1096,7 +1092,7 @@ describe("ProfilePage Integration Tests", () => {
       );
       await user.type(
         screen.getByPlaceholderText(
-          /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
         ),
         "A toolkit for developers"
       );
@@ -1147,7 +1143,7 @@ describe("ProfilePage Integration Tests", () => {
       );
       await user.type(
         screen.getByPlaceholderText(
-          /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
         ),
         "A comprehensive development toolkit"
       );
@@ -1240,7 +1236,7 @@ describe("ProfilePage Integration Tests", () => {
       );
       await user.type(
         screen.getByPlaceholderText(
-          /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
         ),
         "A toolkit"
       );

@@ -548,8 +548,9 @@ export default function ProfilePage() {
               <div className="mt-5 p-2 bg-gray-100 rounded border-l-3 border-blue-600">
                 <p className="text-xs font-mono text-gray-700">
                   <strong>Note:</strong> When you update your idea, the matching
-                  algorithm always considers your latest submission for new matches. However, previous user
-                  interactions such as existing matches will remain.
+                  algorithm always considers your latest submission for new
+                  matches. However, previous user interactions such as existing
+                  matches will remain.
                 </p>
               </div>
             </section>
@@ -560,10 +561,10 @@ export default function ProfilePage() {
                 03. Co-founder Preferences
               </h2>
               <p className="font-mono text-sm text-gray-600 mb-6">
-                Describe what kind of co-founder you&apos;re looking for. This section has no functional
-                impact and is only to inform others.
-                There are limited matching preferences, which you can
-                configure on the settings page.
+                Describe what kind of co-founder you&apos;re looking for. This
+                section has no functional impact and is only to inform others.
+                There are limited matching preferences, which you can configure
+                on the settings page.
               </p>
 
               <div className="mb-6">
