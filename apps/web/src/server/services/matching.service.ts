@@ -123,7 +123,8 @@ export async function findMatchingCandidates(
     EMBEDDING_MODEL,
     CURRENT_EMBEDDING_VERSION,
     100,
-    10
+    30,
+    60
   );
 
   if (kErr) {

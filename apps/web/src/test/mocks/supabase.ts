@@ -554,7 +554,7 @@ export function createMockSupabaseClient(
       if (
         fn === "knn_candidates" ||
         fn === "knn_candidates_excl" ||
-        fn === "knn_candidates_interact_prefs_applied"
+        fn === "knn_candidates_interact_prefs_applied_hnsw"
       ) {
         const {
           p_idea_id,

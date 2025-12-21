@@ -1,10 +1,13 @@
 /**
  * Embedding version tracking
  *
- * Mintains the current version of the embedding system.
+ * Maintains the current version of the embedding system.
  * Increment the version whenever changes are made to:
  * This allows us to track which embeddings need regeneration are compatible,
  * enables version-specific queries, richer provenance.
+ * X.Y -> X requires db changes, such as a new column (new dimensionality, nex db index)
+ * Re-create all indexes in that case. Y is for changes such as prompt engineering etc. that impact similarity
+ * scores but does not require db operations.
  */
 
 /**
