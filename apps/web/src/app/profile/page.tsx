@@ -444,7 +444,7 @@ export default function ProfilePage() {
                   onChange={(e) => handleInputChange("bio", e.target.value)}
                   rows={4}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="a brief background of yourself, things you want others to know"
+                  placeholder="a brief background of yourself"
                 />
               </div>
 
@@ -474,7 +474,7 @@ export default function ProfilePage() {
                   }
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="voluntary freeform highlights of your previous work experience, roles, or companies you worked for..."
+                  placeholder="freeform highlights of your previous work experience..."
                 />
               </div>
 
@@ -489,7 +489,7 @@ export default function ProfilePage() {
                   }
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="voluntary freeform highlights of your educational background"
+                  placeholder="freeform highlights of your educational background..."
                 />
               </div>
             </section>
@@ -501,8 +501,7 @@ export default function ProfilePage() {
               </h2>
               <p className="font-mono text-sm text-gray-600 mb-6">
                 Describe what you want to build. Be specific about the problem
-                you want to solve, the solution you have in mind, and your
-                vision for what you will build.
+                you want to solve and the solution you have in mind.
                 <strong>
                   This will be visible to all users who view your profile.
                 </strong>{" "}
@@ -537,7 +536,7 @@ export default function ProfilePage() {
                   }
                   rows={8}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas"
+                  placeholder="e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas"
                   required
                 />
                 <p className="text-xs font-mono text-gray-500 mt-1">
@@ -546,11 +545,10 @@ export default function ProfilePage() {
                 </p>
               </div>
 
-              <div className="mt-2 p-2 bg-gray-100 rounded border-l-3 border-blue-600">
+              <div className="mt-5 p-2 bg-gray-100 rounded border-l-3 border-blue-600">
                 <p className="text-xs font-mono text-gray-700">
                   <strong>Note:</strong> When you update your idea, the matching
-                  algo always considers your latest submission so new matches
-                  are always based on your current idea. However, previous user
+                  algorithm always considers your latest submission for new matches. However, previous user
                   interactions such as existing matches will remain.
                 </p>
               </div>
@@ -562,10 +560,9 @@ export default function ProfilePage() {
                 03. Co-founder Preferences
               </h2>
               <p className="font-mono text-sm text-gray-600 mb-6">
-                Describe what kind of co-founder you&apos;re looking for and
-                what you bring to the table. This section has no functional
-                impact and is only for display to others viewing your profiles.
-                There are limited matching preferences (location filter) you can
+                Describe what kind of co-founder you&apos;re looking for. This section has no functional
+                impact and is only to inform others.
+                There are limited matching preferences, which you can
                 configure on the settings page.
               </p>
 

@@ -110,7 +110,7 @@ export default function SkippedProfilesPage() {
           {profiles.length === 0 ? (
             <EmptyState
               title="No skipped profiles"
-              description="profiles you pass on will appear here"
+              description="profiles you skip will appear here"
               actionText="Discover Co-Founders"
               onAction={() => router.push("/discover")}
             />

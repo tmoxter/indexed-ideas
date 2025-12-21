@@ -96,7 +96,7 @@ export async function findMatchingCandidates(
 
   if (ventureErr || !userVenture) {
     throw new ProfileNotFoundError(
-      "PROFILE_INCOMPLETE: Please create your profile first to discover matches"
+      "PROFILE_INCOMPLETE: Please set-up your profile first to get started."
     );
   }
 
