@@ -10,7 +10,7 @@ import MagneticLoginButton from "@/components/MagneticLoginButton";
 import SectionHeader from "@/components/SectionHeader";
 import FeatureCard from "@/components/FeatureCard";
 import LandingPageImage from "@/components/LandingPageImage";
-import { ArrowUpZA, Telescope, Handshake, Map } from "lucide-react";
+import { ArrowUpZA, Feather, SwatchBook, Telescope } from "lucide-react";
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -77,25 +77,23 @@ export default function Home() {
         Finding potential matches is then achieved by indexing the semantic similarity of users' venture ideas and matching the most similar candidates.`,
     },
     {
-      icon: Telescope,
+      icon: Feather,
       title: "Lightweight",
       description: `Indexed-Ideas is lightweight in that it requires little set-up or commitment.
         You share your (first) name and as much or little about yourself as you wish: The focus lies on what you are working on.
         Please don't share any sensitive information.`,
     },
     {
-      icon: Handshake,
+      icon: SwatchBook,
       title: "Minimal",
-      description: `Indexed-Ideas is minimal in that it aims not to re-invent the wheel: If you match, you share your LinkedIn<sup>*</sup> profiles to connect.
-        There is no chat feature to reduce complexity and remove the burdon of moderation.
-        The focus on match quality over quantity likely also means that there will be no need to spend much time here, going over large numbers of profiles.
+      description: `Indexed-Ideas is minimal in that it aims not to re-create what already works: There is no chat feature. If you match, you share your LinkedIn<sup>*</sup> profiles to connect.
         <br/><br/>
         <small>* No affiliation</small>`,
     },
     {
-      icon: Map,
+      icon: Telescope,
       title: "Insights",
-      description: `Work in progress: Discover how unique your ideas are and view aggregates how many out have tackled the same problems.`,
+      description: `Work in progress: Discover how unique your ideas are and view aggregates how many out there are tackling or have tackled the same problems.`,
     },
   ];
 

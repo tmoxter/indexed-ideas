@@ -19,7 +19,10 @@ export default function FeatureCard({
       <h3 className="text-lg font-mono font-semibold text-gray-900 mb-2">
         {title}
       </h3>
-      <p className="text-gray-900 text-m">{description}</p>
+      <p
+        className="text-gray-900 text-m"
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
     </div>
   );
 }
