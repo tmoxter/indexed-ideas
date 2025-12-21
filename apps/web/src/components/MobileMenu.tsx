@@ -2,8 +2,8 @@
 
 import {
   Search,
-  Sparkles,
-  SkipForward,
+  Handshake,
+  Undo2,
   Settings,
   LogOut,
   User,
@@ -67,13 +67,13 @@ export default function MobileMenu({
           page: "pending-requests",
         },
         {
-          icon: Sparkles,
+          icon: Handshake,
           label: "Matches",
           path: "/matches",
           page: "my-matches",
         },
         {
-          icon: SkipForward,
+          icon: Undo2,
           label: "Skipped Profiles",
           path: "/skipped",
           page: "skipped",

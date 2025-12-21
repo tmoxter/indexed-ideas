@@ -47,42 +47,42 @@ export default function HomePage() {
             <NavigationCard
               Icon={Search}
               title="Discover Profiles"
-              description="browse through semantic similarity matches and find potential co-founders based on your profile and venture ideas"
+              description="discover co-founders with similar ideas and send them a like if you want to connect"
               onClick={() => router.push("/discover")}
             />
 
             <NavigationCard
               Icon={Clock}
               title="Pending Requests"
-              description="review and respond to people who have liked your profile and want to connect"
+              description="review and respond to people who have liked your profile and want to connect with you"
               onClick={() => router.push("/pending-requests")}
-            />
-
-            <NavigationCard
-              Icon={Undo2}
-              title="Revisit Skipped Profiles"
-              description="review profiles you previously passed on and reconsider potential connections"
-              onClick={() => router.push("/skipped")}
             />
 
             <NavigationCard
               Icon={Handshake}
               title="Matches"
-              description="view your mutual matches and connect with co-founders who are interested in collaborating"
+              description="view your matches and connect with co-founders who are interested in collaborating"
               onClick={() => router.push("/matches")}
+            />
+
+            <NavigationCard
+              Icon={Undo2}
+              title="Revisit Skipped Profiles"
+              description="review profiles you previously skipped and reconsider potential connections"
+              onClick={() => router.push("/skipped")}
             />
 
             <NavigationCard
               Icon={User}
               title="My Profile"
-              description="edit your profile, venture ideas, and co-founder preferences to improve matching"
+              description="edit your user profile, venture ideas, and co-founder preferences"
               onClick={() => router.push("/profile")}
             />
 
             <NavigationCard
               Icon={Settings}
               title="Settings"
-              description="manage your account settings, preferences, and blocked profiles"
+              description="manage your account settings, matching preferences, and blocked profiles"
               onClick={() => router.push("/settings")}
             />
           </div>

@@ -105,7 +105,7 @@ export default function MatchesPage() {
         <div className="max-w-4xl mx-auto">
           <PageHeader
             title="Discover Profiles"
-            description="semantic similarity matches based on your profile and venture ideas"
+            description="discover co-founders with similar ideas"
             highlight
           />
 
@@ -114,7 +114,7 @@ export default function MatchesPage() {
           {isProfileIncomplete ? (
             <div className="mb-6">
               <MessageBanner
-                message={matchesError || "Please create your profile to discover matches"}
+                message={matchesError || "Please set-up your profile first to get started."}
                 type="warning"
               />
               <div className="mt-4 text-center">
@@ -135,7 +135,7 @@ export default function MatchesPage() {
               {candidates.length === 0 ? (
                 <EmptyState
                   title="no matches found"
-                  description="make sure you've completed your profile and published it to enable matching"
+                  description="make sure you've completed your profile and published it to start matching"
                   actionText="complete profile"
                   onAction={() => router.push("/profile")}
                 />

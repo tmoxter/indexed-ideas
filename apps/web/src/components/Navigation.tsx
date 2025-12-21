@@ -6,8 +6,8 @@ import { supabaseClient } from "@/lib/supabase";
 import Image from "next/image";
 import {
   Search,
-  Sparkles,
-  SkipForward,
+  Handshake,
+  Undo2,
   Settings,
   LogOut,
   User,
@@ -334,7 +334,7 @@ export default function Navigation({
                         }`}
                       >
                         {hoveredItem === "my-matches" && (
-                          <Sparkles className="w-4 h-4" />
+                          <Handshake className="w-4 h-4" />
                         )}
                         <span
                           className={
@@ -362,7 +362,7 @@ export default function Navigation({
                         }`}
                       >
                         {hoveredItem === "skipped" && (
-                          <SkipForward className="w-4 h-4" />
+                          <Undo2 className="w-4 h-4" />
                         )}
                         <span
                           className={

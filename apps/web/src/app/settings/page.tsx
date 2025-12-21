@@ -149,7 +149,7 @@ export default function SettingsPage() {
         <div className="max-w-4xl mx-auto">
           <PageHeader
             title="Account Settings"
-            description="Manage your account preferences and data"
+            description="manage your account preferences and data"
           />
 
           {message && <MessageBanner message={message} type="success" />}
@@ -232,7 +232,7 @@ export default function SettingsPage() {
                   </div>
                 )}
                 <p className="mt-2 font-mono text-xs text-gray-500">
-                  Filter profiles based on geographic location
+                  Filter profiles based on geographic preferences
                 </p>
               </div>
 
@@ -283,8 +283,8 @@ export default function SettingsPage() {
                 )}
                 <p className="mt-2 font-mono text-xs text-gray-500">
                   Stricter thresholds lead to fewer profiles to discover.
-                  Profiles will be sorted by similarity in any case so that the
-                  most similar profiles will appear first.
+                  Profiles will always be sorted by similarity so that the
+                  most similar profiles will appear at the top.
                 </p>
               </div>
 
@@ -305,14 +305,14 @@ export default function SettingsPage() {
               View and edit blocked profiles
             </h2>
             <p className="font-mono text-sm text-gray-600 mb-6">
-              Review the people you&apos;ve blocked and manage who can appear in
+              Review people you&apos;ve blocked and manage who can appear in
               your discovery feed.
             </p>
             <button
               onClick={() => router.push("/blocked")}
               className="px-6 py-3 bg-black text-white rounded font-mono text-sm hover:bg-gray-800 transition duration-200"
             >
-              Go to blocked profiles
+              Go to Blocked Profiles
             </button>
           </section>
 
@@ -325,7 +325,7 @@ export default function SettingsPage() {
                   Danger Zone
                 </h2>
                 <p className="font-mono text-sm text-gray-600">
-                  Irreversible and destructive actions
+                  Irreversible and destructive actions. No user records will be kept.
                 </p>
               </div>
             </div>

@@ -111,7 +111,7 @@ export function CityPicker({
     <div className="relative" aria-haspopup="listbox" aria-expanded={open}>
       <input
         className="w-full rounded border p-2"
-        placeholder="Type your city"
+        placeholder="start typing..."
         value={query}
         onChange={(e) => {
           setQuery(e.target.value);

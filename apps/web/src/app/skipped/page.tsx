@@ -110,16 +110,19 @@ export default function SkippedProfilesPage() {
 
       <main className="px-6 pt-24 pb-8">
         <div className="max-w-7xl mx-auto">
-          <PageHeader title="Skipped Profiles" highlight />
+          <PageHeader
+          title="Skipped Profiles" highlight
+          description="revist profiles you skipped on your first encounter"
+          />
 
           {message && <MessageBanner message={message} />}
           {error && <MessageBanner message={error} type="error" />}
 
           {profiles.length === 0 ? (
             <EmptyState
-              title="no skipped profiles"
-              description="Profiles you pass on will appear here"
-              actionText="Discover co-founders"
+              title="No skipped profiles"
+              description="profiles you pass on will appear here"
+              actionText="Discover Co-Founders"
               onAction={() => router.push("/discover")}
             />
           ) : (

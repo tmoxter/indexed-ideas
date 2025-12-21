@@ -80,16 +80,19 @@ export default function MyMatchesPage() {
 
       <main className="px-6 pt-24 pb-8">
         <div className="max-w-7xl mx-auto">
-          <PageHeader title="Matches" highlight />
+          <PageHeader
+          title="Matches" highlight
+          description="view your matches and connect with co-founders"
+          />
 
           {message && <MessageBanner message={message} />}
           {error && <MessageBanner message={error} type="error" />}
 
           {matches.length === 0 ? (
             <EmptyState
-              title="no matches yet"
-              description="Start swiping to find your co-founder!"
-              actionText="Discover co-founders"
+              title="No matches yet"
+              description="browse user profiles to find potential co-founders"
+              actionText="Discover Co-Founders"
               onAction={() => router.push("/discover")}
             />
           ) : (

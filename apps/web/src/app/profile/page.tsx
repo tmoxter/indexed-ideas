@@ -401,7 +401,7 @@ export default function ProfilePage() {
                     value={profileData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
-                    placeholder="your full name"
+                    placeholder="your name (how you want to appear to others)"
                     required
                   />
                 </div>
@@ -452,7 +452,7 @@ export default function ProfilePage() {
                   onChange={(e) => handleInputChange("bio", e.target.value)}
                   rows={4}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="brief background about yourself, your experience, skills..."
+                  placeholder="a brief background of yourself, things you want others to know"
                 />
               </div>
 
@@ -467,7 +467,7 @@ export default function ProfilePage() {
                   }
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="previous companies, projects, notable achievements, technical skills..."
+                  placeholder="projects, notable achievements, impressive skills you want to showcase..."
                 />
               </div>
 
@@ -482,7 +482,7 @@ export default function ProfilePage() {
                   }
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="work experience, roles, companies..."
+                  placeholder="voluntary freeform highlights of your previous work experience, roles, or companies you worked for..."
                 />
               </div>
 
@@ -497,7 +497,7 @@ export default function ProfilePage() {
                   }
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="degrees, schools, certifications..."
+                  placeholder="voluntary freeform highlights of your educational background"
                 />
               </div>
             </section>
@@ -508,8 +508,11 @@ export default function ProfilePage() {
                 02.Venture / Project Ideas
               </h2>
               <p className="font-mono text-sm text-gray-600 mb-6">
-                Describe what you want to build. Be specific about the problem,
-                solution, and vision.
+                Describe what you want to build. Be specific about the problem you want to solve,
+                the solution you have in mind, and your vision for what you will build.
+                
+                <strong>This will be visible to all users who view your profile.</strong> Make sure you 
+                have the rights to disclose whatever you share here.
               </p>
 
               <div className="mb-6">
@@ -523,7 +526,7 @@ export default function ProfilePage() {
                     handleInputChange("venture_title", e.target.value)
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
-                  placeholder="e.g., AI-powered code review platform, sustainable food delivery network..."
+                  placeholder="e.g., a semantically-aware co-founder matching experiment"
                   required
                 />
               </div>
@@ -539,14 +542,23 @@ export default function ProfilePage() {
                   }
                   rows={8}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="explain the problem you're solving, your proposed solution, target market, technical approach, business model, vision for the future..."
+                  placeholder="e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas"
                   required
                 />
                 <p className="text-xs font-mono text-gray-500 mt-1">
                   This description is used for semantic matching. Be detailed
-                  and specific.
+                  and specific as this impacts the quality of your matches.
                 </p>
               </div>
+
+              <div className="mt-2 p-2 bg-gray-100 rounded border-l-3 border-blue-600">
+                <p className="text-xs font-mono text-gray-700">
+                  <strong>Note:</strong> When you update your idea, the matching algo always considers your latest
+                  submission so new matches are always based on your current idea. However, previous user interactions such as 
+                  existing matches will remain.
+                </p>
+              </div>
+
             </section>
 
             {/* Co-founder Preferences */}
@@ -556,12 +568,14 @@ export default function ProfilePage() {
               </h2>
               <p className="font-mono text-sm text-gray-600 mb-6">
                 Describe what kind of co-founder you&apos;re looking for and
-                what you bring to the table.
+                what you bring to the table. This section has no functional impact and is
+                only for display to others viewing your profiles. There are limited matching preferences
+                (location filter) you can configure on the settings page.
               </p>
 
               <div className="mb-6">
                 <label className="block font-mono text-sm text-gray-700 mb-2">
-                  Role Title
+                  Role
                 </label>
                 <input
                   type="text"
@@ -573,7 +587,7 @@ export default function ProfilePage() {
                     )
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
-                  placeholder="e.g., seeking technical co-founder, looking for business-minded partner..."
+                  placeholder="e.g., a technical co-founder, CFO, or sales champion..."
                 />
               </div>
 
@@ -591,7 +605,7 @@ export default function ProfilePage() {
                   }
                   rows={6}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="describe ideal co-founder skills, experience, work style, equity expectations, time commitment, complementary skills to yours..."
+                  placeholder="anything regarding ideal skillset, experience, availability, equity expectations..."
                 />
               </div>
             </section>
@@ -616,7 +630,7 @@ export default function ProfilePage() {
                 >
                   privacy policy
                 </a>
-                {" *"}
+                {". *"}
               </span>
             </label>
           </div>
@@ -628,7 +642,7 @@ export default function ProfilePage() {
               disabled={isSaving || !agreedToPrivacyPolicy}
               className="group relative inline-flex items-center justify-center px-6 py-3 rounded-lg font-mono text-sm text-gray-900 bg-white border border-gray-300 shadow-lg hover:shadow-2xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSaving ? "saving..." : "Save as draft"}
+              {isSaving ? "Saving..." : "Save as Draft"}
             </button>
 
             <button
@@ -644,7 +658,7 @@ export default function ProfilePage() {
               }
               className="group relative inline-flex items-center justify-center px-6 py-3 rounded-lg font-mono text-sm text-white bg-gray-900 border border-gray-900 shadow-lg hover:shadow-2xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSaving ? "publishing..." : "Save & publish"}
+              {isSaving ? "Publishing..." : "Save & Publish"}
             </button>
           </div>
 
@@ -683,10 +697,8 @@ export default function ProfilePage() {
 
           <div className="mt-8 p-4 bg-gray-100 rounded border-l-4 border-blue-600">
             <p className="text-sm font-mono text-gray-700">
-              <strong>tip:</strong> the more detailed and specific your
-              descriptions, the better the semantic matching algorithm can find
-              compatible co-founders. focus on technical details, problem
-              domains, and specific goals.
+              <strong>Note:</strong> Being upfront and honest about your background as well as expectations is
+              essential and a sign that you respect and value the time of other users.
             </p>
           </div>
         </div>
