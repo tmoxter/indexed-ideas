@@ -1,7 +1,6 @@
 import "server-only";
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import { supabaseClient } from "@/lib/supabase";
 import { createClient } from "@supabase/supabase-js";
 import { extractBearerToken, authenticateUser } from "@/server/logic/auth";
 import {
@@ -61,7 +60,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const supabase = supabaseClient();
     const { user, error: authError } = await authenticateUser(
       token,
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -74,6 +72,19 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
+
+    // Create authenticated Supabase client with the user's token
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        global: {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      }
+    );
 
     await generateAndStoreEmbedding(
       supabase,
