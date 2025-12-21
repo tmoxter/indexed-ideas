@@ -8,7 +8,7 @@ export interface EmbeddingInsert {
   entity_id: string;
   user_id: string;
   model: string;
-  vector: number[];
+  semantic_vector_ev2: number[];
   version: string;
   updated_at: string;
 }

@@ -443,9 +443,10 @@ describe("ProfilePage Integration Tests", () => {
       ),
       "https://www.linkedin.com/in/janesmith"
     );
-    // City is now a CityPicker component, not a text input
     await user.type(
-      screen.getByPlaceholderText(/a brief background of yourself/i),
+      screen.getByPlaceholderText(
+        /Say hello and share a little bit about yourself.../i
+      ),
       "Experienced product manager"
     );
     await user.type(
@@ -714,9 +715,10 @@ describe("ProfilePage Integration Tests", () => {
       ),
       "Alice Johnson"
     );
-    // City is now a CityPicker component, not a text input
     await user.type(
-      screen.getByPlaceholderText(/a brief background of yourself/i),
+      screen.getByPlaceholderText(
+        /say hello and share a little bit about yourself.../i
+      ),
       "Full-stack developer with AI expertise"
     );
     await user.type(

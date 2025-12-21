@@ -437,14 +437,14 @@ export default function ProfilePage() {
 
               <div className="mt-6">
                 <label className="block font-mono text-sm text-gray-700 mb-2">
-                  Bio
+                  Intro & Bio
                 </label>
                 <textarea
                   value={profileData.bio}
                   onChange={(e) => handleInputChange("bio", e.target.value)}
                   rows={4}
                   className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
-                  placeholder="a brief background of yourself"
+                  placeholder="Say hello and share a little bit about yourself..."
                 />
               </div>
 

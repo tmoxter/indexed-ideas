@@ -30,7 +30,7 @@ let mockEmbeddings: Array<{
   entity_type: string;
   entity_id: string;
   user_id: string;
-  vector: number[];
+  semantic_vector_ev2: number[];
 }> = [];
 let mockInteractions: Array<{
   id: string;
@@ -51,7 +51,7 @@ export function initializeMockData() {
     entity_type: "idea",
     entity_id: user.venture.id,
     user_id: user.id,
-    vector: generateMockEmbedding(index + 1),
+    semantic_vector_ev2: generateMockEmbedding(index + 1),
   }));
 }
 
@@ -269,7 +269,7 @@ export function createMockSupabaseClient(
               entity_type: string;
               entity_id: string;
               user_id: string;
-              vector: number[];
+              semantic_vector_ev2: number[];
             };
           } else {
             mockEmbeddings.push(
@@ -277,7 +277,7 @@ export function createMockSupabaseClient(
                 entity_type: string;
                 entity_id: string;
                 user_id: string;
-                vector: number[];
+                semantic_vector_ev2: number[];
               }
             );
           }
@@ -580,8 +580,8 @@ export function createMockSupabaseClient(
           .filter((e) => e.entity_id !== p_idea_id)
           .map((candidateEmb) => {
             const similarity = cosineSimilarity(
-              queryEmbedding.vector,
-              candidateEmb.vector
+              queryEmbedding.semantic_vector_ev2,
+              candidateEmb.semantic_vector_ev2
             );
             const user = testUsers.find(
               (u) => u.venture.id === candidateEmb.entity_id

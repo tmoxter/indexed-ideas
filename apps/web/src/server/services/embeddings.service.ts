@@ -111,7 +111,7 @@ export async function generateAndStoreEmbedding(
     entity_id: entityId,
     user_id: userId,
     model: modelName,
-    vector: embedding,
+    semantic_vector_ev2: embedding,
     version: CURRENT_EMBEDDING_VERSION,
     updated_at: new Date().toISOString(),
   });
