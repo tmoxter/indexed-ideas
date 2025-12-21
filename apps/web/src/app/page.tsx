@@ -54,7 +54,7 @@ export default function Home() {
     },
     {
       question: "Aren't there already alternative platforms out there?",
-      answer: `The goal is to offer a better signal-to-noise ratio for vision-based matching and offer an alternative to platforms that focus more on users' backgrounds.
+      answer: `The goal is to offer a better signal-to-noise ratio an alternative to platforms that focus more on users' backgrounds.
         There are plenty co-founder matching platforms (e.g. from YC) but it can be hard to find collaborators, who would be a great fit.
         Selecting broad areas of interest such as 'Biotech' or 'Finance' leaves you with a vast landscape of largely different endevours
         and many potential co-founders but few that understand what you do. Convincing others of your vision makes for great practice but in-efficient search and the person you should be building
@@ -80,7 +80,7 @@ export default function Home() {
       icon: Feather,
       title: "Lightweight",
       description: `Indexed-Ideas is lightweight in that it requires little set-up or commitment.
-        You share your (first) name and as much or little about yourself as you wish: The focus lies on what you are working on.
+        You share your name and as much or little about yourself as you wish: The focus lies on what you are working on.
         Please don't share any sensitive information.`,
     },
     {
@@ -186,7 +186,7 @@ export default function Home() {
                   Indexed-Ideas is a side project. It does not generate any
                   profits, e.g., by showing you adds. With the current
                   affordability of embedding tokens, you do not have to bring
-                  your own API keys for now, so it is completely free to use. It
+                  your own API keys, so it is completely free to use. It
                   remains in an experimental state, so if you find any bugs or
                   have suggestions, please open an issue or a PR on GitHub.
                   <a
