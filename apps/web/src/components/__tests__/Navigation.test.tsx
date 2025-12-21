@@ -29,13 +29,13 @@ vi.mock("@/lib/supabase", () => ({
 vi.mock("../MobileMenu", () => ({
   default: ({ userName, isLoadingUserName, user }: any) => (
     <div data-testid="mobile-menu">
-      {user && !isLoadingUserName && (
-        userName ? (
+      {user &&
+        !isLoadingUserName &&
+        (userName ? (
           <span data-testid="mobile-user-name">{userName}</span>
         ) : (
           <button data-testid="mobile-create-profile">Create a Profile</button>
-        )
-      )}
+        ))}
     </div>
   ),
 }));
@@ -204,7 +204,9 @@ describe("Navigation", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getAllByText(/create a profile/i).length).toBeGreaterThan(0);
+        expect(screen.getAllByText(/create a profile/i).length).toBeGreaterThan(
+          0
+        );
       });
 
       const createProfileButton = screen.getAllByText(/create a profile/i)[0];
@@ -265,14 +267,18 @@ describe("Navigation", () => {
 
       // During loading, mobile menu should not show user info
       expect(screen.queryByTestId("mobile-user-name")).not.toBeInTheDocument();
-      expect(screen.queryByTestId("mobile-create-profile")).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId("mobile-create-profile")
+      ).not.toBeInTheDocument();
 
       // Resolve with a user name
       resolveProfileQuery!({ data: { name: "Mobile User" }, error: null });
 
       // After loading, mobile menu should show the user name
       await waitFor(() => {
-        expect(screen.getByTestId("mobile-user-name")).toHaveTextContent("Mobile User");
+        expect(screen.getByTestId("mobile-user-name")).toHaveTextContent(
+          "Mobile User"
+        );
       });
     });
   });
@@ -339,11 +345,7 @@ describe("Navigation", () => {
       });
 
       render(
-        <Navigation
-          currentPage="home"
-          user={null}
-          onLogout={mockOnLogout}
-        />
+        <Navigation currentPage="home" user={null} onLogout={mockOnLogout} />
       );
 
       // Wait for any potential async operations

@@ -146,9 +146,7 @@ describe("MatchesPage Integration Tests", () => {
 
     // Should show description
     expect(
-      screen.getByText(
-        /semantic similarity matches based on your profile and venture ideas/i
-      )
+      screen.getByText(/discover co-founders with similar ideas/i)
     ).toBeInTheDocument();
   });
 
@@ -292,7 +290,7 @@ describe("MatchesPage Integration Tests", () => {
       vi.mocked(useMatches).mockReturnValue({
         candidates: [],
         isLoading: false,
-        error: "Please create your profile first to discover matches",
+        error: "Please set-up your profile first to get started.",
         isProfileIncomplete: true,
         reload: vi.fn(),
       });
@@ -300,7 +298,7 @@ describe("MatchesPage Integration Tests", () => {
       render(<MatchesPage />);
 
       expect(
-        screen.getByText(/please create your profile first to discover matches/i)
+        screen.getByText(/please set-up your profile first to get started/i)
       ).toBeInTheDocument();
     });
 
@@ -308,7 +306,7 @@ describe("MatchesPage Integration Tests", () => {
       vi.mocked(useMatches).mockReturnValue({
         candidates: [],
         isLoading: false,
-        error: "Please create your profile first to discover matches",
+        error: "Please set-up your profile first to get started.",
         isProfileIncomplete: true,
         reload: vi.fn(),
       });
@@ -325,7 +323,7 @@ describe("MatchesPage Integration Tests", () => {
       vi.mocked(useMatches).mockReturnValue({
         candidates: [],
         isLoading: false,
-        error: "Please create your profile first to discover matches",
+        error: "Please set-up your profile first to get started.",
         isProfileIncomplete: true,
         reload: vi.fn(),
       });
@@ -345,7 +343,7 @@ describe("MatchesPage Integration Tests", () => {
       vi.mocked(useMatches).mockReturnValue({
         candidates: [],
         isLoading: false,
-        error: "Please create your profile first to discover matches",
+        error: "Please set-up your profile first to get started.",
         isProfileIncomplete: true,
         reload: vi.fn(),
       });
@@ -360,7 +358,7 @@ describe("MatchesPage Integration Tests", () => {
       vi.mocked(useMatches).mockReturnValue({
         candidates: mockCandidates, // Even if candidates exist
         isLoading: false,
-        error: "Please create your profile first to discover matches",
+        error: "Please set-up your profile first to get started.",
         isProfileIncomplete: true,
         reload: vi.fn(),
       });
@@ -369,7 +367,7 @@ describe("MatchesPage Integration Tests", () => {
 
       // Should show the warning banner
       expect(
-        screen.getByText(/please create your profile first to discover matches/i)
+        screen.getByText(/please set-up your profile first to get started/i)
       ).toBeInTheDocument();
 
       // Should not show candidate profiles
@@ -390,7 +388,7 @@ describe("MatchesPage Integration Tests", () => {
       render(<MatchesPage />);
 
       expect(
-        screen.getByText(/please create your profile to discover matches/i)
+        screen.getByText(/please set-up your profile first to get started/i)
       ).toBeInTheDocument();
     });
 

@@ -53,7 +53,7 @@ export async function findKnnCandidates(
   version: string,
   limit: number,
   p_search_depth: number,
-  p_pass_cooldown_days: number,
+  p_pass_cooldown_days: number
 ) {
   return sb.rpc("knn_candidates_interact_prefs_applied_hnsw", {
     p_idea_id: ideaId,

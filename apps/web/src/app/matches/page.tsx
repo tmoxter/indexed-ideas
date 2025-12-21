@@ -49,11 +49,7 @@ export default function MyMatchesPage() {
   // Hard gate rendering until user + matches ready (prevents hydration mismatch)
   if (isLoading || matchesLoading) {
     return (
-      <LoadingSpinner
-        currentPage="my-matches"
-        user={user}
-        onLogout={logout}
-      />
+      <LoadingSpinner currentPage="my-matches" user={user} onLogout={logout} />
     );
   }
 
@@ -72,17 +68,14 @@ export default function MyMatchesPage() {
 
   return (
     <div className="min-h-screen bg-[var(--page-background)] pb-10 overflow-x-hidden">
-      <Navigation
-        currentPage="my-matches"
-        user={user}
-        onLogout={logout}
-      />
+      <Navigation currentPage="my-matches" user={user} onLogout={logout} />
 
       <main className="px-6 pt-24 pb-8">
         <div className="max-w-7xl mx-auto">
           <PageHeader
-          title="Matches" highlight
-          description="view your matches and connect with co-founders"
+            title="Matches"
+            highlight
+            description="view your matches and connect with co-founders"
           />
 
           {message && <MessageBanner message={message} />}

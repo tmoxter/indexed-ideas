@@ -129,21 +129,13 @@ export default function SettingsPage() {
 
   if (isLoading) {
     return (
-      <LoadingSpinner
-        currentPage="settings"
-        user={user}
-        onLogout={logout}
-      />
+      <LoadingSpinner currentPage="settings" user={user} onLogout={logout} />
     );
   }
 
   return (
     <div className="min-h-screen bg-[var(--page-background)] pb-10">
-      <Navigation
-        currentPage="settings"
-        user={user}
-        onLogout={logout}
-      />
+      <Navigation currentPage="settings" user={user} onLogout={logout} />
 
       <main className="px-6 pt-24 pb-8">
         <div className="max-w-4xl mx-auto">
@@ -168,8 +160,7 @@ export default function SettingsPage() {
                   {userName || "No name set"}
                 </div>
               </div>
-              <div>
-              </div>
+              <div></div>
               <div>
                 <label className="block font-mono text-sm text-gray-600 mb-1">
                   User ID
@@ -283,8 +274,8 @@ export default function SettingsPage() {
                 )}
                 <p className="mt-2 font-mono text-xs text-gray-500">
                   Stricter thresholds lead to fewer profiles to discover.
-                  Profiles will always be sorted by similarity so that the
-                  most similar profiles will appear at the top.
+                  Profiles will always be sorted by similarity so that the most
+                  similar profiles will appear at the top.
                 </p>
               </div>
 
@@ -325,7 +316,8 @@ export default function SettingsPage() {
                   Danger Zone
                 </h2>
                 <p className="font-mono text-sm text-gray-600">
-                  Irreversible and destructive actions. No user records will be kept.
+                  Irreversible and destructive actions. No user records will be
+                  kept.
                 </p>
               </div>
             </div>

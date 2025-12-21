@@ -139,9 +139,9 @@ describe("ProfilePage Integration Tests", () => {
               // If specific fields were requested, filter to those fields
               // but include the field even if it's undefined
               if (fieldsToReturn) {
-                const fields = fieldsToReturn.split(',').map(f => f.trim());
+                const fields = fieldsToReturn.split(",").map((f) => f.trim());
                 const data: Record<string, unknown> = {};
-                fields.forEach(field => {
+                fields.forEach((field) => {
                   data[field] = profile[field];
                 });
                 return Promise.resolve({ data, error: null });
@@ -165,9 +165,9 @@ describe("ProfilePage Integration Tests", () => {
             if (profile) {
               // If specific fields were requested (but not "*"), filter to those fields
               if (fieldsToReturn && fieldsToReturn !== "*") {
-                const fields = fieldsToReturn.split(',').map(f => f.trim());
+                const fields = fieldsToReturn.split(",").map((f) => f.trim());
                 const data: Record<string, unknown> = {};
-                fields.forEach(field => {
+                fields.forEach((field) => {
                   data[field] = profile[field];
                 });
                 return Promise.resolve({ data, error: null });
@@ -301,7 +301,11 @@ describe("ProfilePage Integration Tests", () => {
     });
 
     // Check that form is rendered with empty fields
-    expect(screen.getByPlaceholderText(/your full name/i)).toHaveValue("");
+    expect(
+      screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
+      )
+    ).toHaveValue("");
     expect(screen.getByTestId("city-picker")).toBeInTheDocument();
   });
 
@@ -363,15 +367,21 @@ describe("ProfilePage Integration Tests", () => {
 
     // Fill in form fields
     await user.type(
-      screen.getByPlaceholderText(/your full name/i),
+      screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
+      ),
       "Jane Smith"
     );
     await user.type(
-      screen.getByPlaceholderText(/AI-powered code review platform/i),
+      screen.getByPlaceholderText(
+        /e.g., a semantically-aware co-founder matching experiment/i
+      ),
       "DevTools Pro"
     );
     await user.type(
-      screen.getByPlaceholderText(/explain the problem you're solving/i),
+      screen.getByPlaceholderText(
+        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+      ),
       "A comprehensive development toolkit for modern teams"
     );
 
@@ -422,7 +432,9 @@ describe("ProfilePage Integration Tests", () => {
 
     // Fill in required fields
     await user.type(
-      screen.getByPlaceholderText(/your full name/i),
+      screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
+      ),
       "Jane Smith"
     );
     await user.type(
@@ -433,15 +445,21 @@ describe("ProfilePage Integration Tests", () => {
     );
     // City is now a CityPicker component, not a text input
     await user.type(
-      screen.getByPlaceholderText(/brief background about yourself/i),
+      screen.getByPlaceholderText(
+        /a brief background of yourself, things you want others to know/i
+      ),
       "Experienced product manager"
     );
     await user.type(
-      screen.getByPlaceholderText(/AI-powered code review platform/i),
+      screen.getByPlaceholderText(
+        /e.g., a semantically-aware co-founder matching experiment/i
+      ),
       "DevTools Pro"
     );
     await user.type(
-      screen.getByPlaceholderText(/explain the problem you're solving/i),
+      screen.getByPlaceholderText(
+        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+      ),
       "A comprehensive development toolkit for modern teams"
     );
 
@@ -522,7 +540,9 @@ describe("ProfilePage Integration Tests", () => {
 
     // Fill in required fields
     await user.type(
-      screen.getByPlaceholderText(/your full name/i),
+      screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
+      ),
       "Jane Smith"
     );
     await user.type(
@@ -532,11 +552,15 @@ describe("ProfilePage Integration Tests", () => {
       "https://www.linkedin.com/in/janesmith"
     );
     await user.type(
-      screen.getByPlaceholderText(/AI-powered code review platform/i),
+      screen.getByPlaceholderText(
+        /e.g., a semantically-aware co-founder matching experiment/i
+      ),
       "DevTools Pro"
     );
     await user.type(
-      screen.getByPlaceholderText(/explain the problem you're solving/i),
+      screen.getByPlaceholderText(
+        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+      ),
       "A toolkit for developers"
     );
 
@@ -630,15 +654,21 @@ describe("ProfilePage Integration Tests", () => {
 
     // Fill in required fields
     await user.type(
-      screen.getByPlaceholderText(/your full name/i),
+      screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
+      ),
       "Jane Smith"
     );
     await user.type(
-      screen.getByPlaceholderText(/AI-powered code review platform/i),
+      screen.getByPlaceholderText(
+        /e.g., a semantically-aware co-founder matching experiment/i
+      ),
       "DevTools"
     );
     await user.type(
-      screen.getByPlaceholderText(/explain the problem you're solving/i),
+      screen.getByPlaceholderText(
+        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+      ),
       "A toolkit"
     );
 
@@ -681,32 +711,46 @@ describe("ProfilePage Integration Tests", () => {
 
     // Fill in all fields
     await user.type(
-      screen.getByPlaceholderText(/your full name/i),
+      screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
+      ),
       "Alice Johnson"
     );
     // City is now a CityPicker component, not a text input
     await user.type(
-      screen.getByPlaceholderText(/brief background about yourself/i),
+      screen.getByPlaceholderText(
+        /a brief background of yourself, things you want others to know/i
+      ),
       "Full-stack developer with AI expertise"
     );
     await user.type(
-      screen.getByPlaceholderText(/previous companies, projects/i),
+      screen.getByPlaceholderText(
+        /projects, notable achievements, impressive skills you want to showcase/i
+      ),
       "Ex-Google, built ML platform"
     );
     await user.type(
-      screen.getByPlaceholderText(/AI-powered code review platform/i),
+      screen.getByPlaceholderText(
+        /e.g., a semantically-aware co-founder matching experiment/i
+      ),
       "CodeReview AI"
     );
     await user.type(
-      screen.getByPlaceholderText(/explain the problem you're solving/i),
+      screen.getByPlaceholderText(
+        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+      ),
       "Automated code review using machine learning"
     );
     await user.type(
-      screen.getByPlaceholderText(/seeking technical co-founder/i),
+      screen.getByPlaceholderText(
+        /e.g., a technical co-founder, CFO, or sales champion/i
+      ),
       "Technical Co-founder Needed"
     );
     await user.type(
-      screen.getByPlaceholderText(/describe ideal co-founder skills/i),
+      screen.getByPlaceholderText(
+        /anything regarding ideal skillset, experience, availability, equity expectations/i
+      ),
       "Looking for backend engineer with ML experience"
     );
 
@@ -762,7 +806,9 @@ describe("ProfilePage Integration Tests", () => {
 
     // Fill and publish
     await user.type(
-      screen.getByPlaceholderText(/your full name/i),
+      screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
+      ),
       "Jane Smith"
     );
     await user.type(
@@ -772,11 +818,15 @@ describe("ProfilePage Integration Tests", () => {
       "https://www.linkedin.com/in/janesmith"
     );
     await user.type(
-      screen.getByPlaceholderText(/AI-powered code review platform/i),
+      screen.getByPlaceholderText(
+        /e.g., a semantically-aware co-founder matching experiment/i
+      ),
       "DevTools"
     );
     await user.type(
-      screen.getByPlaceholderText(/explain the problem you're solving/i),
+      screen.getByPlaceholderText(
+        /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+      ),
       "A toolkit"
     );
 
@@ -949,7 +999,9 @@ describe("ProfilePage Integration Tests", () => {
 
       // Fill in all required fields except valid LinkedIn URL
       await user.type(
-        screen.getByPlaceholderText(/your full name/i),
+        screen.getByPlaceholderText(
+          "your name (how you want to appear to others)"
+        ),
         "Jane Smith"
       );
       await user.type(
@@ -959,11 +1011,15 @@ describe("ProfilePage Integration Tests", () => {
         "https://facebook.com/jane"
       );
       await user.type(
-        screen.getByPlaceholderText(/AI-powered code review platform/i),
+        screen.getByPlaceholderText(
+          /e.g., a semantically-aware co-founder matching experiment/i
+        ),
         "DevTools Pro"
       );
       await user.type(
-        screen.getByPlaceholderText(/explain the problem you're solving/i),
+        screen.getByPlaceholderText(
+          /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        ),
         "A toolkit for developers"
       );
 
@@ -986,15 +1042,21 @@ describe("ProfilePage Integration Tests", () => {
 
       // Fill in all required fields except LinkedIn URL
       await user.type(
-        screen.getByPlaceholderText(/your full name/i),
+        screen.getByPlaceholderText(
+          "your name (how you want to appear to others)"
+        ),
         "Jane Smith"
       );
       await user.type(
-        screen.getByPlaceholderText(/AI-powered code review platform/i),
+        screen.getByPlaceholderText(
+          /e.g., a semantically-aware co-founder matching experiment/i
+        ),
         "DevTools Pro"
       );
       await user.type(
-        screen.getByPlaceholderText(/explain the problem you're solving/i),
+        screen.getByPlaceholderText(
+          /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        ),
         "A toolkit for developers"
       );
 
@@ -1015,7 +1077,9 @@ describe("ProfilePage Integration Tests", () => {
 
       // Fill in all required fields with valid LinkedIn URL
       await user.type(
-        screen.getByPlaceholderText(/your full name/i),
+        screen.getByPlaceholderText(
+          "your name (how you want to appear to others)"
+        ),
         "Jane Smith"
       );
       await user.type(
@@ -1025,11 +1089,15 @@ describe("ProfilePage Integration Tests", () => {
         "https://www.linkedin.com/in/janesmith"
       );
       await user.type(
-        screen.getByPlaceholderText(/AI-powered code review platform/i),
+        screen.getByPlaceholderText(
+          /e.g., a semantically-aware co-founder matching experiment/i
+        ),
         "DevTools Pro"
       );
       await user.type(
-        screen.getByPlaceholderText(/explain the problem you're solving/i),
+        screen.getByPlaceholderText(
+          /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        ),
         "A toolkit for developers"
       );
 
@@ -1060,7 +1128,9 @@ describe("ProfilePage Integration Tests", () => {
 
       // Fill in required fields
       await user.type(
-        screen.getByPlaceholderText(/your full name/i),
+        screen.getByPlaceholderText(
+          "your name (how you want to appear to others)"
+        ),
         "Jane Smith"
       );
       await user.type(
@@ -1070,11 +1140,15 @@ describe("ProfilePage Integration Tests", () => {
         linkedinUrl
       );
       await user.type(
-        screen.getByPlaceholderText(/AI-powered code review platform/i),
+        screen.getByPlaceholderText(
+          /e.g., a semantically-aware co-founder matching experiment/i
+        ),
         "DevTools Pro"
       );
       await user.type(
-        screen.getByPlaceholderText(/explain the problem you're solving/i),
+        screen.getByPlaceholderText(
+          /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        ),
         "A comprehensive development toolkit"
       );
 
@@ -1147,7 +1221,9 @@ describe("ProfilePage Integration Tests", () => {
 
       // Fill in all fields with invalid LinkedIn URL
       await user.type(
-        screen.getByPlaceholderText(/your full name/i),
+        screen.getByPlaceholderText(
+          "your name (how you want to appear to others)"
+        ),
         "Jane Smith"
       );
       await user.type(
@@ -1157,11 +1233,15 @@ describe("ProfilePage Integration Tests", () => {
         "invalid-url"
       );
       await user.type(
-        screen.getByPlaceholderText(/AI-powered code review platform/i),
+        screen.getByPlaceholderText(
+          /e.g., a semantically-aware co-founder matching experiment/i
+        ),
         "DevTools Pro"
       );
       await user.type(
-        screen.getByPlaceholderText(/explain the problem you're solving/i),
+        screen.getByPlaceholderText(
+          /e.g., a platform allowing users to find one-another based on the semantic similarity of their venture ideas/i
+        ),
         "A toolkit"
       );
 

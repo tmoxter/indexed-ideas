@@ -95,11 +95,7 @@ export default function MatchesPage() {
 
   return (
     <div className="min-h-screen bg-[var(--page-background)] pb-10">
-      <Navigation
-        currentPage="discover"
-        user={user}
-        onLogout={logout}
-      />
+      <Navigation currentPage="discover" user={user} onLogout={logout} />
 
       <main className="px-6 pt-24 pb-8">
         <div className="max-w-4xl mx-auto">
@@ -114,7 +110,10 @@ export default function MatchesPage() {
           {isProfileIncomplete ? (
             <div className="mb-6">
               <MessageBanner
-                message={matchesError || "Please set-up your profile first to get started."}
+                message={
+                  matchesError ||
+                  "Please set-up your profile first to get started."
+                }
                 type="warning"
               />
               <div className="mt-4 text-center">
@@ -126,8 +125,10 @@ export default function MatchesPage() {
                 </button>
               </div>
             </div>
-          ) : matchesError && (
-            <MessageBanner message={matchesError} type="error" />
+          ) : (
+            matchesError && (
+              <MessageBanner message={matchesError} type="error" />
+            )
           )}
 
           {!isProfileIncomplete && (

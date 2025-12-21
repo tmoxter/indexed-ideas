@@ -21,7 +21,10 @@ export function useMatches(userId: string | undefined, limit = 20) {
         const errorData = await response.json();
         const errorMessage = errorData?.error || "Unknown error";
 
-        if (errorData?.code === "PROFILE_INCOMPLETE" || errorMessage.includes("PROFILE_INCOMPLETE:")) {
+        if (
+          errorData?.code === "PROFILE_INCOMPLETE" ||
+          errorMessage.includes("PROFILE_INCOMPLETE:")
+        ) {
           setIsProfileIncomplete(true);
           setError(errorMessage.replace("PROFILE_INCOMPLETE: ", ""));
         } else {
@@ -58,5 +61,11 @@ export function useMatches(userId: string | undefined, limit = 20) {
     }
   }, [userId, loadMatches]);
 
-  return { candidates, isLoading, error, isProfileIncomplete, reload: loadMatches };
+  return {
+    candidates,
+    isLoading,
+    error,
+    isProfileIncomplete,
+    reload: loadMatches,
+  };
 }

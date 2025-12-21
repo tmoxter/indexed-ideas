@@ -360,21 +360,13 @@ export default function ProfilePage() {
 
   if (authLoading || isLoadingProfile) {
     return (
-      <LoadingSpinner
-        currentPage="profile"
-        user={user}
-        onLogout={logout}
-      />
+      <LoadingSpinner currentPage="profile" user={user} onLogout={logout} />
     );
   }
 
   return (
     <div className="min-h-screen bg-[var(--page-background)] pb-10">
-      <Navigation
-        currentPage="profile"
-        user={user}
-        onLogout={logout}
-      />
+      <Navigation currentPage="profile" user={user} onLogout={logout} />
 
       <main className="px-6 pt-24 pb-8">
         <div className="max-w-4xl mx-auto">
@@ -508,11 +500,14 @@ export default function ProfilePage() {
                 02.Venture / Project Ideas
               </h2>
               <p className="font-mono text-sm text-gray-600 mb-6">
-                Describe what you want to build. Be specific about the problem you want to solve,
-                the solution you have in mind, and your vision for what you will build.
-                
-                <strong>This will be visible to all users who view your profile.</strong> Make sure you 
-                have the rights to disclose whatever you share here.
+                Describe what you want to build. Be specific about the problem
+                you want to solve, the solution you have in mind, and your
+                vision for what you will build.
+                <strong>
+                  This will be visible to all users who view your profile.
+                </strong>{" "}
+                Make sure you have the rights to disclose whatever you share
+                here.
               </p>
 
               <div className="mb-6">
@@ -553,12 +548,12 @@ export default function ProfilePage() {
 
               <div className="mt-2 p-2 bg-gray-100 rounded border-l-3 border-blue-600">
                 <p className="text-xs font-mono text-gray-700">
-                  <strong>Note:</strong> When you update your idea, the matching algo always considers your latest
-                  submission so new matches are always based on your current idea. However, previous user interactions such as 
-                  existing matches will remain.
+                  <strong>Note:</strong> When you update your idea, the matching
+                  algo always considers your latest submission so new matches
+                  are always based on your current idea. However, previous user
+                  interactions such as existing matches will remain.
                 </p>
               </div>
-
             </section>
 
             {/* Co-founder Preferences */}
@@ -568,9 +563,10 @@ export default function ProfilePage() {
               </h2>
               <p className="font-mono text-sm text-gray-600 mb-6">
                 Describe what kind of co-founder you&apos;re looking for and
-                what you bring to the table. This section has no functional impact and is
-                only for display to others viewing your profiles. There are limited matching preferences
-                (location filter) you can configure on the settings page.
+                what you bring to the table. This section has no functional
+                impact and is only for display to others viewing your profiles.
+                There are limited matching preferences (location filter) you can
+                configure on the settings page.
               </p>
 
               <div className="mb-6">
@@ -697,8 +693,9 @@ export default function ProfilePage() {
 
           <div className="mt-8 p-4 bg-gray-100 rounded border-l-4 border-blue-600">
             <p className="text-sm font-mono text-gray-700">
-              <strong>Note:</strong> Being upfront and honest about your background as well as expectations is
-              essential and a sign that you respect and value the time of other users.
+              <strong>Note:</strong> Being upfront and honest about your
+              background as well as expectations is essential and a sign that
+              you respect and value the time of other users.
             </p>
           </div>
         </div>

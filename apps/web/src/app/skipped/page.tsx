@@ -50,11 +50,7 @@ export default function SkippedProfilesPage() {
   // Hard gate rendering until user + matches ready (prevents hydration mismatch)
   if (isLoading || profilesLoading) {
     return (
-      <LoadingSpinner
-        currentPage="skipped"
-        user={user}
-        onLogout={logout}
-      />
+      <LoadingSpinner currentPage="skipped" user={user} onLogout={logout} />
     );
   }
 
@@ -92,27 +88,20 @@ export default function SkippedProfilesPage() {
 
   if (isLoading || profilesLoading) {
     return (
-      <LoadingSpinner
-        currentPage="skipped"
-        user={user}
-        onLogout={logout}
-      />
+      <LoadingSpinner currentPage="skipped" user={user} onLogout={logout} />
     );
   }
 
   return (
     <div className="min-h-screen bg-[var(--page-background)] pb-10 overflow-x-hidden">
-      <Navigation
-        currentPage="skipped"
-        user={user}
-        onLogout={logout}
-      />
+      <Navigation currentPage="skipped" user={user} onLogout={logout} />
 
       <main className="px-6 pt-24 pb-8">
         <div className="max-w-7xl mx-auto">
           <PageHeader
-          title="Skipped Profiles" highlight
-          description="revist profiles you skipped on your first encounter"
+            title="Skipped Profiles"
+            highlight
+            description="revist profiles you skipped on your first encounter"
           />
 
           {message && <MessageBanner message={message} />}

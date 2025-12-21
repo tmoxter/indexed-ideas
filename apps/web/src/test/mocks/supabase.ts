@@ -115,9 +115,9 @@ export function createMockSupabaseClient(
         if (user) {
           // If specific fields were selected, return only those fields
           if (fieldsToReturn) {
-            const fields = fieldsToReturn.split(',').map(f => f.trim());
+            const fields = fieldsToReturn.split(",").map((f) => f.trim());
             const data: Record<string, unknown> = {};
-            fields.forEach(field => {
+            fields.forEach((field) => {
               if (field in user.profile) {
                 data[field] = user.profile[field as keyof typeof user.profile];
               }
@@ -144,9 +144,9 @@ export function createMockSupabaseClient(
         if (user) {
           // If specific fields were selected, return only those fields
           if (fieldsToReturn) {
-            const fields = fieldsToReturn.split(',').map(f => f.trim());
+            const fields = fieldsToReturn.split(",").map((f) => f.trim());
             const data: Record<string, unknown> = {};
-            fields.forEach(field => {
+            fields.forEach((field) => {
               if (field in user.profile) {
                 data[field] = user.profile[field as keyof typeof user.profile];
               }

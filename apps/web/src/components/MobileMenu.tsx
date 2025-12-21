@@ -110,8 +110,9 @@ export default function MobileMenu({
               <span className="font-mono text-sm font-semibold text-gray-900">
                 Menu
               </span>
-              {user && !isLoadingUserName && (
-                userName ? (
+              {user &&
+                !isLoadingUserName &&
+                (userName ? (
                   <span className="font-mono text-xs text-gray-600 mt-1">
                     {userName}
                   </span>
@@ -124,8 +125,7 @@ export default function MobileMenu({
                   >
                     Create a Profile
                   </button>
-                )
-              )}
+                ))}
             </div>
             <button
               onClick={onClose}

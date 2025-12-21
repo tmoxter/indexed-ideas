@@ -95,7 +95,9 @@ export async function findMatchingCandidates(
     await profilesRepo.getLatestUserVenture(sb, userId);
 
   if (ventureErr || !userVenture) {
-    throw new ProfileNotFoundError("PROFILE_INCOMPLETE: Please create your profile first to discover matches");
+    throw new ProfileNotFoundError(
+      "PROFILE_INCOMPLETE: Please create your profile first to discover matches"
+    );
   }
 
   const ideaId = userVenture.id;

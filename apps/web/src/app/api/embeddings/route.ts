@@ -8,7 +8,10 @@ import {
   generateAndStoreEmbedding,
   EmbeddingProvider,
 } from "@/server/services/embeddings.service";
-import { findMatchingCandidates, ProfileNotFoundError } from "@/server/services/matching.service";
+import {
+  findMatchingCandidates,
+  ProfileNotFoundError,
+} from "@/server/services/matching.service";
 
 export type EntityType = "idea" | "profile";
 

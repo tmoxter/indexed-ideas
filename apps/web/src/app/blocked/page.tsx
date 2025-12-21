@@ -52,21 +52,13 @@ export default function BlockedProfilesPage() {
 
   if (isLoading || profilesLoading) {
     return (
-      <LoadingSpinner
-        currentPage="blocked"
-        user={user}
-        onLogout={logout}
-      />
+      <LoadingSpinner currentPage="blocked" user={user} onLogout={logout} />
     );
   }
 
   return (
     <div className="min-h-screen bg-[var(--page-background)] pb-10 overflow-x-hidden">
-      <Navigation
-        currentPage="blocked"
-        user={user}
-        onLogout={logout}
-      />
+      <Navigation currentPage="blocked" user={user} onLogout={logout} />
 
       <main className="px-6 pt-24 pb-8">
         <div className="max-w-7xl mx-auto">

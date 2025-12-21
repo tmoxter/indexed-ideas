@@ -16,22 +16,12 @@ export default function HomePage() {
   const bannerData = useBannerCounts();
 
   if (isLoading) {
-    return (
-      <LoadingSpinner
-        currentPage="home"
-        user={user}
-        onLogout={logout}
-      />
-    );
+    return <LoadingSpinner currentPage="home" user={user} onLogout={logout} />;
   }
 
   return (
     <div className="min-h-screen bg-[var(--page-background)] pb-10">
-      <Navigation
-        currentPage="home"
-        user={user}
-        onLogout={logout}
-      />
+      <Navigation currentPage="home" user={user} onLogout={logout} />
 
       <main className="pt-24 pb-8">
         <div className="max-w-6xl mx-auto">

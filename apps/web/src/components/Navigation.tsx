@@ -493,8 +493,9 @@ export default function Navigation({
             {getPageTitle(currentPage)}
           </span>
 
-          {user && !isLoadingUserName && (
-            userName ? (
+          {user &&
+            !isLoadingUserName &&
+            (userName ? (
               <span className="font-mono text-sm text-gray-600 hidden lg:inline">
                 {userName}
               </span>
@@ -505,8 +506,7 @@ export default function Navigation({
               >
                 Create a Profile
               </button>
-            )
-          )}
+            ))}
 
           {/* Desktop Logout Button */}
           <button
