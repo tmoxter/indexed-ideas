@@ -135,8 +135,8 @@ export default function MatchesPage() {
             <>
               {candidates.length === 0 ? (
                 <EmptyState
-                  title="no matches found"
-                  description="make sure you've completed your profile and published it to start matching"
+                  title="No fresh profiles to view"
+                  description="There are currently no more users matching your profile. You either have to relax your configured filters or wait for new users too join with novel ideas."
                   actionText="complete profile"
                   onAction={() => router.push("/profile")}
                 />

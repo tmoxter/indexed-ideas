@@ -265,7 +265,7 @@ describe("MatchesPage Integration Tests", () => {
 
     render(<MatchesPage />);
 
-    expect(screen.getByText(/no matches found/i)).toBeInTheDocument();
+    expect(screen.getByText(/currently no more users/i)).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /complete profile/i })
     ).toBeInTheDocument();
@@ -350,8 +350,9 @@ describe("MatchesPage Integration Tests", () => {
 
       render(<MatchesPage />);
 
-      // Should not show the empty state
-      expect(screen.queryByText(/no matches found/i)).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(/currently no more users/i)
+      ).not.toBeInTheDocument();
     });
 
     it("should not display candidate list when profile is incomplete", async () => {

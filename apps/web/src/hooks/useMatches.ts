@@ -37,14 +37,6 @@ export function useMatches(userId: string | undefined, limit = 20) {
       const result = await response.json();
       const matchCandidates = result?.items || [];
 
-      if (!matchCandidates || matchCandidates.length === 0) {
-        setError(
-          "No potential matches found. Make sure you have published your profile and there are other users with similar ventures."
-        );
-        setCandidates([]);
-        return;
-      }
-
       setCandidates(matchCandidates);
     } catch (err) {
       setError("Failed to load matches");
