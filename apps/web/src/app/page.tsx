@@ -38,40 +38,34 @@ export default function Home() {
   const faqItems: FAQItem[] = [
     {
       question: "How do you define whether an idea is 'similar'?",
-      answer:
-        "We offer 4 different levels for you to configure that work as a threshold for how related ideas have to be to count as 'similar'. " +
-        "The levels are heuristic derived from experimentation, please offer feedback if you are shown too dissimilar profiles.",
+      answer: `There are 4 different levels for you to configure that serve as a threshold for how related ideas have to be to count as 'similar'.
+        The levels are heuristics derived from experimentation, please offer feedback if you are shown dissimilar profiles.`,
     },
     {
-      question: "Won't other users steal my venture ideas?",
-      answer:
-        "Sharing your idea here means making it publically visible. But many founders will tell you that " +
-        "the secrecy is rarely justified. Please don't share any sensitive information that you would " +
-        "want to protect. If you delete your account all your data is wiped permanently. " +
-        "<br/> <br/>" +
-        "'You can always recognize the first-timers because they're too secretive. And " +
-        "you can always recognize the experienced ones because they don't care.' - Naval Ravikant",
+      question: "Won't other users 'steal' my venture ideas?",
+      answer: `Sharing your idea here means making it publically visible. Experienced founders frequently state that
+        secrecy around their prospective ventures is rarely justified and Indexed-Ideas is built around this mantra.
+        Of-course there are exceptions.
+        Please don't share any sensitive information or details that you wish to disclose only selectively.
+        If you delete your account all your data is wiped permanently.
+        <br/><br/>
+        One quote in the spirit of openess from serial entrepreneur Naval Ravikant: 'You can always recognize the first-timers because they're too secretive. And
+        you can always recognize the experienced ones because they don't care.'`,
     },
     {
       question: "Aren't there already alternative platforms out there?",
-      answer:
-        "Yes, but we found it hard to find people on them who want to work on the same problems. " +
-        "Usually you only get to specify the industry or field you are interested in but the emphasis " +
-        "is on people's backgrounds.",
+      answer: `The goal is to offer a better signal-to-noise ratio for vision-based matching and offer an alternative to platforms that focus more on users' backgrounds.
+        There are plenty co-founder matching platforms (e.g. from YC) but it can be hard to find collaborators, who would be a great fit.
+        Selecting broad areas of interest such as 'Biotech' or 'Finance' leaves you with a vast landscape of largely different endevours
+        and many potential co-founders but few that understand what you do. Convincing others of your vision makes for great practice but in-efficient search and the person you should be building
+        with may drown in the noise of loosely related profiles.`,
     },
     {
-      question: "Do I need to login with my linkedin account?",
-      answer:
-        "Yes, since we want to keep this lightweight, avoid implementing a chat feature or store any credentials ourselves, " +
-        "at least for now, you can only log in with linkedin. Since you are sharing your profile with potential co-founders " +
-        "you need it anyway.",
-    },
-    {
-      question:
-        "I lost access to my linked-in account and would like to delete my profile.",
-      answer:
-        "If you can log-in via linked-in, please do so and permanentlty delete your account under 'Account Settings'. If have really lost " +
-        "access to your linked-in credentials, send me an email to delete your data.",
+      question: "Can I not just log-in via e-mail?",
+      answer: `Since little info needs to be shared here and profiles are unvetted, it makes sense to use third-party providers with richer profile authenticity.
+        LinkedIn<sup>*</sup> is an obvious choice but it doesn't need to be the only option in the long run. For now it is. Indexed-Ideas only requests the minimal authentication data but <strong>no</strong> profile data such as employment history.
+        <br/><br/>
+        <small>* No affiliation</small>`,
     },
   ];
 
@@ -79,26 +73,29 @@ export default function Home() {
     {
       icon: ArrowUpZA,
       title: "Semantic Similarity",
-      description:
-        "Describe what you are working on, embed your ideas as semantic vectors, and search through profiles of others who are either already working on similar ideas or want to solve the same problems.",
+      description: `Users describe their venture or project ideas in detail.
+        Finding potential matches is then achieved by indexing the semantic similarity of users' venture ideas and matching the most similar candidates.`,
     },
     {
       icon: Telescope,
-      title: "Visibility",
-      description:
-        "You share your first name and region, and give an overview over your background, skills, and accomplishments. Of course, you also get to see each other's project ideas along some optional co-founder preferences. Please don't share any sensitive information.",
+      title: "Lightweight",
+      description: `Indexed-Ideas is lightweight in that it requires little set-up or commitment.
+        You share your (first) name and as much or little about yourself as you wish: The focus lies on what you are working on.
+        Please don't share any sensitive information.`,
     },
     {
       icon: Handshake,
-      title: "Connect on LinkedIn",
-      description:
-        "If both parties are interested, your LinkedIn profiles are shared to connect directly. We don't have a chat feature for now to keep it lightweight.",
+      title: "Minimal",
+      description: `Indexed-Ideas is minimal in that it aims not to re-invent the wheel: If you match, you share your LinkedIn<sup>*</sup> profiles to connect.
+        There is no chat feature to reduce complexity and remove the burdon of moderation.
+        The focus on match quality over quantity likely also means that there will be no need to spend much time here, going over large numbers of profiles.
+        <br/><br/>
+        <small>* No affiliation</small>`,
     },
     {
       icon: Map,
-      title: "Discover",
-      description:
-        "Work in progress: Discover how unique your ideas are and view aggregates how many out have tackled the same problems.",
+      title: "Insights",
+      description: `Work in progress: Discover how unique your ideas are and view aggregates how many out have tackled the same problems.`,
     },
   ];
 
@@ -153,10 +150,9 @@ export default function Home() {
               <div className="flex-1 max-w-5xl relative z-10">
                 <TypewriterHero />
                 <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono relative z-10">
-                  Indexed-ideas is a lightweight, minimal, and free co-founder
-                  matchig platform. Use your project and venture ideas to find
-                  collaborators. Connect with others already tackling the same
-                  problems as you.
+                  Indexed-Ideas is a lightweight, minimal, and free co-founder
+                  matchig platform. It serves one purpose: finding
+                  collaborators, who are working on the same problems as you.
                 </p>
               </div>
             </div>
@@ -186,14 +182,15 @@ export default function Home() {
 
             {/* Technical Note */}
             <div className="max-w-5xl">
-              <SectionHeader title="Free and open-source" />
+              <SectionHeader title="Free and Open" />
               <div className="mt-6 rounded mb-10">
                 <p className="text-m font-mono text-gray-900">
-                  Indexed-ideas is an experiment and a side project. It is
-                  completely free and does not generate any profit, e.g., by
-                  showing you adds. It is also in an experimental state, so if
-                  you find any bugs or have suggestions, please open an issue or
-                  a PR on GitHub.
+                  Indexed-Ideas is a side project. It does not generate any
+                  profits, e.g., by showing you adds. With the current
+                  affordability of embedding tokens, you do not have to bring
+                  your own API keys for now, so it is completely free to use. It
+                  remains in an experimental state, so if you find any bugs or
+                  have suggestions, please open an issue or a PR on GitHub.
                   <a
                     href={process.env.NEXT_PUBLIC_GITHUB_REPO_URL}
                     className="text-gray-900 hover:underline ml-1"

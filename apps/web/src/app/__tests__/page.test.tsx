@@ -131,9 +131,9 @@ describe("LandingPage", () => {
 
     expect(screen.getByText("How it works")).toBeInTheDocument();
     expect(screen.getByText("Semantic Similarity")).toBeInTheDocument();
-    expect(screen.getByText("Visibility")).toBeInTheDocument();
-    expect(screen.getByText("Connect on LinkedIn")).toBeInTheDocument();
-    expect(screen.getByText("Discover")).toBeInTheDocument();
+    expect(screen.getByText("Lightweight")).toBeInTheDocument();
+    expect(screen.getByText("Minimal")).toBeInTheDocument();
+    expect(screen.getByText("Insights")).toBeInTheDocument();
   });
 
   it("should render FAQ section", () => {
@@ -179,12 +179,12 @@ describe("LandingPage", () => {
     render(<LandingPage />);
 
     const faqButton = screen.getByText(
-      /Aren't there already alternative platforms out there\?/i
+      /How do you define whether an idea is 'similar'\?/i
     );
 
     // FAQ should not be expanded initially
     expect(
-      screen.queryByText(/Yes, but we found it hard to find people/i)
+      screen.queryByText(/There are 4 different levels for you to configure/i)
     ).not.toBeInTheDocument();
 
     // Click to expand
@@ -192,7 +192,7 @@ describe("LandingPage", () => {
 
     // FAQ content should be visible
     expect(
-      screen.getByText(/Yes, but we found it hard to find people/i)
+      screen.getByText(/There are 4 different levels for you to configure/i)
     ).toBeInTheDocument();
 
     // Click again to collapse
@@ -201,7 +201,7 @@ describe("LandingPage", () => {
     // FAQ content should be hidden
     await waitFor(() => {
       expect(
-        screen.queryByText(/Yes, but we found it hard to find people/i)
+        screen.queryByText(/There are 4 different levels for you to configure/i)
       ).not.toBeInTheDocument();
     });
   });
