@@ -82,8 +82,7 @@ export default function Home() {
       icon: Feather,
       title: "Lightweight",
       description: `Indexed-Ideas is lightweight in that it requires little set-up or commitment.
-        You share your name and as much or little about yourself as you wish: The focus lies on what you are working on.
-        Please don't share any sensitive information.`,
+        You share your name and as much or little about yourself as you wish: The focus lies on what you are working on.`,
     },
     {
       icon: SwatchBook,
@@ -152,7 +151,7 @@ export default function Home() {
                 <TypewriterHero />
                 <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono relative z-10">
                   Indexed-Ideas is a lightweight, minimal, and free co-founder
-                  matchig platform. It serves only one purpose – finding
+                  matchig platform. It serves a single purpose: finding
                   collaborators, who are working on the same problems as you.
                 </p>
               </div>

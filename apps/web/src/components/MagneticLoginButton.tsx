@@ -35,6 +35,10 @@ export default function MagneticLoginButton() {
   };
 
   useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    // Skip magnetic behavior on mobile
+    if (isMobile) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current || !buttonRef.current) return;
 
