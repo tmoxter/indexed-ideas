@@ -37,9 +37,14 @@ export default function Home() {
 
   const faqItems: FAQItem[] = [
     {
-      question: "How do you define whether an idea is 'similar'?",
-      answer: `There are 4 different levels for you to configure that serve as a threshold for how related ideas have to be to count as 'similar'.
-        The levels are heuristics derived from experimentation, please offer feedback if you are shown dissimilar profiles.`,
+      question: "Aren't there already alternative platforms out there?",
+      answer: `The goal is to offer a better signal-to-noise ratio and shift the focus from users' backgrounds to their work.
+        While all platforms let you describe what you are working on, search filters are limited to broad categories.
+        Selecting areas of interest such as 'Biotech' or 'Finance' (e.g. on YC) leaves a vast landscape of unrelated endevours.
+        As a consequence, you get many potential co-founders but few that understand what you do. The person you should be building
+        with may easily drown in the noise of loosely related profiles.
+        <br/><br/>
+        Convincing potential co-founders of your vision makes for great sales practice but in-efficient search.`,
     },
     {
       question: "Won't other users 'steal' my venture ideas?",
@@ -53,19 +58,16 @@ export default function Home() {
         you can always recognize the experienced ones because they don't care.'`,
     },
     {
-      question: "Aren't there already alternative platforms out there?",
-      answer: `The goal is to offer a better signal-to-noise ratio an alternative to platforms that focus more on users' backgrounds.
-        There are plenty co-founder matching platforms (e.g. from YC) but it can be hard to find collaborators, who would be a great fit.
-        Selecting broad areas of interest such as 'Biotech' or 'Finance' leaves you with a vast landscape of largely different endevours
-        and many potential co-founders but few that understand what you do. Convincing others of your vision makes for great practice but in-efficient search and the person you should be building
-        with may drown in the noise of loosely related profiles.`,
+      question: "How do you define whether an idea is 'similar'?",
+      answer: `There are 4 different levels for you to configure that serve as a threshold for how related ideas have to be to count as 'similar'.
+        The levels are heuristics derived from experimentation, please offer feedback if you are shown dissimilar profiles.`,
     },
     {
       question: "Can I not just log-in via e-mail?",
-      answer: `Since little info needs to be shared here and profiles are unvetted, it makes sense to use third-party providers with richer profile authenticity.
-        LinkedIn<sup>*</sup> is an obvious choice but it doesn't need to be the only option in the long run. For now it is. Indexed-Ideas only requests the minimal authentication data but <strong>no</strong> profile data such as employment history.
-        <br/><br/>
-        <small>* No affiliation</small>`,
+      answer: `Since little info needs to be shared here and profiles are unvetted,
+        it makes sense to aim for rich profile provenance and using third-party providers with authenticity.
+        LinkedIn is an obvious choice but it doesn't need to be the only option in the long run. For now it is.
+        Indexed-Ideas only requests the minimal authentication data but <strong>no</strong> profile data such as employment history.`,
     },
   ];
 
@@ -74,7 +76,7 @@ export default function Home() {
       icon: ArrowUpZA,
       title: "Semantic Similarity",
       description: `Users describe their venture or project ideas in detail.
-        Finding potential matches is then achieved by indexing the semantic similarity of users' venture ideas and matching the most similar candidates.`,
+        Finding potential matches is then achieved by indexing the semantic embeddings of users' venture ideas and matching the most similar candidates.`,
     },
     {
       icon: Feather,
@@ -86,14 +88,15 @@ export default function Home() {
     {
       icon: SwatchBook,
       title: "Minimal",
-      description: `Indexed-Ideas is minimal in that it aims not to re-create what already works: There is no chat feature. If you match, you share your LinkedIn<sup>*</sup> profiles to connect.
+      description: `Indexed-Ideas is minimal in that it aims not to re-create what already works. For example, there is no chat feature. If you match, you share your LinkedIn<sup>*</sup> profiles to connect.
         <br/><br/>
         <small>* No affiliation</small>`,
     },
     {
       icon: Telescope,
       title: "Insights",
-      description: `Work in progress: Discover how unique your ideas are and view aggregates how many out there are tackling or have tackled the same problems.`,
+      description: `Aggregates of how many out there are tackling similar problems. Insights to help you size up your ecosystem.
+      Hopefully soon, if users disclose abandoned ideas: An answer to the question "Am I working on a tarpit ideas?".`,
     },
   ];
 
@@ -149,7 +152,7 @@ export default function Home() {
                 <TypewriterHero />
                 <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono relative z-10">
                   Indexed-Ideas is a lightweight, minimal, and free co-founder
-                  matchig platform. It serves one purpose: finding
+                  matchig platform. It serves only one purpose – finding
                   collaborators, who are working on the same problems as you.
                 </p>
               </div>
@@ -186,9 +189,9 @@ export default function Home() {
                   Indexed-Ideas is a side project. It does not generate any
                   profits, e.g., by showing you adds. With the current
                   affordability of embedding tokens, you do not have to bring
-                  your own API keys, so it is completely free to use. It
-                  remains in an experimental state, so if you find any bugs or
-                  have suggestions, please open an issue or a PR on GitHub.
+                  your own API keys, so it is completely free to use. It remains
+                  in an experimental state, so if you find any bugs or have
+                  suggestions, please open an issue or a PR on GitHub.
                   <a
                     href={process.env.NEXT_PUBLIC_GITHUB_REPO_URL}
                     className="text-gray-900 hover:underline ml-1"
