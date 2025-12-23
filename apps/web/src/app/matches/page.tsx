@@ -13,6 +13,7 @@ import { BlockButton, BlockConfirmation } from "@/components/BlockConfirmation";
 import { useAuth } from "@/hooks/useAuth";
 import { useMyMatches } from "@/hooks/useMyMatches";
 import { useInteraction } from "@/hooks/useInteraction";
+import { useMarkProfileSeen } from "@/hooks/useMarkProfileSeen";
 import { ExternalLink } from "lucide-react";
 
 export default function MyMatchesPage() {
@@ -25,6 +26,7 @@ export default function MyMatchesPage() {
     reload,
   } = useMyMatches(user?.id);
   const { recordInteraction, isSubmitting } = useInteraction();
+  const { markAsSeen } = useMarkProfileSeen();
   const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
@@ -45,6 +47,12 @@ export default function MyMatchesPage() {
       setSelectedMatchId(null);
     }
   }, [matches, matchesLoading, selectedMatchId]);
+
+  useEffect(() => {
+    if (selectedMatch?.id) {
+      markAsSeen(selectedMatch.id);
+    }
+  }, [selectedMatch?.id, markAsSeen]);
 
   // Hard gate rendering until user + matches ready (prevents hydration mismatch)
   if (isLoading || matchesLoading) {

@@ -18,6 +18,11 @@ vi.mock("@/hooks/useInteraction", () => ({
   useInteraction: vi.fn(),
 }));
 
+const mockMarkAsSeen = vi.fn();
+vi.mock("@/hooks/useMarkProfileSeen", () => ({
+  useMarkProfileSeen: () => ({ markAsSeen: mockMarkAsSeen }),
+}));
+
 vi.mock("@/components/Navigation", () => ({
   default: () => <div data-testid="navigation">Navigation</div>,
 }));
@@ -39,6 +44,7 @@ describe("PendingRequestsPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockPush.mockClear();
+    mockMarkAsSeen.mockClear();
     mockRecordInteraction.mockResolvedValue(true);
 
     vi.mocked(useAuth).mockReturnValue({
@@ -108,5 +114,30 @@ describe("PendingRequestsPage", () => {
     render(<PendingRequestsPage />);
 
     expect(screen.getByText("Test User")).toBeInTheDocument();
+  });
+
+  it("should call markAsSeen when a pending request is displayed", () => {
+    const mockRequests = [
+      {
+        id: "user-1",
+        profile: {
+          name: "Test User",
+          bio: "Test bio",
+        },
+        achievements: "Test achievements",
+        created_at: new Date().toISOString(),
+      },
+    ];
+
+    vi.mocked(usePendingRequests).mockReturnValue({
+      requests: mockRequests,
+      isLoading: false,
+      error: "",
+      reload: vi.fn(),
+    });
+
+    render(<PendingRequestsPage />);
+
+    expect(mockMarkAsSeen).toHaveBeenCalledWith("user-1");
   });
 });

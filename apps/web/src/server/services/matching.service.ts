@@ -284,3 +284,26 @@ export async function getBadgeCounts(sb: SupabaseClient, userId: string) {
   console.log("[badge-counts] Returning result:", result);
   return result;
 }
+
+export async function markProfileAsSeen(
+  sb: SupabaseClient,
+  viewerId: string,
+  profileId: string
+) {
+  console.log(
+    `[mark-profile-seen] Marking profile ${profileId} as seen by viewer ${viewerId}`
+  );
+
+  const { error } = await interactionsRepo.markProfileAsSeen(
+    sb,
+    viewerId,
+    profileId
+  );
+
+  if (error) {
+    console.error("[mark-profile-seen] Error updating timestamp:", error);
+    throw new Error(error.message);
+  }
+
+  console.log("[mark-profile-seen] Successfully marked profile as seen");
+}

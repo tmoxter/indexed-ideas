@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -14,18 +14,26 @@ import { BlockButton, BlockConfirmation } from "@/components/BlockConfirmation";
 import { useAuth } from "@/hooks/useAuth";
 import { usePendingRequests } from "@/hooks/usePendingRequests";
 import { useInteraction } from "@/hooks/useInteraction";
+import { useMarkProfileSeen } from "@/hooks/useMarkProfileSeen";
 
 export default function PendingRequestsPage() {
   const router = useRouter();
   const { user, isLoading, logout } = useAuth();
   const { requests, isLoading: requestsLoading, error } = usePendingRequests();
   const { recordInteraction, isSubmitting } = useInteraction();
+  const { markAsSeen } = useMarkProfileSeen();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [message, setMessage] = useState("");
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
 
   const currentRequest = requests[currentIndex];
+
+  useEffect(() => {
+    if (currentRequest?.id) {
+      markAsSeen(currentRequest.id);
+    }
+  }, [currentRequest?.id, markAsSeen]);
 
   const goToNext = () => {
     if (currentIndex < requests.length - 1) {

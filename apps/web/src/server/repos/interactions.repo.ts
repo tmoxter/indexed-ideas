@@ -104,3 +104,16 @@ export async function getBadgeUnseenCounts(sb: SupabaseClient, userId: string) {
     p_user: userId,
   });
 }
+
+export async function markProfileAsSeen(
+  sb: SupabaseClient,
+  viewerId: string,
+  profileId: string
+) {
+  return sb
+    .from("interactions")
+    .update({ timestamp_seen_by_target: new Date() })
+    .eq("target_user", viewerId)
+    .eq("actor_user", profileId)
+    .eq("action", "like");
+}
