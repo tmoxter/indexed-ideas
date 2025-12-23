@@ -68,3 +68,8 @@ export interface BannerData {
   total_profiles: number;
   related_topics: number;
 }
+
+export interface BadgeCounts {
+  pending_count: number;
+  match_count: number;
+}

@@ -98,3 +98,9 @@ export async function getPendingRequests(
     p_offset: offset,
   });
 }
+
+export async function getBadgeUnseenCounts(sb: SupabaseClient, userId: string) {
+  return sb.rpc("badge_unseen_counts", {
+    p_user: userId,
+  });
+}

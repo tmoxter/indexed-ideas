@@ -15,6 +15,10 @@ vi.mock("@/hooks/useBannerCounts", () => ({
   useBannerCounts: vi.fn(),
 }));
 
+vi.mock("@/hooks/useBadgeCounts", () => ({
+  useBadgeCounts: vi.fn(),
+}));
+
 vi.mock("@/components/Navigation", () => ({
   default: ({ onLogout }: { onLogout: () => void }) => (
     <div data-testid="navigation">
@@ -31,6 +35,7 @@ vi.mock("@/components/Footer", () => ({
 
 import { useAuth } from "@/hooks/useAuth";
 import { useBannerCounts } from "@/hooks/useBannerCounts";
+import { useBadgeCounts } from "@/hooks/useBadgeCounts";
 
 const HomePage = await import("../page").then((m) => m.default);
 
@@ -54,6 +59,7 @@ describe("HomePage", () => {
       logout: mockLogout,
     });
     vi.mocked(useBannerCounts).mockReturnValue(null);
+    vi.mocked(useBadgeCounts).mockReturnValue(null);
 
     render(<HomePage />);
     expect(screen.getByTestId("circles-loader")).toBeInTheDocument();
@@ -71,6 +77,7 @@ describe("HomePage", () => {
       logout: mockLogout,
     });
     vi.mocked(useBannerCounts).mockReturnValue(bannerData);
+    vi.mocked(useBadgeCounts).mockReturnValue(null);
 
     render(<HomePage />);
 
@@ -89,6 +96,7 @@ describe("HomePage", () => {
       logout: mockLogout,
     });
     vi.mocked(useBannerCounts).mockReturnValue(null);
+    vi.mocked(useBadgeCounts).mockReturnValue(null);
 
     const user = userEvent.setup();
     render(<HomePage />);
@@ -106,6 +114,7 @@ describe("HomePage", () => {
       logout: mockLogout,
     });
     vi.mocked(useBannerCounts).mockReturnValue(null);
+    vi.mocked(useBadgeCounts).mockReturnValue(null);
 
     const user = userEvent.setup();
     render(<HomePage />);
@@ -123,6 +132,7 @@ describe("HomePage", () => {
       logout: mockLogout,
     });
     vi.mocked(useBannerCounts).mockReturnValue(null);
+    vi.mocked(useBadgeCounts).mockReturnValue(null);
 
     const user = userEvent.setup();
     render(<HomePage />);
@@ -140,6 +150,7 @@ describe("HomePage", () => {
       logout: mockLogout,
     });
     vi.mocked(useBannerCounts).mockReturnValue(null);
+    vi.mocked(useBadgeCounts).mockReturnValue(null);
 
     const user = userEvent.setup();
     render(<HomePage />);
@@ -157,6 +168,7 @@ describe("HomePage", () => {
       logout: mockLogout,
     });
     vi.mocked(useBannerCounts).mockReturnValue(null);
+    vi.mocked(useBadgeCounts).mockReturnValue(null);
 
     const user = userEvent.setup();
     render(<HomePage />);
@@ -174,10 +186,53 @@ describe("HomePage", () => {
       logout: mockLogout,
     });
     vi.mocked(useBannerCounts).mockReturnValue(null);
+    vi.mocked(useBadgeCounts).mockReturnValue(null);
 
     render(<HomePage />);
 
     const discoverButtons = screen.getAllByText("Discover Profiles");
     expect(discoverButtons.length).toBeGreaterThan(0);
+  });
+
+  it("should display badges on Pending Requests and Matches cards when badge data is loaded", async () => {
+    const badgeData = {
+      pending_count: 5,
+      match_count: 3,
+    };
+
+    vi.mocked(useAuth).mockReturnValue({
+      user: testUser,
+      isLoading: false,
+      logout: mockLogout,
+    });
+    vi.mocked(useBannerCounts).mockReturnValue(null);
+    vi.mocked(useBadgeCounts).mockReturnValue(badgeData);
+
+    render(<HomePage />);
+
+    await waitFor(() => {
+      const badges = screen.getAllByText(/^(5|3)$/);
+      expect(badges.length).toBe(2);
+    });
+  });
+
+  it("should not display badges when counts are zero", async () => {
+    const badgeData = {
+      pending_count: 0,
+      match_count: 0,
+    };
+
+    vi.mocked(useAuth).mockReturnValue({
+      user: testUser,
+      isLoading: false,
+      logout: mockLogout,
+    });
+    vi.mocked(useBannerCounts).mockReturnValue(null);
+    vi.mocked(useBadgeCounts).mockReturnValue(badgeData);
+
+    render(<HomePage />);
+
+    const badges = screen.queryAllByText(/^(0)$/);
+    expect(badges.length).toBe(0);
   });
 });

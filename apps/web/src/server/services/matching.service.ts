@@ -250,3 +250,37 @@ export async function getPendingRequests(
 
   return { items: validData };
 }
+
+export async function getBadgeCounts(sb: SupabaseClient, userId: string) {
+  console.log(
+    `[badge-counts] Fetching badge unseen counts for user ID: ${userId}`
+  );
+
+  const { data, error } = await interactionsRepo.getBadgeUnseenCounts(
+    sb,
+    userId
+  );
+
+  if (error) {
+    console.error(
+      "[badge-counts] Error calling badge_unseen_counts RPC:",
+      error
+    );
+    throw new Error(error.message);
+  }
+
+  if (!data || data.length === 0) {
+    console.log("[badge-counts] RPC returned no data, returning 0 counts");
+    return {
+      pending_count: 0,
+      match_count: 0,
+    };
+  }
+
+  const result = {
+    pending_count: data[0].pending_count || 0,
+    match_count: data[0].match_count || 0,
+  };
+  console.log("[badge-counts] Returning result:", result);
+  return result;
+}

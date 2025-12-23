@@ -8,12 +8,14 @@ import { TickerBanner } from "@/components/TickerBanner";
 import { NavigationCard } from "@/components/NavigationCard";
 import { useAuth } from "@/hooks/useAuth";
 import { useBannerCounts } from "@/hooks/useBannerCounts";
+import { useBadgeCounts } from "@/hooks/useBadgeCounts";
 import { Search, Handshake, User, Settings, Undo2, Clock } from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
   const { user, isLoading, logout } = useAuth();
   const bannerData = useBannerCounts();
+  const badgeData = useBadgeCounts();
 
   if (isLoading) {
     return <LoadingSpinner currentPage="home" user={user} onLogout={logout} />;
@@ -46,6 +48,7 @@ export default function HomePage() {
               title="Pending Requests"
               description="review and respond to people who have liked your profile and want to connect with you"
               onClick={() => router.push("/pending-requests")}
+              badgeCount={badgeData?.pending_count}
             />
 
             <NavigationCard
@@ -53,6 +56,7 @@ export default function HomePage() {
               title="Matches"
               description="view your matches and connect with co-founders who are interested in collaborating"
               onClick={() => router.push("/matches")}
+              badgeCount={badgeData?.match_count}
             />
 
             <NavigationCard
