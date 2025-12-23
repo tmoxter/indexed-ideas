@@ -41,9 +41,7 @@ export default function Home() {
       answer: `The goal is to offer a better signal-to-noise ratio and shift the focus from users' backgrounds to their work.
         While all platforms let you describe what you are working on, search filters are limited to broad categories.
         Selecting areas of interest such as 'Biotech' or 'Finance' (e.g. on YC) leaves a vast landscape of unrelated endevours.
-        As a consequence, you get many potential co-founders but few that understand what you do. The person you should be building
-        with may easily drown in the noise of loosely related profiles.
-        <br/><br/>
+        As a consequence, you get many potential co-founders but few that understand what you do.
         Convincing potential co-founders of your vision makes for great sales practice but in-efficient search.`,
     },
     {
@@ -75,8 +73,8 @@ export default function Home() {
     {
       icon: ArrowUpZA,
       title: "Semantic Similarity",
-      description: `Users describe their venture or project ideas in detail.
-        Finding potential matches is then achieved by indexing the semantic embeddings of users' venture ideas and matching the most similar candidates.`,
+      description: `You describe your venture- or project idea in detail.
+        Your potential matches are then found by indexing the semantic embeddings of users' venture ideas and retriev the most similar candidates.`,
     },
     {
       icon: Feather,
@@ -94,8 +92,8 @@ export default function Home() {
     {
       icon: Telescope,
       title: "Insights",
-      description: `Aggregates of how many out there are tackling similar problems. Insights to help you size up your ecosystem.
-      Hopefully soon, if users disclose abandoned ideas: An answer to the question "Am I working on a tarpit ideas?".`,
+      description: `Insights to help you size up your ecosystem such as aggregates of how many are tackling similar problems.
+      Over time, we can track abandoned ideas and help you answer the question: "Am I working on a tarpit idea?".`,
     },
   ];
 
@@ -152,7 +150,7 @@ export default function Home() {
                 <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono relative z-10">
                   Indexed-Ideas is a lightweight, minimal, and free co-founder
                   matchig platform. It serves a single purpose: finding
-                  collaborators, who are working on the same problems as you.
+                  collaborators who are working on the same problems as you.
                 </p>
               </div>
             </div>
