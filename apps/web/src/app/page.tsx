@@ -40,8 +40,8 @@ export default function Home() {
       question: "Aren't there already alternative platforms out there?",
       answer: `The goal is to offer a better signal-to-noise ratio and shift the focus from users' backgrounds to their work.
         While all platforms let you describe what you are working on, search filters are limited to broad categories.
-        Selecting areas of interest such as 'Biotech' or 'Finance' (e.g. on YC) leaves a vast landscape of unrelated endevours.
-        As a consequence, you get many potential co-founders but few that understand what you do.
+        Areas of interest such as 'Biotech' or 'Finance' still include a diverse landscape of unrelated ideas leaving
+        you with many potential co-founders but few that understand what you do.
         Convincing potential co-founders of your vision makes for great sales practice but in-efficient search.`,
     },
     {
@@ -57,13 +57,13 @@ export default function Home() {
     },
     {
       question: "How do you define whether an idea is 'similar'?",
-      answer: `There are 4 different levels for you to configure that serve as a threshold for how related ideas have to be to count as 'similar'.
+      answer: `There are 4 different levels for you to configure that serve as thresholds for what counts as 'similar'.
         The levels are heuristics derived from experimentation, please offer feedback if you are shown dissimilar profiles.`,
     },
     {
       question: "Can I not just log-in via e-mail?",
-      answer: `Since little info needs to be shared here and profiles are unvetted,
-        it makes sense to aim for rich profile provenance and using third-party providers with authenticity.
+      answer: `Since little information needs to be shared and profiles are generally unvetted,
+        it makes sense to aim for rich profile provenance by using third-party providers where profiles have high authenticity.
         LinkedIn is an obvious choice but it doesn't need to be the only option in the long run. For now it is.
         Indexed-Ideas only requests the minimal authentication data but <strong>no</strong> profile data such as employment history.`,
     },
@@ -73,8 +73,8 @@ export default function Home() {
     {
       icon: ArrowUpZA,
       title: "Semantic Similarity",
-      description: `You describe your venture- or project idea in detail.
-        Your potential matches are then found by indexing the semantic embeddings of users' venture ideas and retriev the most similar candidates.`,
+      description: `You describe your project or venture idea in detail.
+        Your potential matches are found by indexing the semantic embeddings of users' ideas and retrieving the most similar candidates.`,
     },
     {
       icon: Feather,
@@ -92,7 +92,8 @@ export default function Home() {
     {
       icon: Telescope,
       title: "Insights",
-      description: `Insights to help you size up your ecosystem: aggregates of how many are working on similar problems.`,
+      description: `<small>(Work in Progress)</small><br/>
+      Insights to help you size up your ecosystem: aggregates of how many are working on similar problems. If, over time, we collect enough abandoned ideas, we may help you answer the question "Am I working on a tarpit idea?".`,
     },
   ];
 
@@ -148,8 +149,7 @@ export default function Home() {
                 <TypewriterHero />
                 <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono relative z-10">
                   Indexed-Ideas is a lightweight, minimal, and free co-founder
-                  matchig platform. It serves a single purpose: finding
-                  collaborators who are working on the same problems as you.
+                  matchig platform. Its purpose is to help you find collaborators who are working on the same problem as you.
                 </p>
               </div>
             </div>
