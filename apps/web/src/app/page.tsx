@@ -92,8 +92,7 @@ export default function Home() {
     {
       icon: Telescope,
       title: "Insights",
-      description: `Insights to help you size up your ecosystem such as aggregates of how many are tackling similar problems.
-      Over time, we can track abandoned ideas and help you answer the question: "Am I working on a tarpit idea?".`,
+      description: `Insights to help you size up your ecosystem: aggregates of how many are working on similar problems.`,
     },
   ];
 

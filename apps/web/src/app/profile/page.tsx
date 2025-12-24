@@ -17,6 +17,39 @@ import {
 } from "@/lib/embeddings-client";
 import { CityPicker } from "./city_selection";
 
+const CHARACTER_LIMITS: Record<keyof ProfileFormData, number> = {
+  name: 100,
+  venture_description: 500,
+  bio: 200,
+  achievements: 200,
+  experience: 200,
+  education: 200,
+  linkedinUrl: 200,
+  venture_title: 200,
+  cofounder_preferences_title: 200,
+  cofounder_preferences_description: 200,
+  city_id: 0, // No limit for city_id
+};
+
+const CharacterCounter = ({
+  current,
+  max,
+}: {
+  current: number;
+  max: number;
+}) => {
+  const isExceeded = current > max;
+  return (
+    <span
+      className={`text-xs font-mono ${
+        isExceeded ? "text-red-600 font-bold" : "text-gray-500"
+      }`}
+    >
+      {current}/{max}
+    </span>
+  );
+};
+
 export default function ProfilePage() {
   const router = useRouter();
   const { user, isLoading: authLoading, logout } = useAuth();
@@ -43,6 +76,7 @@ export default function ProfilePage() {
   const [linkedinUrlError, setLinkedinUrlError] = useState("");
   const [isPublished, setIsPublished] = useState(false);
   const [agreedToPrivacyPolicy, setAgreedToPrivacyPolicy] = useState(false);
+  const [hasCharacterLimitError, setHasCharacterLimitError] = useState(false);
 
   const loadProfile = useCallback(async () => {
     setIsLoadingProfile(true);
@@ -133,6 +167,20 @@ export default function ProfilePage() {
     }
   }, [user, loadProfile]);
 
+  const checkCharacterLimits = (data: ProfileFormData): boolean => {
+    const textFields = Object.keys(CHARACTER_LIMITS).filter(
+      (key) => CHARACTER_LIMITS[key as keyof ProfileFormData] > 0
+    ) as Array<keyof ProfileFormData>;
+
+    return textFields.some((field) => {
+      const value = data[field];
+      if (typeof value === "string") {
+        return value.length > CHARACTER_LIMITS[field];
+      }
+      return false;
+    });
+  };
+
   const validateLinkedInUrl = (url: string): boolean => {
     if (!url) {
       setLinkedinUrlError("LinkedIn URL is required");
@@ -155,10 +203,13 @@ export default function ProfilePage() {
   };
 
   const handleInputChange = (field: keyof ProfileFormData, value: string) => {
-    setProfileData((prev) => ({
-      ...prev,
+    const updatedData = {
+      ...profileData,
       [field]: value,
-    }));
+    };
+
+    setProfileData(updatedData);
+    setHasCharacterLimitError(checkCharacterLimits(updatedData));
 
     // Validate LinkedIn URL on change
     if (field === "linkedinUrl") {
@@ -385,14 +436,22 @@ export default function ProfilePage() {
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block font-mono text-sm text-gray-700 mb-2">
-                    Name *
+                  <label className="font-mono text-sm text-gray-700 mb-2 flex justify-between items-center">
+                    <span>Name *</span>
+                    <CharacterCounter
+                      current={profileData.name.length}
+                      max={CHARACTER_LIMITS.name}
+                    />
                   </label>
                   <input
                     type="text"
                     value={profileData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
+                    className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none bg-white ${
+                      profileData.name.length > CHARACTER_LIMITS.name
+                        ? "border-red-300 focus:ring-red-500"
+                        : "border-gray-300 focus:ring-blue-500"
+                    }`}
                     placeholder="your name (how you want to appear to others)"
                     required
                   />
@@ -411,8 +470,12 @@ export default function ProfilePage() {
               </div>
 
               <div className="mt-6">
-                <label className="block font-mono text-sm text-gray-700 mb-2">
-                  LinkedIn Profile URL *
+                <label className="font-mono text-sm text-gray-700 mb-2 flex justify-between items-center">
+                  <span>LinkedIn Profile URL *</span>
+                  <CharacterCounter
+                    current={profileData.linkedinUrl.length}
+                    max={CHARACTER_LIMITS.linkedinUrl}
+                  />
                 </label>
                 <input
                   type="url"
@@ -421,7 +484,9 @@ export default function ProfilePage() {
                     handleInputChange("linkedinUrl", e.target.value)
                   }
                   className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none bg-white ${
-                    linkedinUrlError
+                    linkedinUrlError ||
+                    profileData.linkedinUrl.length >
+                      CHARACTER_LIMITS.linkedinUrl
                       ? "border-red-300 focus:ring-red-500"
                       : "border-gray-300 focus:ring-blue-500"
                   }`}
@@ -433,24 +498,43 @@ export default function ProfilePage() {
                     {linkedinUrlError}
                   </p>
                 )}
+                {!linkedinUrlError &&
+                  profileData.linkedinUrl.length >
+                    CHARACTER_LIMITS.linkedinUrl && (
+                    <p className="mt-1 text-xs font-mono text-red-600">
+                      LinkedIn URL exceeds character limit
+                    </p>
+                  )}
               </div>
 
               <div className="mt-6">
-                <label className="block font-mono text-sm text-gray-700 mb-2">
-                  Intro & Bio
+                <label className="font-mono text-sm text-gray-700 mb-2 flex justify-between items-center">
+                  <span>Intro & Bio</span>
+                  <CharacterCounter
+                    current={profileData.bio.length}
+                    max={CHARACTER_LIMITS.bio}
+                  />
                 </label>
                 <textarea
                   value={profileData.bio}
                   onChange={(e) => handleInputChange("bio", e.target.value)}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
+                  className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none resize-none bg-white ${
+                    profileData.bio.length > CHARACTER_LIMITS.bio
+                      ? "border-red-300 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
                   placeholder="Say hello and share a little bit about yourself..."
                 />
               </div>
 
               <div className="mt-6">
-                <label className="block font-mono text-sm text-gray-700 mb-2">
-                  Personal Achievement
+                <label className="font-mono text-sm text-gray-700 mb-2 flex justify-between items-center">
+                  <span>Personal Achievement</span>
+                  <CharacterCounter
+                    current={profileData.achievements.length}
+                    max={CHARACTER_LIMITS.achievements}
+                  />
                 </label>
                 <textarea
                   value={profileData.achievements}
@@ -458,14 +542,23 @@ export default function ProfilePage() {
                     handleInputChange("achievements", e.target.value)
                   }
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
+                  className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none resize-none bg-white ${
+                    profileData.achievements.length >
+                    CHARACTER_LIMITS.achievements
+                      ? "border-red-300 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
                   placeholder="projects, notable achievements, impressive skills you want to showcase..."
                 />
               </div>
 
               <div className="mt-6">
-                <label className="block font-mono text-sm text-gray-700 mb-2">
-                  Experience
+                <label className="font-mono text-sm text-gray-700 mb-2 flex justify-between items-center">
+                  <span>Experience</span>
+                  <CharacterCounter
+                    current={profileData.experience.length}
+                    max={CHARACTER_LIMITS.experience}
+                  />
                 </label>
                 <textarea
                   value={profileData.experience}
@@ -473,14 +566,22 @@ export default function ProfilePage() {
                     handleInputChange("experience", e.target.value)
                   }
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
+                  className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none resize-none bg-white ${
+                    profileData.experience.length > CHARACTER_LIMITS.experience
+                      ? "border-red-300 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
                   placeholder="freeform highlights of your previous work experience..."
                 />
               </div>
 
               <div className="mt-6">
-                <label className="block font-mono text-sm text-gray-700 mb-2">
-                  Education
+                <label className="font-mono text-sm text-gray-700 mb-2 flex justify-between items-center">
+                  <span>Education</span>
+                  <CharacterCounter
+                    current={profileData.education.length}
+                    max={CHARACTER_LIMITS.education}
+                  />
                 </label>
                 <textarea
                   value={profileData.education}
@@ -488,7 +589,11 @@ export default function ProfilePage() {
                     handleInputChange("education", e.target.value)
                   }
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
+                  className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none resize-none bg-white ${
+                    profileData.education.length > CHARACTER_LIMITS.education
+                      ? "border-red-300 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
                   placeholder="freeform highlights of your educational background..."
                 />
               </div>
@@ -510,8 +615,12 @@ export default function ProfilePage() {
               </p>
 
               <div className="mb-6">
-                <label className="block font-mono text-sm text-gray-700 mb-2">
-                  Project Tagline *
+                <label className="font-mono text-sm text-gray-700 mb-2 flex justify-between items-center">
+                  <span>Project Tagline *</span>
+                  <CharacterCounter
+                    current={profileData.venture_title.length}
+                    max={CHARACTER_LIMITS.venture_title}
+                  />
                 </label>
                 <input
                   type="text"
@@ -519,15 +628,24 @@ export default function ProfilePage() {
                   onChange={(e) =>
                     handleInputChange("venture_title", e.target.value)
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
+                  className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none bg-white ${
+                    profileData.venture_title.length >
+                    CHARACTER_LIMITS.venture_title
+                      ? "border-red-300 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
                   placeholder="e.g., a semantically-aware co-founder matching experiment"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-sm text-gray-700 mb-2">
-                  Description *
+                <label className="font-mono text-sm text-gray-700 mb-2 flex justify-between items-center">
+                  <span>Description *</span>
+                  <CharacterCounter
+                    current={profileData.venture_description.length}
+                    max={CHARACTER_LIMITS.venture_description}
+                  />
                 </label>
                 <textarea
                   value={profileData.venture_description}
@@ -535,7 +653,12 @@ export default function ProfilePage() {
                     handleInputChange("venture_description", e.target.value)
                   }
                   rows={8}
-                  className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
+                  className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none resize-none bg-white ${
+                    profileData.venture_description.length >
+                    CHARACTER_LIMITS.venture_description
+                      ? "border-red-300 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
                   placeholder="e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas"
                   required
                 />
@@ -568,8 +691,12 @@ export default function ProfilePage() {
               </p>
 
               <div className="mb-6">
-                <label className="block font-mono text-sm text-gray-700 mb-2">
-                  Role
+                <label className="font-mono text-sm text-gray-700 mb-2 flex justify-between items-center">
+                  <span>Role</span>
+                  <CharacterCounter
+                    current={profileData.cofounder_preferences_title.length}
+                    max={CHARACTER_LIMITS.cofounder_preferences_title}
+                  />
                 </label>
                 <input
                   type="text"
@@ -580,14 +707,25 @@ export default function ProfilePage() {
                       e.target.value
                     )
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
+                  className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none bg-white ${
+                    profileData.cofounder_preferences_title.length >
+                    CHARACTER_LIMITS.cofounder_preferences_title
+                      ? "border-red-300 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
                   placeholder="e.g., a technical co-founder, CFO, or sales champion..."
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-sm text-gray-700 mb-2">
-                  Description
+                <label className="font-mono text-sm text-gray-700 mb-2 flex justify-between items-center">
+                  <span>Description</span>
+                  <CharacterCounter
+                    current={
+                      profileData.cofounder_preferences_description.length
+                    }
+                    max={CHARACTER_LIMITS.cofounder_preferences_description}
+                  />
                 </label>
                 <textarea
                   value={profileData.cofounder_preferences_description}
@@ -598,7 +736,12 @@ export default function ProfilePage() {
                     )
                   }
                   rows={6}
-                  className="w-full px-3 py-2 border border-gray-300 rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-white"
+                  className={`w-full px-3 py-2 border rounded font-mono text-sm focus:ring-2 focus:border-transparent outline-none resize-none bg-white ${
+                    profileData.cofounder_preferences_description.length >
+                    CHARACTER_LIMITS.cofounder_preferences_description
+                      ? "border-red-300 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
                   placeholder="anything regarding ideal skillset, experience, availability, equity expectations..."
                 />
               </div>
@@ -633,7 +776,9 @@ export default function ProfilePage() {
           <div className="mt-6 flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => saveProfile(false)}
-              disabled={isSaving || !agreedToPrivacyPolicy}
+              disabled={
+                isSaving || !agreedToPrivacyPolicy || hasCharacterLimitError
+              }
               className="group relative inline-flex items-center justify-center px-6 py-3 rounded-lg font-mono text-sm text-gray-900 bg-white border border-gray-300 shadow-lg hover:shadow-2xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSaving ? "Saving..." : "Save as Draft"}
@@ -648,7 +793,8 @@ export default function ProfilePage() {
                 !profileData.linkedinUrl ||
                 !!linkedinUrlError ||
                 !profileData.venture_title ||
-                !profileData.venture_description
+                !profileData.venture_description ||
+                hasCharacterLimitError
               }
               className="group relative inline-flex items-center justify-center px-6 py-3 rounded-lg font-mono text-sm text-white bg-gray-900 border border-gray-900 shadow-lg hover:shadow-2xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
             >

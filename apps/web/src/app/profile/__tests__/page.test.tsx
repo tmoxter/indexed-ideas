@@ -1662,4 +1662,450 @@ describe("ProfilePage Integration Tests", () => {
       });
     });
   });
+
+  describe("Character Limits", () => {
+    it("should display character counter for name field", async () => {
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      expect(screen.getByText("0/100")).toBeInTheDocument();
+    });
+
+    it("should update character counter as user types in name field", async () => {
+      const user = userEvent.setup();
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      const nameInput = screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
+      );
+
+      await user.type(nameInput, "John Doe");
+
+      await waitFor(() => {
+        expect(screen.getByText("8/100")).toBeInTheDocument();
+      });
+    });
+
+    it("should display character counter for venture description with 500 limit", async () => {
+      const user = userEvent.setup();
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      expect(screen.getByText("0/500")).toBeInTheDocument();
+
+      const descriptionInput = screen.getByPlaceholderText(
+        /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
+      );
+
+      await user.type(descriptionInput, "Test description");
+
+      await waitFor(() => {
+        expect(screen.getByText("16/500")).toBeInTheDocument();
+      });
+    });
+
+    it("should display character counter for bio field with 200 limit", async () => {
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      const counters200 = screen.getAllByText("0/200");
+      expect(counters200.length).toBeGreaterThan(0);
+    });
+
+    it("should disable save button when name exceeds 100 character limit", async () => {
+      const user = userEvent.setup();
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      const nameInput = screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
+      );
+
+      const longName = "a".repeat(101);
+      await user.type(nameInput, longName);
+
+      const privacyCheckbox = screen.getByRole("checkbox", {
+        name: /privacy policy/i,
+      });
+      await user.click(privacyCheckbox);
+
+      const saveDraftButton = screen.getByRole("button", {
+        name: /save as draft/i,
+      });
+      await waitFor(() => {
+        expect(saveDraftButton).toBeDisabled();
+      });
+
+      expect(screen.getByText("101/100")).toBeInTheDocument();
+    });
+
+    it("should disable publish button when venture description exceeds 500 character limit", async () => {
+      const user = userEvent.setup();
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      await user.type(
+        screen.getByPlaceholderText(
+          "your name (how you want to appear to others)"
+        ),
+        "Jane Smith"
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /https:\/\/www.linkedin.com\/in\/yourprofile/i
+        ),
+        "https://www.linkedin.com/in/janesmith"
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /e.g., a semantically-aware co-founder matching experiment/i
+        ),
+        "DevTools Pro"
+      );
+
+      const longDescription = "a".repeat(501);
+      await user.type(
+        screen.getByPlaceholderText(
+          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
+        ),
+        longDescription
+      );
+
+      const privacyCheckbox = screen.getByRole("checkbox", {
+        name: /privacy policy/i,
+      });
+      await user.click(privacyCheckbox);
+      const publishButton = screen.getByRole("button", {
+        name: /save & publish/i,
+      });
+      await waitFor(() => {
+        expect(publishButton).toBeDisabled();
+      });
+
+      expect(screen.getByText("501/500")).toBeInTheDocument();
+    });
+
+    it("should disable buttons when bio exceeds 200 character limit", async () => {
+      const user = userEvent.setup();
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      await user.type(
+        screen.getByPlaceholderText(
+          "your name (how you want to appear to others)"
+        ),
+        "Jane Smith"
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /https:\/\/www.linkedin.com\/in\/yourprofile/i
+        ),
+        "https://www.linkedin.com/in/janesmith"
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /e.g., a semantically-aware co-founder matching experiment/i
+        ),
+        "DevTools Pro"
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
+        ),
+        "A toolkit"
+      );
+
+      const longBio = "a".repeat(201);
+      await user.type(
+        screen.getByPlaceholderText(
+          /say hello and share a little bit about yourself.../i
+        ),
+        longBio
+      );
+
+      const privacyCheckbox = screen.getByRole("checkbox", {
+        name: /privacy policy/i,
+      });
+      await user.click(privacyCheckbox);
+
+      const saveDraftButton = screen.getByRole("button", {
+        name: /save as draft/i,
+      });
+      const publishButton = screen.getByRole("button", {
+        name: /save & publish/i,
+      });
+
+      await waitFor(() => {
+        expect(saveDraftButton).toBeDisabled();
+        expect(publishButton).toBeDisabled();
+      });
+
+      expect(screen.getByText("201/200")).toBeInTheDocument();
+    });
+
+    it("should show character counter for LinkedIn URL field with 200 limit", async () => {
+      const user = userEvent.setup();
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      const linkedInInput = screen.getByPlaceholderText(
+        /https:\/\/www.linkedin.com\/in\/yourprofile/i
+      );
+
+      expect(screen.getAllByText("0/200")).toBeTruthy();
+
+      // Type a LinkedIn URL
+      await user.type(linkedInInput, "https://www.linkedin.com/in/janesmith");
+
+      await waitFor(() => {
+        const counters = screen.queryAllByText(/\d+\/200/);
+        expect(counters.length).toBeGreaterThan(0);
+      });
+    });
+
+    it("should enable buttons when all fields are within character limits", async () => {
+      const user = userEvent.setup();
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      await user.type(
+        screen.getByPlaceholderText(
+          "your name (how you want to appear to others)"
+        ),
+        "a".repeat(100) // Exactly at limit
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /https:\/\/www.linkedin.com\/in\/yourprofile/i
+        ),
+        "https://www.linkedin.com/in/janesmith"
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /say hello and share a little bit about yourself.../i
+        ),
+        "a".repeat(200) // Exactly at limit
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /e.g., a semantically-aware co-founder matching experiment/i
+        ),
+        "a".repeat(200) // Exactly at limit
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
+        ),
+        "a".repeat(500) // Exactly at limit
+      );
+
+      const privacyCheckbox = screen.getByRole("checkbox", {
+        name: /privacy policy/i,
+      });
+      await user.click(privacyCheckbox);
+
+      const saveDraftButton = screen.getByRole("button", {
+        name: /save as draft/i,
+      });
+      const publishButton = screen.getByRole("button", {
+        name: /save & publish/i,
+      });
+
+      await waitFor(() => {
+        expect(saveDraftButton).not.toBeDisabled();
+        expect(publishButton).not.toBeDisabled();
+      });
+    });
+
+    it("should allow saving when exactly at character limit", async () => {
+      const user = userEvent.setup();
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      // Fill fields exactly at limits
+      await user.type(
+        screen.getByPlaceholderText(
+          "your name (how you want to appear to others)"
+        ),
+        "a".repeat(100)
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /https:\/\/www.linkedin.com\/in\/yourprofile/i
+        ),
+        "https://www.linkedin.com/in/janesmith"
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /e.g., a semantically-aware co-founder matching experiment/i
+        ),
+        "a".repeat(200)
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
+        ),
+        "a".repeat(500)
+      );
+
+      const privacyCheckbox = screen.getByRole("checkbox", {
+        name: /privacy policy/i,
+      });
+      await user.click(privacyCheckbox);
+
+      const saveDraftButton = screen.getByRole("button", {
+        name: /save as draft/i,
+      });
+      await user.click(saveDraftButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(/profile saved as draft/i)).toBeInTheDocument();
+      });
+
+      // Verify data was saved
+      expect(mockProfilesDb).toHaveLength(1);
+      expect(mockProfilesDb[0].name).toHaveLength(100);
+    });
+
+    it("should update character limit error state when user corrects field", async () => {
+      const user = userEvent.setup();
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      const nameInput = screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
+      );
+
+      await user.type(nameInput, "a".repeat(101));
+
+      const privacyCheckbox = screen.getByRole("checkbox", {
+        name: /privacy policy/i,
+      });
+      await user.click(privacyCheckbox);
+
+      // Save button should be disabled
+      const saveDraftButton = screen.getByRole("button", {
+        name: /save as draft/i,
+      });
+      await waitFor(() => {
+        expect(saveDraftButton).toBeDisabled();
+      });
+
+      await user.clear(nameInput);
+      await user.type(nameInput, "Jane Smith");
+
+      await waitFor(() => {
+        expect(saveDraftButton).not.toBeDisabled();
+      });
+    });
+
+    it("should display multiple character counters for different fields", async () => {
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      // Check that multiple counters are displayed
+      const counters100 = screen.getAllByText("0/100"); // Name field
+      const counters200 = screen.getAllByText("0/200"); // Multiple 200-limit fields
+      const counters500 = screen.getAllByText("0/500"); // Venture description
+
+      expect(counters100.length).toBeGreaterThan(0);
+      expect(counters200.length).toBeGreaterThan(0);
+      expect(counters500.length).toBeGreaterThan(0);
+    });
+
+    it("should prevent saving when multiple fields exceed limits", async () => {
+      const user = userEvent.setup();
+      render(<ProfilePage />);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
+      });
+
+      await user.type(
+        screen.getByPlaceholderText(
+          "your name (how you want to appear to others)"
+        ),
+        "a".repeat(101)
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /say hello and share a little bit about yourself.../i
+        ),
+        "a".repeat(201)
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /https:\/\/www.linkedin.com\/in\/yourprofile/i
+        ),
+        "https://www.linkedin.com/in/janesmith"
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /e.g., a semantically-aware co-founder matching experiment/i
+        ),
+        "DevTools Pro"
+      );
+      await user.type(
+        screen.getByPlaceholderText(
+          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
+        ),
+        "A toolkit"
+      );
+
+      const privacyCheckbox = screen.getByRole("checkbox", {
+        name: /privacy policy/i,
+      });
+      await user.click(privacyCheckbox);
+
+      // Both buttons should be disabled
+      const saveDraftButton = screen.getByRole("button", {
+        name: /save as draft/i,
+      });
+      const publishButton = screen.getByRole("button", {
+        name: /save & publish/i,
+      });
+
+      await waitFor(() => {
+        expect(saveDraftButton).toBeDisabled();
+        expect(publishButton).toBeDisabled();
+      });
+    });
+  });
 });
