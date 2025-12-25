@@ -30,6 +30,26 @@ export default function SettingsPage() {
   const regionDropdownRef = useRef<HTMLDivElement>(null);
   const similarityDropdownRef = useRef<HTMLDivElement>(null);
 
+  const mapScopeToRegionFilter = (scope: string): string => {
+    const mapping: { [key: string]: string } = {
+      city: "Only in my city",
+      country: "Only in my country",
+      region: "Only on my continent",
+      worldwide: "Worldwide",
+    };
+    return mapping[scope] || "Worldwide";
+  };
+
+  const mapThresholdToSimilarityLevel = (threshold: number): string => {
+    const mapping: { [key: number]: string } = {
+      1: "Highly similar (stricter)",
+      2: "Similar",
+      3: "Broadly similar",
+      4: "Vaguely similar (less strict)",
+    };
+    return mapping[threshold] || "Broadly similar";
+  };
+
   useEffect(() => {
     const fetchUserName = async () => {
       if (!user?.id) {
@@ -55,6 +75,42 @@ export default function SettingsPage() {
   }, [user?.id, supabase]);
 
   useEffect(() => {
+    const fetchUserSettings = async () => {
+      if (!user?.id) {
+        return;
+      }
+
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        if (!session) return;
+
+        const response = await fetch("/api/user-settings", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success && result.data) {
+            setRegionFilter(mapScopeToRegionFilter(result.data.region_scope));
+            setSimilarityLevel(
+              mapThresholdToSimilarityLevel(result.data.similarity_threshold)
+            );
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user settings:", error);
+      }
+    };
+
+    fetchUserSettings();
+  }, [user?.id, supabase]);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         regionDropdownRef.current &&
@@ -72,14 +128,58 @@ export default function SettingsPage() {
     };
   }, []);
 
+  const mapRegionFilterToScope = (filter: string): string => {
+    const mapping: { [key: string]: string } = {
+      "Only in my city": "city",
+      "Only in my country": "country",
+      "Only on my continent": "region",
+      Worldwide: "worldwide",
+    };
+    return mapping[filter] || "worldwide";
+  };
+
+  const mapSimilarityLevelToThreshold = (level: string): number => {
+    const mapping: { [key: string]: number } = {
+      "Highly similar (stricter)": 1,
+      Similar: 2,
+      "Broadly similar": 3,
+      "Vaguely similar (less strict)": 4,
+    };
+    return mapping[level] || 2;
+  };
+
   const handleSavePreferences = async () => {
     setIsSavingPreferences(true);
     setMessage("");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setMessage("Preferences saved successfully!");
-      setTimeout(() => setMessage(""), 3000);
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        setMessage("You must be logged in to save preferences");
+        return;
+      }
+
+      const response = await fetch("/api/user-settings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({
+          similarity_threshold: mapSimilarityLevelToThreshold(similarityLevel),
+          region_scope: mapRegionFilterToScope(regionFilter),
+        }),
+      });
+
+      if (response.ok) {
+        setMessage("Preferences saved successfully!");
+        setTimeout(() => setMessage(""), 3000);
+      } else {
+        const errorData = await response.json();
+        setMessage(errorData.error || "Failed to save preferences");
+      }
     } catch (error) {
       console.error("Error saving preferences:", error);
       setMessage("Failed to save preferences");
