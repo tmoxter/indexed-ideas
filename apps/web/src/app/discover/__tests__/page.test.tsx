@@ -267,7 +267,7 @@ describe("MatchesPage Integration Tests", () => {
 
     expect(screen.getByText(/currently no more users/i)).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /complete profile/i })
+      screen.getByRole("button", { name: /Return to Dashboard/i })
     ).toBeInTheDocument();
   });
 

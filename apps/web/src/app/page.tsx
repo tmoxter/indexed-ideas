@@ -149,7 +149,8 @@ export default function Home() {
                 <TypewriterHero />
                 <p className="text-xl text-gray-900 mb-8 leading-relaxed font-mono relative z-10">
                   Indexed-Ideas is a lightweight, minimal, and free co-founder
-                  matchig platform. Its purpose is to help you find collaborators who are working on the same problem as you.
+                  matchig platform. Its purpose is to help you find
+                  collaborators who are working on the same problem as you.
                 </p>
               </div>
             </div>

@@ -3,7 +3,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import * as profilesRepo from "../repos/profiles.repo";
 import * as interactionsRepo from "../repos/interactions.repo";
 import * as embeddingsRepo from "../repos/embeddings.repo";
-import { EMBEDDING_MODEL } from "../logic/similarity";
+import { JINA_EMBEDDING_MODEL } from "../logic/similarity";
 import { CURRENT_EMBEDDING_VERSION } from "../embedding-version";
 
 interface CandidateRow {
@@ -122,7 +122,7 @@ export async function findMatchingCandidates(
   const { data: cands, error: kErr } = await embeddingsRepo.findKnnCandidates(
     sb,
     embedding.entity_id,
-    EMBEDDING_MODEL,
+    JINA_EMBEDDING_MODEL,
     CURRENT_EMBEDDING_VERSION,
     100,
     30,
@@ -186,7 +186,7 @@ export async function getBannerCounts(sb: SupabaseClient, userId: string) {
   console.log(
     "[banner-counts] Calling banner_counts RPC with embedding params:",
     {
-      p_model: EMBEDDING_MODEL,
+      p_model: JINA_EMBEDDING_MODEL,
       p_version: version,
     }
   );
@@ -195,7 +195,7 @@ export async function getBannerCounts(sb: SupabaseClient, userId: string) {
     sb,
     userId,
     venture.id,
-    EMBEDDING_MODEL,
+    JINA_EMBEDDING_MODEL,
     version
   );
 
