@@ -19,16 +19,16 @@ import { CityPicker } from "./city_selection";
 
 const CHARACTER_LIMITS: Record<keyof ProfileFormData, number> = {
   name: 100,
-  venture_description: 500,
-  bio: 200,
-  achievements: 200,
+  venture_description: 1000,
+  bio: 500,
+  achievements: 500,
   experience: 200,
   education: 200,
   linkedinUrl: 200,
   venture_title: 200,
-  cofounder_preferences_title: 200,
-  cofounder_preferences_description: 200,
-  city_id: 0, // No limit for city_id
+  cofounder_preferences_title: 100,
+  cofounder_preferences_description: 500,
+  city_id: 0,
 };
 
 const CharacterCounter = ({

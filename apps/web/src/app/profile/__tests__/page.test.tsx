@@ -1671,7 +1671,8 @@ describe("ProfilePage Integration Tests", () => {
         expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
       });
 
-      expect(screen.getByText("0/100")).toBeInTheDocument();
+      const counters100 = screen.getAllByText("0/100");
+      expect(counters100.length).toBeGreaterThan(0);
     });
 
     it("should update character counter as user types in name field", async () => {
@@ -1693,7 +1694,7 @@ describe("ProfilePage Integration Tests", () => {
       });
     });
 
-    it("should display character counter for venture description with 500 limit", async () => {
+    it("should display character counter for venture description with 1000 limit", async () => {
       const user = userEvent.setup();
       render(<ProfilePage />);
 
@@ -1701,7 +1702,7 @@ describe("ProfilePage Integration Tests", () => {
         expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
       });
 
-      expect(screen.getByText("0/500")).toBeInTheDocument();
+      expect(screen.getByText("0/1000")).toBeInTheDocument();
 
       const descriptionInput = screen.getByPlaceholderText(
         /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
@@ -1710,19 +1711,20 @@ describe("ProfilePage Integration Tests", () => {
       await user.type(descriptionInput, "Test description");
 
       await waitFor(() => {
-        expect(screen.getByText("16/500")).toBeInTheDocument();
+        expect(screen.getByText("16/1000")).toBeInTheDocument();
       });
     });
 
-    it("should display character counter for bio field with 200 limit", async () => {
+    it("should display character counter for bio field with 500 limit", async () => {
       render(<ProfilePage />);
 
       await waitFor(() => {
         expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
       });
 
-      const counters200 = screen.getAllByText("0/200");
-      expect(counters200.length).toBeGreaterThan(0);
+      // Bio, achievements, and cofounder_preferences_description all have 500 limit
+      const counters500 = screen.getAllByText("0/500");
+      expect(counters500.length).toBeGreaterThan(0);
     });
 
     it("should disable save button when name exceeds 100 character limit", async () => {
@@ -1755,7 +1757,7 @@ describe("ProfilePage Integration Tests", () => {
       expect(screen.getByText("101/100")).toBeInTheDocument();
     });
 
-    it("should disable publish button when venture description exceeds 500 character limit", async () => {
+    it("should disable publish button when venture description exceeds 1000 character limit", async () => {
       const user = userEvent.setup();
       render(<ProfilePage />);
 
@@ -1782,7 +1784,7 @@ describe("ProfilePage Integration Tests", () => {
         "DevTools Pro"
       );
 
-      const longDescription = "a".repeat(501);
+      const longDescription = "a".repeat(1001);
       await user.type(
         screen.getByPlaceholderText(
           /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
@@ -1801,10 +1803,10 @@ describe("ProfilePage Integration Tests", () => {
         expect(publishButton).toBeDisabled();
       });
 
-      expect(screen.getByText("501/500")).toBeInTheDocument();
+      expect(screen.getByText("1001/1000")).toBeInTheDocument();
     });
 
-    it("should disable buttons when bio exceeds 200 character limit", async () => {
+    it("should disable buttons when bio exceeds 500 character limit", async () => {
       const user = userEvent.setup();
       render(<ProfilePage />);
 
@@ -1837,7 +1839,7 @@ describe("ProfilePage Integration Tests", () => {
         "A toolkit"
       );
 
-      const longBio = "a".repeat(201);
+      const longBio = "a".repeat(501);
       await user.type(
         screen.getByPlaceholderText(
           /say hello and share a little bit about yourself.../i
@@ -1862,7 +1864,7 @@ describe("ProfilePage Integration Tests", () => {
         expect(publishButton).toBeDisabled();
       });
 
-      expect(screen.getByText("201/200")).toBeInTheDocument();
+      expect(screen.getByText("501/500")).toBeInTheDocument();
     });
 
     it("should show character counter for LinkedIn URL field with 200 limit", async () => {
@@ -1912,19 +1914,19 @@ describe("ProfilePage Integration Tests", () => {
         screen.getByPlaceholderText(
           /say hello and share a little bit about yourself.../i
         ),
-        "a".repeat(200) // Exactly at limit
+        "a".repeat(500) // Exactly at limit (bio: 500)
       );
       await user.type(
         screen.getByPlaceholderText(
           /e.g., a semantically-aware co-founder matching experiment/i
         ),
-        "a".repeat(200) // Exactly at limit
+        "a".repeat(200) // Exactly at limit (venture_title: 200)
       );
       await user.type(
         screen.getByPlaceholderText(
           /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
         ),
-        "a".repeat(500) // Exactly at limit
+        "a".repeat(1000) // Exactly at limit (venture_description: 1000)
       );
 
       const privacyCheckbox = screen.getByRole("checkbox", {
@@ -1958,7 +1960,7 @@ describe("ProfilePage Integration Tests", () => {
         screen.getByPlaceholderText(
           "your name (how you want to appear to others)"
         ),
-        "a".repeat(100)
+        "a".repeat(100) // name: 100
       );
       await user.type(
         screen.getByPlaceholderText(
@@ -1976,7 +1978,7 @@ describe("ProfilePage Integration Tests", () => {
         screen.getByPlaceholderText(
           /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
         ),
-        "a".repeat(500)
+        "a".repeat(1000)
       );
 
       const privacyCheckbox = screen.getByRole("checkbox", {
@@ -2041,13 +2043,15 @@ describe("ProfilePage Integration Tests", () => {
       });
 
       // Check that multiple counters are displayed
-      const counters100 = screen.getAllByText("0/100"); // Name field
-      const counters200 = screen.getAllByText("0/200"); // Multiple 200-limit fields
-      const counters500 = screen.getAllByText("0/500"); // Venture description
+      const counters100 = screen.getAllByText("0/100"); // Name and cofounder_preferences_title fields
+      const counters200 = screen.getAllByText("0/200"); // Multiple 200-limit fields (experience, education, linkedinUrl, venture_title)
+      const counters500 = screen.getAllByText("0/500"); // Bio, achievements, cofounder_preferences_description
+      const counters1000 = screen.getAllByText("0/1000"); // Venture description
 
       expect(counters100.length).toBeGreaterThan(0);
       expect(counters200.length).toBeGreaterThan(0);
       expect(counters500.length).toBeGreaterThan(0);
+      expect(counters1000.length).toBeGreaterThan(0);
     });
 
     it("should prevent saving when multiple fields exceed limits", async () => {
@@ -2058,6 +2062,7 @@ describe("ProfilePage Integration Tests", () => {
         expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
       });
 
+      // Exceed limits on multiple fields
       await user.type(
         screen.getByPlaceholderText(
           "your name (how you want to appear to others)"
@@ -2068,7 +2073,7 @@ describe("ProfilePage Integration Tests", () => {
         screen.getByPlaceholderText(
           /say hello and share a little bit about yourself.../i
         ),
-        "a".repeat(201)
+        "a".repeat(501)
       );
       await user.type(
         screen.getByPlaceholderText(
