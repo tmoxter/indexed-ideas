@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 import { useRouter } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -155,7 +156,10 @@ export default function ProfilePage() {
         setAgreedToPrivacyPolicy(true);
       }
     } catch (error) {
-      console.error("Error loading profile:", error);
+      await logClientMessage(
+        `Error loading profile: ${error instanceof Error ? error.message : String(error)}`,
+        "error"
+      );
     } finally {
       setIsLoadingProfile(false);
     }
@@ -247,8 +251,15 @@ export default function ProfilePage() {
         );
       }
     } catch (error) {
-      setMessage("An unexpected error occurred");
-      console.error("Hide profile error:", error);
+      const logId = await logClientMessage(
+        `Hide profile error: ${error instanceof Error ? error.message : String(error)}`,
+        "error"
+      );
+      setMessage(
+        logId
+          ? `An error occurred. Error ID: ${logId}`
+          : "An unexpected error occurred"
+      );
     } finally {
       setIsHiding(false);
     }
@@ -402,8 +413,15 @@ export default function ProfilePage() {
         }
       }
     } catch (error) {
-      setMessage("An unexpected error occurred");
-      console.error("Save error:", error);
+      const logId = await logClientMessage(
+        `Save error: ${error instanceof Error ? error.message : String(error)}`,
+        "error"
+      );
+      setMessage(
+        logId
+          ? `An error occurred. Error ID: ${logId}`
+          : "An unexpected error occurred"
+      );
     } finally {
       setIsSaving(false);
     }

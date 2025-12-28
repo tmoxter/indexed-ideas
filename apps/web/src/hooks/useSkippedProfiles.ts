@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 import type { ProfileWithDetails, ProfileData } from "@/types";
 
 export function useSkippedProfiles(userId: string | undefined) {
@@ -98,10 +99,16 @@ export function useSkippedProfiles(userId: string | undefined) {
         (p) => p !== null
       ) as ProfileWithDetails[];
 
-      console.log("[skipped] Loaded skipped profiles:", validProfiles.length);
+      await logClientMessage(
+        `[skipped] Loaded skipped profiles: ${validProfiles.length}`,
+        "info"
+      );
       setProfiles(validProfiles);
     } catch (err) {
-      console.error("Error loading skipped profiles:", err);
+      await logClientMessage(
+        `Error loading skipped profiles: ${err instanceof Error ? err.message : String(err)}`,
+        "error"
+      );
       setError("Failed to load skipped profiles");
       setProfiles([]);
     } finally {

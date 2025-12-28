@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 
 export function useMarkProfileSeen() {
   const markAsSeen = useCallback(async (profileId: string) => {
@@ -24,15 +25,15 @@ export function useMarkProfileSeen() {
       });
 
       if (!response.ok) {
-        console.error(
-          "[mark-profile-seen] Failed to mark profile as seen:",
-          response.status
+        await logClientMessage(
+          `[mark-profile-seen] Failed to mark profile as seen: ${response.status}`,
+          "error"
         );
       }
     } catch (error) {
-      console.error(
-        "[mark-profile-seen] Error marking profile as seen:",
-        error
+      await logClientMessage(
+        `[mark-profile-seen] Error marking profile as seen: ${error instanceof Error ? error.message : String(error)}`,
+        "error"
       );
     }
   }, []);

@@ -26,67 +26,64 @@ export function ProfileDetail({ profile }: ProfileDetailProps) {
     "created_at" in p;
 
   return (
-    console.log(profile),
-    (
-      <>
-        <ProfileHeader
-          name={profile.profile.name}
-          cityName={profile.profile.city_name}
-          country={profile.profile.country}
-          similarityScore={
-            isCandidateProfile(profile) ? profile.similarity_score : undefined
-          }
-          requestDate={
-            isPendingRequestProfile(profile) ? profile.created_at : undefined
-          }
+    <>
+      <ProfileHeader
+        name={profile.profile.name}
+        cityName={profile.profile.city_name}
+        country={profile.profile.country}
+        similarityScore={
+          isCandidateProfile(profile) ? profile.similarity_score : undefined
+        }
+        requestDate={
+          isPendingRequestProfile(profile) ? profile.created_at : undefined
+        }
+      />
+
+      <div className="p-6 space-y-8 max-h-[calc(100vh-400px)] overflow-y-auto">
+        <ProfileSection title="Bio" content={profile.profile.bio} />
+
+        <ProfileSection
+          title="Personal Achievement"
+          content={profile.profile.achievements}
         />
 
-        <div className="p-6 space-y-8 max-h-[calc(100vh-400px)] overflow-y-auto">
-          <ProfileSection title="Bio" content={profile.profile.bio} />
-
+        {profile.profile.experience && (
           <ProfileSection
-            title="Personal Achievement"
-            content={profile.profile.achievements}
+            title="Experience"
+            content={profile.profile.experience}
           />
+        )}
 
-          {profile.profile.experience && (
-            <ProfileSection
-              title="Experience"
-              content={profile.profile.experience}
-            />
-          )}
+        {profile.profile.education && (
+          <ProfileSection
+            title="Education"
+            content={profile.profile.education}
+          />
+        )}
 
-          {profile.profile.education && (
-            <ProfileSection
-              title="Education"
-              content={profile.profile.education}
-            />
-          )}
+        {profile.venture && (
+          <ProfileSection
+            title="Venture Idea"
+            subtitle={profile.venture.title}
+            content={profile.venture.description}
+          />
+        )}
 
-          {profile.venture && (
-            <ProfileSection
-              title="Venture Idea"
-              subtitle={profile.venture.title}
-              content={profile.venture.description}
-            />
-          )}
+        {profile.preferences && (
+          <ProfileSection
+            title="looking for"
+            subtitle={profile.preferences.title}
+            content={profile.preferences.description}
+          />
+        )}
 
-          {profile.preferences && (
-            <ProfileSection
-              title="looking for"
-              subtitle={profile.preferences.title}
-              content={profile.preferences.description}
-            />
-          )}
-
-          {profile.availability_hours && (
-            <ProfileSection
-              title="availability"
-              content={profile.availability_hours}
-            />
-          )}
-        </div>
-      </>
-    )
+        {profile.availability_hours && (
+          <ProfileSection
+            title="availability"
+            content={profile.availability_hours}
+          />
+        )}
+      </div>
+    </>
   );
 }

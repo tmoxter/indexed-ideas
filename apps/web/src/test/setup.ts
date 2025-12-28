@@ -5,6 +5,11 @@ import React from "react";
 
 vi.mock("server-only", () => ({}));
 
+// Mock the clientLogger to prevent database calls in tests
+vi.mock("@/lib/clientLogger", () => ({
+  logClientMessage: vi.fn().mockResolvedValue(null),
+}));
+
 // Mock EmptyState to avoid Supabase storage dependency
 vi.mock("@/components/EmptyState", () => ({
   EmptyState: ({

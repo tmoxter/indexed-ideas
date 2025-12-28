@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 import { useRouter } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -64,7 +65,10 @@ export default function SettingsPage() {
         .maybeSingle();
 
       if (error) {
-        console.error("Error fetching user name:", error);
+        await logClientMessage(
+          `Error fetching user name: ${error.message}`,
+          "error"
+        );
         setUserName(null);
       } else {
         setUserName(data?.name || null);
@@ -103,7 +107,10 @@ export default function SettingsPage() {
           }
         }
       } catch (error) {
-        console.error("Error fetching user settings:", error);
+        await logClientMessage(
+          `Error fetching user settings: ${error instanceof Error ? error.message : String(error)}`,
+          "error"
+        );
       }
     };
 
@@ -181,8 +188,15 @@ export default function SettingsPage() {
         setMessage(errorData.error || "Failed to save preferences");
       }
     } catch (error) {
-      console.error("Error saving preferences:", error);
-      setMessage("Failed to save preferences");
+      const logId = await logClientMessage(
+        `Error saving preferences: ${error instanceof Error ? error.message : String(error)}`,
+        "error"
+      );
+      setMessage(
+        logId
+          ? `An error occurred. Error ID: ${logId}`
+          : "Failed to save preferences"
+      );
     } finally {
       setIsSavingPreferences(false);
     }
@@ -220,8 +234,15 @@ export default function SettingsPage() {
         setDeleteError(errorData.error || "Failed to delete account");
       }
     } catch (error) {
-      console.error("Error deleting account:", error);
-      setDeleteError("An unexpected error occurred");
+      const logId = await logClientMessage(
+        `Error deleting account: ${error instanceof Error ? error.message : String(error)}`,
+        "error"
+      );
+      setDeleteError(
+        logId
+          ? `An error occurred. Error ID: ${logId}`
+          : "An unexpected error occurred"
+      );
     } finally {
       setIsDeleting(false);
     }

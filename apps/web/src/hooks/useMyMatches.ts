@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 import type { ProfileWithDetails, ProfileData } from "@/types";
 
 export function useMyMatches(userId: string | undefined) {
@@ -109,7 +110,10 @@ export function useMyMatches(userId: string | undefined) {
 
       setMatches(profiles);
     } catch (err) {
-      console.error("Error loading matches:", err);
+      await logClientMessage(
+        `Error loading matches: ${err instanceof Error ? err.message : String(err)}`,
+        "error"
+      );
       setError("Failed to load matches");
       setMatches([]);
     } finally {

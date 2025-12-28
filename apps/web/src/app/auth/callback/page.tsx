@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 import { useRouter } from "next/navigation";
 import { Circles } from "react-loader-spinner";
 
@@ -32,7 +33,10 @@ export default function AuthCallback() {
           .maybeSingle();
 
         if (error) {
-          console.error("Error checking profile:", error);
+          await logClientMessage(
+            `Error checking profile: ${error.message}`,
+            "error"
+          );
           // On error, default to profile setup page
           router.push("/profile");
           return;
@@ -43,7 +47,10 @@ export default function AuthCallback() {
           router.push("/profile");
         }
       } catch (error) {
-        console.error("Auth callback error:", error);
+        await logClientMessage(
+          `Auth callback error: ${error instanceof Error ? error.message : String(error)}`,
+          "error"
+        );
         router.push("/profile");
       } finally {
         setIsChecking(false);

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { logClientMessage } from "@/lib/clientLogger";
 import type { MatchCandidate } from "@/types";
 
 export function useMatches(userId: string | undefined, limit = 20) {
@@ -40,7 +41,10 @@ export function useMatches(userId: string | undefined, limit = 20) {
       setCandidates(matchCandidates);
     } catch (err) {
       setError("Failed to load matches");
-      console.error("Error loading matches:", err);
+      await logClientMessage(
+        `Error loading matches: ${err instanceof Error ? err.message : String(err)}`,
+        "error"
+      );
       setCandidates([]);
     } finally {
       setIsLoading(false);

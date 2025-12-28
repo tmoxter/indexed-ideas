@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 import type { BannerData } from "@/types";
 
 export function useBannerCounts() {
@@ -15,7 +16,7 @@ export function useBannerCounts() {
       if (!session) return;
 
       try {
-        console.log("[home] Fetching banner data...");
+        await logClientMessage("[home] Fetching banner data...", "info");
         const response = await fetch("/api/banner-counts", {
           headers: {
             Authorization: `Bearer ${session.access_token}`,
@@ -23,9 +24,9 @@ export function useBannerCounts() {
         });
 
         if (!response.ok) {
-          console.error(
-            "[home] Error fetching banner data, status:",
-            response.status
+          await logClientMessage(
+            `[home] Error fetching banner data, status: ${response.status}`,
+            "error"
           );
           return;
         }
@@ -33,7 +34,10 @@ export function useBannerCounts() {
         const result = await response.json();
         setData(result);
       } catch (error) {
-        console.error("[home] Error fetching banner data:", error);
+        await logClientMessage(
+          `[home] Error fetching banner data: ${error instanceof Error ? error.message : String(error)}`,
+          "error"
+        );
       }
     };
 

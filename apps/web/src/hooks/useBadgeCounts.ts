@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 import type { BadgeCounts } from "@/types";
 
 export function useBadgeCounts() {
@@ -15,7 +16,7 @@ export function useBadgeCounts() {
       if (!session) return;
 
       try {
-        console.log("[home] Fetching badge data...");
+        await logClientMessage("[home] Fetching badge data...", "info");
         const response = await fetch("/api/badge-counts", {
           headers: {
             Authorization: `Bearer ${session.access_token}`,
@@ -23,9 +24,9 @@ export function useBadgeCounts() {
         });
 
         if (!response.ok) {
-          console.error(
-            "[home] Error fetching badge data, status:",
-            response.status
+          await logClientMessage(
+            `[home] Error fetching badge data, status: ${response.status}`,
+            "error"
           );
           return;
         }
@@ -33,7 +34,10 @@ export function useBadgeCounts() {
         const result = await response.json();
         setData(result);
       } catch (error) {
-        console.error("[home] Error fetching badge data:", error);
+        await logClientMessage(
+          `[home] Error fetching badge data: ${error instanceof Error ? error.message : String(error)}`,
+          "error"
+        );
       }
     };
 

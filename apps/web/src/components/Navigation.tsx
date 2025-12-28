@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 import Image from "next/image";
 import {
   Search,
@@ -94,7 +95,10 @@ export default function Navigation({
         .maybeSingle();
 
       if (error) {
-        console.error("Error fetching user name:", error);
+        await logClientMessage(
+          `Error fetching user name: ${error.message}`,
+          "error"
+        );
         setUserName(null);
       } else {
         setUserName(data?.name || null);

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 import type { ProfileWithDetails, ProfileData } from "@/types";
 
 export function useBlockedProfiles(userId: string | undefined) {
@@ -104,7 +105,10 @@ export function useBlockedProfiles(userId: string | undefined) {
 
       setProfiles(validProfiles);
     } catch (err) {
-      console.error("Error loading blocked profiles:", err);
+      await logClientMessage(
+        `Error loading blocked profiles: ${err instanceof Error ? err.message : String(err)}`,
+        "error"
+      );
       setError("Failed to load blocked profiles");
       setProfiles([]);
     } finally {

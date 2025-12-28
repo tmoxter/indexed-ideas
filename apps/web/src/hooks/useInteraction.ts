@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 
 type InteractionAction = "like" | "pass" | "block" | "unblock";
 
@@ -33,13 +34,20 @@ export function useInteraction() {
       });
 
       if (!response.ok) {
-        console.error("Error recording interaction:", await response.json());
+        const errorData = await response.json();
+        await logClientMessage(
+          `Error recording interaction: ${JSON.stringify(errorData)}`,
+          "error"
+        );
         return false;
       }
 
       return true;
     } catch (error) {
-      console.error("Error recording interaction:", error);
+      await logClientMessage(
+        `Error recording interaction: ${error instanceof Error ? error.message : String(error)}`,
+        "error"
+      );
       return false;
     } finally {
       setIsSubmitting(false);

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabaseClient } from "@/lib/supabase";
+import { logClientMessage } from "@/lib/clientLogger";
 import type { PendingRequest } from "@/types";
 
 export function usePendingRequests(limit = 20) {
@@ -35,15 +36,18 @@ export function usePendingRequests(limit = 20) {
       const result = await response.json();
       const pendingRequests = result?.items || [];
 
-      console.log(
-        "[pending-requests] Number of requests:",
-        pendingRequests.length
+      await logClientMessage(
+        `[pending-requests] Number of requests: ${pendingRequests.length}`,
+        "info"
       );
 
       setRequests(pendingRequests);
     } catch (err) {
       setError("Failed to load pending requests");
-      console.error("Error loading pending requests:", err);
+      await logClientMessage(
+        `Error loading pending requests: ${err instanceof Error ? err.message : String(err)}`,
+        "error"
+      );
       setRequests([]);
     } finally {
       setIsLoading(false);
