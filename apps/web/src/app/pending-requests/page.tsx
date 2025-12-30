@@ -111,7 +111,7 @@ export default function PendingRequestsPage() {
           {message && <MessageBanner message={message} />}
           {error && <MessageBanner message={error} type="error" />}
 
-          {requests.length === 0 ? (
+          {requests.length === 0 || currentIndex >= requests.length ? (
             <EmptyState
               title="no pending requests"
               description="when someone likes your profile, they'll appear here"

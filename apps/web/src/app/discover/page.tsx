@@ -133,7 +133,7 @@ export default function MatchesPage() {
 
           {!isProfileIncomplete && (
             <>
-              {candidates.length === 0 ? (
+              {candidates.length === 0 || currentIndex >= candidates.length ? (
                 <EmptyState
                   title="No fresh profiles to view"
                   description="There are currently no more users matching your profile. You either have to relax your configured filters or wait for new users too join with novel ideas."

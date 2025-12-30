@@ -89,7 +89,7 @@ export default function MyMatchesPage() {
           {message && <MessageBanner message={message} />}
           {error && <MessageBanner message={error} type="error" />}
 
-          {matches.length === 0 ? (
+          {matches.length === 0 || !selectedMatch ? (
             <EmptyState
               title="No matches yet"
               description="browse user profiles to find potential co-founders"

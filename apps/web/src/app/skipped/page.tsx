@@ -107,7 +107,7 @@ export default function SkippedProfilesPage() {
           {message && <MessageBanner message={message} />}
           {error && <MessageBanner message={error} type="error" />}
 
-          {profiles.length === 0 ? (
+          {profiles.length === 0 || !selectedProfile ? (
             <EmptyState
               title="No skipped profiles"
               description="profiles you skip will appear here"

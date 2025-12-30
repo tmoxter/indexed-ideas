@@ -67,7 +67,7 @@ export default function BlockedProfilesPage() {
           {message && <MessageBanner message={message} />}
           {error && <MessageBanner message={error} type="error" />}
 
-          {profiles.length === 0 ? (
+          {profiles.length === 0 || !selectedProfile ? (
             <EmptyState
               title="no blocked profiles"
               description="Users you block will appear here"
