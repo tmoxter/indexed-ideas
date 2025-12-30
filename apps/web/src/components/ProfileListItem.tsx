@@ -12,6 +12,12 @@ export function ProfileListItem({
   isSelected,
   onClick,
 }: ProfileListItemProps) {
+  const truncateTitle = (title: string | undefined, maxLength: number = 50) => {
+    if (!title) return "";
+    if (title.length <= maxLength) return title;
+    return title.slice(0, maxLength) + "...";
+  };
+
   return (
     <button
       onClick={onClick}
@@ -30,8 +36,8 @@ export function ProfileListItem({
         </div>
       )}
       {profile.venture && (
-        <div className="font-mono text-xs text-gray-500 mt-2 line-clamp-2">
-          {profile.venture.title}
+        <div className="font-mono text-xs text-gray-500 mt-2 h-8 line-clamp-2">
+          {truncateTitle(profile.venture.title)}
         </div>
       )}
     </button>
