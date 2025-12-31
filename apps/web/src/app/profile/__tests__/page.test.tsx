@@ -1898,36 +1898,37 @@ describe("ProfilePage Integration Tests", () => {
         expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
       });
 
-      await user.type(
-        screen.getByPlaceholderText(
-          "your name (how you want to appear to others)"
-        ),
-        "a".repeat(100) // Exactly at limit
+      const nameInput = screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
       );
-      await user.type(
-        screen.getByPlaceholderText(
-          /https:\/\/www.linkedin.com\/in\/yourprofile/i
-        ),
-        "https://www.linkedin.com/in/janesmith"
+      const linkedInInput = screen.getByPlaceholderText(
+        /https:\/\/www.linkedin.com\/in\/yourprofile/i
       );
-      await user.type(
-        screen.getByPlaceholderText(
-          /say hello and share a little bit about yourself.../i
-        ),
-        "a".repeat(500) // Exactly at limit (bio: 500)
+      const bioInput = screen.getByPlaceholderText(
+        /say hello and share a little bit about yourself.../i
       );
-      await user.type(
-        screen.getByPlaceholderText(
-          /e.g., a semantically-aware co-founder matching experiment/i
-        ),
-        "a".repeat(200) // Exactly at limit (venture_title: 200)
+      const ventureTitleInput = screen.getByPlaceholderText(
+        /e.g., a semantically-aware co-founder matching experiment/i
       );
-      await user.type(
-        screen.getByPlaceholderText(
-          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
-        ),
-        "a".repeat(1000) // Exactly at limit (venture_description: 1000)
+      const ventureDescInput = screen.getByPlaceholderText(
+        /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
       );
+
+      // Use paste for large text inputs to avoid timeout
+      await user.click(nameInput);
+      await user.paste("a".repeat(100));
+
+      await user.click(linkedInInput);
+      await user.paste("https://www.linkedin.com/in/janesmith");
+
+      await user.click(bioInput);
+      await user.paste("a".repeat(500));
+
+      await user.click(ventureTitleInput);
+      await user.paste("a".repeat(200)); 
+
+      await user.click(ventureDescInput);
+      await user.paste("a".repeat(1000));
 
       const privacyCheckbox = screen.getByRole("checkbox", {
         name: /privacy policy/i,
@@ -1955,31 +1956,31 @@ describe("ProfilePage Integration Tests", () => {
         expect(screen.queryByTestId("circles-loader")).not.toBeInTheDocument();
       });
 
-      // Fill fields exactly at limits
-      await user.type(
-        screen.getByPlaceholderText(
-          "your name (how you want to appear to others)"
-        ),
-        "a".repeat(100) // name: 100
+      const nameInput = screen.getByPlaceholderText(
+        "your name (how you want to appear to others)"
       );
-      await user.type(
-        screen.getByPlaceholderText(
-          /https:\/\/www.linkedin.com\/in\/yourprofile/i
-        ),
-        "https://www.linkedin.com/in/janesmith"
+      const linkedInInput = screen.getByPlaceholderText(
+        /https:\/\/www.linkedin.com\/in\/yourprofile/i
       );
-      await user.type(
-        screen.getByPlaceholderText(
-          /e.g., a semantically-aware co-founder matching experiment/i
-        ),
-        "a".repeat(200)
+      const ventureTitleInput = screen.getByPlaceholderText(
+        /e.g., a semantically-aware co-founder matching experiment/i
       );
-      await user.type(
-        screen.getByPlaceholderText(
-          /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
-        ),
-        "a".repeat(1000)
+      const ventureDescInput = screen.getByPlaceholderText(
+        /e.g., a platform allowing users to find co-founders based on the semantic similarity of their venture ideas/i
       );
+
+      // Use paste for large text inputs to avoid timeout
+      await user.click(nameInput);
+      await user.paste("a".repeat(100));
+
+      await user.click(linkedInInput);
+      await user.paste("https://www.linkedin.com/in/janesmith");
+
+      await user.click(ventureTitleInput);
+      await user.paste("a".repeat(200));
+
+      await user.click(ventureDescInput);
+      await user.paste("a".repeat(1000));
 
       const privacyCheckbox = screen.getByRole("checkbox", {
         name: /privacy policy/i,
