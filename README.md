@@ -6,11 +6,7 @@ The goal is here is to offer a better signal-to-noise ratio and shift the focus 
 
 Gallery:
 <p align="center">
-    <img src="gallery/landing-page-indexed-ideas.png" alt="Indexed Ideas — landing page" />
-</p>
-<p align="center">
-    <img src="gallery/dashboard-page-indexed-ideas.png" alt="Indexed Ideas — landing page" />
-</p>
-<p align="center">
-    <img src="gallery/profile-views-indexed-ideas.png" alt="Indexed Ideas — landing page" />
+  <img src="gallery/landing-page-indexed-ideas.png" alt="Indexed Ideas — landing page" width="30%" />
+  <img src="gallery/dashboard-page-indexed-ideas.png" alt="Indexed Ideas — dashboard" width="30%" />
+  <img src="gallery/profile-views-indexed-ideas.png" alt="Indexed Ideas — profile views" width="30%" />
 </p>
