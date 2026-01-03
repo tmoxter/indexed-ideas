@@ -4,7 +4,8 @@ export type LogLevel = "info" | "error";
 
 export async function logClientMessage(
   message: string,
-  logLevel: LogLevel = "error"
+  logLevel: LogLevel = "error",
+  entryUuid?: string
 ): Promise<string | null> {
   try {
     const supabase = supabaseClient();
@@ -23,6 +24,7 @@ export async function logClientMessage(
         user_id: session.user.id,
         message,
         log_level: logLevel,
+        ...(entryUuid && { entry_uuid: entryUuid }),
       })
       .select("id")
       .single();

@@ -13,6 +13,7 @@ import { BlockButton, BlockConfirmation } from "@/components/BlockConfirmation";
 import { useAuth } from "@/hooks/useAuth";
 import { useSkippedProfiles } from "@/hooks/useSkippedProfiles";
 import { useInteraction } from "@/hooks/useInteraction";
+import { logClientMessage } from "@/lib/clientLogger";
 
 export default function SkippedProfilesPage() {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function SkippedProfilesPage() {
   );
   const [message, setMessage] = useState("");
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
+  const [errorUuid, setErrorUuid] = useState<string | null>(null);
   const selectedProfile = useMemo(
     () => profiles.find((m) => m.id === selectedProfileId) ?? null,
     [profiles, selectedProfileId]
@@ -46,6 +48,20 @@ export default function SkippedProfilesPage() {
       setSelectedProfileId(null);
     }
   }, [profiles, profilesLoading, selectedProfileId]);
+
+  useEffect(() => {
+    if (error) {
+      const uuid = crypto.randomUUID();
+      setErrorUuid(uuid);
+      logClientMessage(
+        `Error loading skipped profiles: ${error}`,
+        "error",
+        uuid
+      );
+    } else {
+      setErrorUuid(null);
+    }
+  }, [error]);
 
   // Hard gate rendering until user + matches ready (prevents hydration mismatch)
   if (isLoading || profilesLoading) {
@@ -105,7 +121,12 @@ export default function SkippedProfilesPage() {
           />
 
           {message && <MessageBanner message={message} />}
-          {error && <MessageBanner message={error} type="error" />}
+          {error && errorUuid && (
+            <MessageBanner
+              message={`An error occurred loading the skipped profiles. It was logged with reference: ${errorUuid.split("-")[0]}`}
+              type="error"
+            />
+          )}
 
           {profiles.length === 0 || !selectedProfile ? (
             <EmptyState

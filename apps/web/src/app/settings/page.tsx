@@ -185,17 +185,25 @@ export default function SettingsPage() {
         setTimeout(() => setMessage(""), 3000);
       } else {
         const errorData = await response.json();
-        setMessage(errorData.error || "Failed to save preferences");
+        const uuid = crypto.randomUUID();
+        await logClientMessage(
+          `Error saving preferences: ${errorData.error || "Unknown error"}`,
+          "error",
+          uuid
+        );
+        setMessage(
+          `An error occurred saving preferences. It was logged with reference: ${uuid.split("-")[0]}`
+        );
       }
     } catch (error) {
-      const logId = await logClientMessage(
+      const uuid = crypto.randomUUID();
+      await logClientMessage(
         `Error saving preferences: ${error instanceof Error ? error.message : String(error)}`,
-        "error"
+        "error",
+        uuid
       );
       setMessage(
-        logId
-          ? `An error occurred. Error ID: ${logId}`
-          : "Failed to save preferences"
+        `An error occurred saving preferences. It was logged with reference: ${uuid.split("-")[0]}`
       );
     } finally {
       setIsSavingPreferences(false);
@@ -231,17 +239,25 @@ export default function SettingsPage() {
         setTimeout(() => router.push("/"), 2000);
       } else {
         const errorData = await response.json();
-        setDeleteError(errorData.error || "Failed to delete account");
+        const uuid = crypto.randomUUID();
+        await logClientMessage(
+          `Error deleting account: ${errorData.error || "Unknown error"}`,
+          "error",
+          uuid
+        );
+        setDeleteError(
+          `An error occurred deleting your account. It was logged with reference: ${uuid.split("-")[0]}`
+        );
       }
     } catch (error) {
-      const logId = await logClientMessage(
+      const uuid = crypto.randomUUID();
+      await logClientMessage(
         `Error deleting account: ${error instanceof Error ? error.message : String(error)}`,
-        "error"
+        "error",
+        uuid
       );
       setDeleteError(
-        logId
-          ? `An error occurred. Error ID: ${logId}`
-          : "An unexpected error occurred"
+        `An error occurred deleting your account. It was logged with reference: ${uuid.split("-")[0]}`
       );
     } finally {
       setIsDeleting(false);

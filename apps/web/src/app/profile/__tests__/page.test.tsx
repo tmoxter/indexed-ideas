@@ -1925,7 +1925,7 @@ describe("ProfilePage Integration Tests", () => {
       await user.paste("a".repeat(500));
 
       await user.click(ventureTitleInput);
-      await user.paste("a".repeat(200)); 
+      await user.paste("a".repeat(200));
 
       await user.click(ventureDescInput);
       await user.paste("a".repeat(1000));

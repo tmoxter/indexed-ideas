@@ -12,6 +12,7 @@ import { ProfileListLayout } from "@/components/ProfileListLayout";
 import { useAuth } from "@/hooks/useAuth";
 import { useBlockedProfiles } from "@/hooks/useBlockedProfiles";
 import { useInteraction } from "@/hooks/useInteraction";
+import { logClientMessage } from "@/lib/clientLogger";
 
 export default function BlockedProfilesPage() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function BlockedProfilesPage() {
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const [errorUuid, setErrorUuid] = useState<string | null>(null);
 
   const selectedProfile = useMemo(
     () => profiles.find((p) => p.id === selectedId) ?? null,
@@ -37,6 +39,20 @@ export default function BlockedProfilesPage() {
     if (selectedId && profiles.some((p) => p.id === selectedId)) return; // keep current
     setSelectedId(profiles.length ? profiles[0].id : null);
   }, [profiles, profilesLoading, selectedId]);
+
+  useEffect(() => {
+    if (error) {
+      const uuid = crypto.randomUUID();
+      setErrorUuid(uuid);
+      logClientMessage(
+        `Error loading blocked profiles: ${error}`,
+        "error",
+        uuid
+      );
+    } else {
+      setErrorUuid(null);
+    }
+  }, [error]);
 
   const handleUnblock = async () => {
     if (!selectedProfile) return;
@@ -65,7 +81,12 @@ export default function BlockedProfilesPage() {
           <PageHeader title="Blocked Profiles" />
 
           {message && <MessageBanner message={message} />}
-          {error && <MessageBanner message={error} type="error" />}
+          {error && errorUuid && (
+            <MessageBanner
+              message={`An error occurred loading the blocked profiles. It was logged with reference: ${errorUuid.split("-")[0]}`}
+              type="error"
+            />
+          )}
 
           {profiles.length === 0 || !selectedProfile ? (
             <EmptyState

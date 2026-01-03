@@ -15,6 +15,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { usePendingRequests } from "@/hooks/usePendingRequests";
 import { useInteraction } from "@/hooks/useInteraction";
 import { useMarkProfileSeen } from "@/hooks/useMarkProfileSeen";
+import { logClientMessage } from "@/lib/clientLogger";
 
 export default function PendingRequestsPage() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function PendingRequestsPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [message, setMessage] = useState("");
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
+  const [errorUuid, setErrorUuid] = useState<string | null>(null);
 
   const currentRequest = requests[currentIndex];
 
@@ -34,6 +36,20 @@ export default function PendingRequestsPage() {
       markAsSeen(currentRequest.id);
     }
   }, [currentRequest?.id, markAsSeen]);
+
+  useEffect(() => {
+    if (error) {
+      const uuid = crypto.randomUUID();
+      setErrorUuid(uuid);
+      logClientMessage(
+        `Error loading pending requests: ${error}`,
+        "error",
+        uuid
+      );
+    } else {
+      setErrorUuid(null);
+    }
+  }, [error]);
 
   const goToNext = () => {
     if (currentIndex < requests.length - 1) {
@@ -109,7 +125,12 @@ export default function PendingRequestsPage() {
           />
 
           {message && <MessageBanner message={message} />}
-          {error && <MessageBanner message={error} type="error" />}
+          {error && errorUuid && (
+            <MessageBanner
+              message={`An error occurred loading pending requests. It was logged with reference: ${errorUuid.split("-")[0]}`}
+              type="error"
+            />
+          )}
 
           {requests.length === 0 || currentIndex >= requests.length ? (
             <EmptyState

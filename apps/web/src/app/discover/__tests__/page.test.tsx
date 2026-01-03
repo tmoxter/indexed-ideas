@@ -282,7 +282,12 @@ describe("MatchesPage Integration Tests", () => {
 
     render(<MatchesPage />);
 
-    expect(screen.getByText(/server error/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/an error occurred loading discover profiles/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/it was logged with reference/i)
+    ).toBeInTheDocument();
   });
 
   describe("Profile Incomplete Scenarios", () => {
@@ -298,7 +303,10 @@ describe("MatchesPage Integration Tests", () => {
       render(<MatchesPage />);
 
       expect(
-        screen.getByText(/please set-up your profile first to get started/i)
+        screen.getByText(/an error occurred loading your profile/i)
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/it was logged with reference/i)
       ).toBeInTheDocument();
     });
 
@@ -366,9 +374,12 @@ describe("MatchesPage Integration Tests", () => {
 
       render(<MatchesPage />);
 
-      // Should show the warning banner
+      // Should show the warning banner with error message
       expect(
-        screen.getByText(/please set-up your profile first to get started/i)
+        screen.getByText(/an error occurred loading your profile/i)
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/it was logged with reference/i)
       ).toBeInTheDocument();
 
       // Should not show candidate profiles
@@ -404,7 +415,12 @@ describe("MatchesPage Integration Tests", () => {
 
       render(<MatchesPage />);
 
-      expect(screen.getByText(/network error/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/an error occurred loading discover profiles/i)
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/it was logged with reference/i)
+      ).toBeInTheDocument();
       // Should not show the Create Profile button for non-profile errors
       expect(
         screen.queryByRole("button", { name: /create profile/i })

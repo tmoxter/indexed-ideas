@@ -15,6 +15,7 @@ import { useMyMatches } from "@/hooks/useMyMatches";
 import { useInteraction } from "@/hooks/useInteraction";
 import { useMarkProfileSeen } from "@/hooks/useMarkProfileSeen";
 import { ExternalLink } from "lucide-react";
+import { logClientMessage } from "@/lib/clientLogger";
 
 export default function MyMatchesPage() {
   const router = useRouter();
@@ -30,6 +31,7 @@ export default function MyMatchesPage() {
   const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
+  const [errorUuid, setErrorUuid] = useState<string | null>(null);
   const selectedMatch = useMemo(
     () => matches.find((m) => m.id === selectedMatchId) ?? null,
     [matches, selectedMatchId]
@@ -53,6 +55,16 @@ export default function MyMatchesPage() {
       markAsSeen(selectedMatch.id);
     }
   }, [selectedMatch?.id, markAsSeen]);
+
+  useEffect(() => {
+    if (error) {
+      const uuid = crypto.randomUUID();
+      setErrorUuid(uuid);
+      logClientMessage(`Error loading matches: ${error}`, "error", uuid);
+    } else {
+      setErrorUuid(null);
+    }
+  }, [error]);
 
   // Hard gate rendering until user + matches ready (prevents hydration mismatch)
   if (isLoading || matchesLoading) {
@@ -87,7 +99,12 @@ export default function MyMatchesPage() {
           />
 
           {message && <MessageBanner message={message} />}
-          {error && <MessageBanner message={error} type="error" />}
+          {error && errorUuid && (
+            <MessageBanner
+              message={`An error occurred loading your matches. It was logged with reference: ${errorUuid.split("-")[0]}`}
+              type="error"
+            />
+          )}
 
           {matches.length === 0 || !selectedMatch ? (
             <EmptyState

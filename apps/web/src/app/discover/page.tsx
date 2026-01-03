@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -14,6 +14,7 @@ import { BlockButton, BlockConfirmation } from "@/components/BlockConfirmation";
 import { useAuth } from "@/hooks/useAuth";
 import { useMatches } from "@/hooks/useMatches";
 import { useInteraction } from "@/hooks/useInteraction";
+import { logClientMessage } from "@/lib/clientLogger";
 
 export default function MatchesPage() {
   const router = useRouter();
@@ -29,8 +30,23 @@ export default function MatchesPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [message, setMessage] = useState("");
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
+  const [errorUuid, setErrorUuid] = useState<string | null>(null);
 
   const currentCandidate = candidates[currentIndex];
+
+  useEffect(() => {
+    if (matchesError) {
+      const uuid = crypto.randomUUID();
+      setErrorUuid(uuid);
+      logClientMessage(
+        `Error loading discover profiles: ${matchesError}`,
+        "error",
+        uuid
+      );
+    } else {
+      setErrorUuid(null);
+    }
+  }, [matchesError]);
 
   const goToNext = () => {
     if (currentIndex < candidates.length - 1) {
@@ -111,8 +127,9 @@ export default function MatchesPage() {
             <div className="mb-6">
               <MessageBanner
                 message={
-                  matchesError ||
-                  "Please set-up your profile first to get started."
+                  matchesError && errorUuid
+                    ? `An error occurred loading your profile. It was logged with reference: ${errorUuid.split("-")[0]}`
+                    : "Please set-up your profile first to get started."
                 }
                 type="warning"
               />
@@ -126,8 +143,12 @@ export default function MatchesPage() {
               </div>
             </div>
           ) : (
-            matchesError && (
-              <MessageBanner message={matchesError} type="error" />
+            matchesError &&
+            errorUuid && (
+              <MessageBanner
+                message={`An error occurred loading discover profiles. It was logged with reference: ${errorUuid.split("-")[0]}`}
+                type="error"
+              />
             )
           )}
 
