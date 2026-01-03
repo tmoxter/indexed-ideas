@@ -152,7 +152,27 @@ describe("MatchesPage Integration Tests", () => {
 
   it("should automatically advance to next candidate after skip action", async () => {
     const user = userEvent.setup();
-    render(<MatchesPage />);
+    const remainingCandidates = mockCandidates.slice(1);
+
+    const mockReload = vi.fn().mockImplementation(() => {
+      vi.mocked(useMatches).mockReturnValue({
+        candidates: remainingCandidates,
+        isLoading: false,
+        error: "",
+        isProfileIncomplete: false,
+        reload: mockReload,
+      });
+    });
+
+    vi.mocked(useMatches).mockReturnValue({
+      candidates: mockCandidates,
+      isLoading: false,
+      error: "",
+      isProfileIncomplete: false,
+      reload: mockReload,
+    });
+
+    const { rerender } = render(<MatchesPage />);
 
     expect(
       screen.getByText(mockCandidates[0].profile.name)
@@ -160,6 +180,12 @@ describe("MatchesPage Integration Tests", () => {
 
     const skipButton = screen.getByRole("button", { name: /skip/i });
     await user.click(skipButton);
+
+    await waitFor(() => {
+      expect(mockReload).toHaveBeenCalled();
+    });
+
+    rerender(<MatchesPage />);
 
     await waitFor(
       () => {
@@ -173,7 +199,27 @@ describe("MatchesPage Integration Tests", () => {
 
   it("should automatically advance to next candidate after like action", async () => {
     const user = userEvent.setup();
-    render(<MatchesPage />);
+    const remainingCandidates = mockCandidates.slice(1);
+
+    const mockReload = vi.fn().mockImplementation(() => {
+      vi.mocked(useMatches).mockReturnValue({
+        candidates: remainingCandidates,
+        isLoading: false,
+        error: "",
+        isProfileIncomplete: false,
+        reload: mockReload,
+      });
+    });
+
+    vi.mocked(useMatches).mockReturnValue({
+      candidates: mockCandidates,
+      isLoading: false,
+      error: "",
+      isProfileIncomplete: false,
+      reload: mockReload,
+    });
+
+    const { rerender } = render(<MatchesPage />);
 
     expect(
       screen.getByText(mockCandidates[0].profile.name)
@@ -183,6 +229,12 @@ describe("MatchesPage Integration Tests", () => {
       name: /let's connect/i,
     });
     await user.click(connectButton);
+
+    await waitFor(() => {
+      expect(mockReload).toHaveBeenCalled();
+    });
+
+    rerender(<MatchesPage />);
 
     await waitFor(
       () => {
@@ -430,7 +482,27 @@ describe("MatchesPage Integration Tests", () => {
 
   it("should navigate through all candidates when clicking connect", async () => {
     const user = userEvent.setup();
-    render(<MatchesPage />);
+    const remainingCandidates = mockCandidates.slice(1);
+
+    const mockReload = vi.fn().mockImplementation(() => {
+      vi.mocked(useMatches).mockReturnValue({
+        candidates: remainingCandidates,
+        isLoading: false,
+        error: "",
+        isProfileIncomplete: false,
+        reload: mockReload,
+      });
+    });
+
+    vi.mocked(useMatches).mockReturnValue({
+      candidates: mockCandidates,
+      isLoading: false,
+      error: "",
+      isProfileIncomplete: false,
+      reload: mockReload,
+    });
+
+    const { rerender } = render(<MatchesPage />);
 
     expect(
       screen.getByText(mockCandidates[0].profile.name)
@@ -441,6 +513,17 @@ describe("MatchesPage Integration Tests", () => {
     });
     await user.click(connectButton);
 
+    await waitFor(() => {
+      expect(mockReload).toHaveBeenCalled();
+    });
+
+    expect(mockRecordInteraction).toHaveBeenCalledWith(
+      mockCandidates[0].id,
+      "like"
+    );
+
+    rerender(<MatchesPage />);
+
     await waitFor(
       () => {
         expect(
@@ -448,11 +531,6 @@ describe("MatchesPage Integration Tests", () => {
         ).toBeInTheDocument();
       },
       { timeout: 2000 }
-    );
-
-    expect(mockRecordInteraction).toHaveBeenCalledWith(
-      mockCandidates[0].id,
-      "like"
     );
   });
 });

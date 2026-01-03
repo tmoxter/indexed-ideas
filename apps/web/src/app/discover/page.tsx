@@ -24,6 +24,7 @@ export default function MatchesPage() {
     isLoading: matchesLoading,
     error: matchesError,
     isProfileIncomplete,
+    reload,
   } = useMatches(user?.id);
   const { recordInteraction, isSubmitting } = useInteraction();
 
@@ -48,15 +49,6 @@ export default function MatchesPage() {
     }
   }, [matchesError]);
 
-  const goToNext = () => {
-    if (currentIndex < candidates.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-      setShowBlockConfirm(false);
-    } else {
-      setMessage("You've reviewed all available matches!");
-    }
-  };
-
   const handleAction = async (action: "like" | "pass") => {
     if (!currentCandidate) return;
 
@@ -73,8 +65,9 @@ export default function MatchesPage() {
       );
     }
 
-    setTimeout(() => {
-      goToNext();
+    setTimeout(async () => {
+      await reload();
+      setCurrentIndex(0);
       setMessage("");
     }, 800);
   };
@@ -91,8 +84,10 @@ export default function MatchesPage() {
     }
 
     setMessage("User blocked successfully.");
-    setTimeout(() => {
-      goToNext();
+    setShowBlockConfirm(false);
+    setTimeout(async () => {
+      await reload();
+      setCurrentIndex(0);
       setMessage("");
     }, 800);
   };

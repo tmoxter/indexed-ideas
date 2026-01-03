@@ -20,7 +20,12 @@ import { logClientMessage } from "@/lib/clientLogger";
 export default function PendingRequestsPage() {
   const router = useRouter();
   const { user, isLoading, logout } = useAuth();
-  const { requests, isLoading: requestsLoading, error } = usePendingRequests();
+  const {
+    requests,
+    isLoading: requestsLoading,
+    error,
+    reload,
+  } = usePendingRequests();
   const { recordInteraction, isSubmitting } = useInteraction();
   const { markAsSeen } = useMarkProfileSeen();
 
@@ -51,15 +56,6 @@ export default function PendingRequestsPage() {
     }
   }, [error]);
 
-  const goToNext = () => {
-    if (currentIndex < requests.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-      setShowBlockConfirm(false);
-    } else {
-      setMessage("You've reviewed all pending requests!");
-    }
-  };
-
   const handleAction = async (action: "like" | "pass") => {
     if (!currentRequest) return;
 
@@ -74,8 +70,9 @@ export default function PendingRequestsPage() {
       setMessage("Match created! You can now connect with this person.");
     }
 
-    setTimeout(() => {
-      goToNext();
+    setTimeout(async () => {
+      await reload();
+      setCurrentIndex(0);
       setMessage("");
     }, 800);
   };
@@ -92,8 +89,10 @@ export default function PendingRequestsPage() {
     }
 
     setMessage("User blocked successfully.");
-    setTimeout(() => {
-      goToNext();
+    setShowBlockConfirm(false);
+    setTimeout(async () => {
+      await reload();
+      setCurrentIndex(0);
       setMessage("");
     }, 800);
   };
