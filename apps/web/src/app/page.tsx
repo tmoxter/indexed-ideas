@@ -92,8 +92,9 @@ export default function Home() {
     {
       icon: Telescope,
       title: "Insights",
-      description: `<small>(Work in Progress)</small><br/>
-      Insights to help you size up your ecosystem: aggregates of how many are working on similar problems. If, over time, we collect enough abandoned ideas, we may help you answer the question "Am I working on a tarpit idea?".`,
+      description: `<small>(Soon, with enough users)</small><br/>
+      Insights to help you find and size up your ecosystem, starting with a colorcoded UMAP representation of venture ideas overlaying a world map: 
+      Find clusters of related projects across the globe.`,
     },
   ];
 
